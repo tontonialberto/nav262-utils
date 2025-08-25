@@ -1,37 +1,25 @@
+# ESMeta AST Step Structure Extractor
+
 Write a TypeScript project that analyzes the ESMeta Abstract Syntax Tree of the Abstract Operations of the ECMA-262 specification and extracts all the possible cases of a given language construct.
 
-Input:
-- algorithmsFolder: the path of the folder containing the ESMeta ASTs of the Abstract Operations
-- algorithmExcludeFilter: a set of Abstract Operation types (accepted element values are: "abstract operation", "numeric method", "concrete method", "internal method", "builtin method", "sdo")
-- step: the type name of a step in the ESMeta language
+## Input
+- **algorithmsFolder**: Path to the folder containing the ESMeta ASTs of the Abstract Operations
+- **algorithmExcludeFilter**: Set of Abstract Operation types to exclude (accepted values: "abstract operation", "numeric method", "concrete method", "internal method", "builtin method", "sdo")
+- **step**: The type name of a step in the ESMeta language
 
-Output:
-- it generates a file containing the different cases for the given step.
+## Output
+Generates a file containing all different cases for the given step type.
 
-Algorithm:
-- let occurrences be an empty list
-- filter the JSON files in the given folder according to the property key of their Algorithm.head object, and based on algorithmTypeFilter:
-    - if the filter includes "abstract operation" and the key is "AbstractOperationHead", exclude the algorithm. else keep it.
-    - if the filter includes "numeric method" and the key is "NumericMethodHead", exclude the algorithm. else keep it.
-    - if the filter includes "concrete method" and the key is "ConcreteMethodHead", exclude the algorithm. else keep it.
-    - if the filter includes "internal method" and the key is "InternalMethodHead", exclude the algorithm. else keep it.
-    - if the filter includes "builtin method" and the key is "BuiltinMethodHead", exclude the algorithm. else keep it.
-    - if the filter includes "sdo" and the key is "SyntaxDirectedOperationHead", exclude the algorithm. else keep it.
-- for each remaining JSON file kept after the filtering operation 
-    - look for the JSON Path query `$.Algorithm.body..<type name of the step>`
-    - for each query result
-        - transform its subtree such that each property value that is a primitive value (ie. string, null, undefined, boolean) is replaced with its type name (eg. a branch that ends with {"name": "foo", "value": true, "info": null} is transformed to {"name": "string", "value": "boolean", "info": "null"})
-        - if occurrences already includes an element whose "step" property has the same structure of this subtree, add the name of this abstract operation to its "appearsIn" property
-        - otherwise, add a new element to occurrences, which is an object with two properties:
-            - "step": this subtree
-            - "appearsIn": the name of this abstract operation
+## Algorithm
+1. Initialize an empty list called `occurrences`
+2. Filter JSON files in the folder based on their `Algorithm.head` object property key and `algorithmExcludeFilter`: exclude files if the filter includes "abstract operation" and the key is "AbstractOperationHead", or if the filter includes "numeric method" and the key is "NumericMethodHead", or if the filter includes "concrete method" and the key is "ConcreteMethodHead", or if the filter includes "internal method" and the key is "InternalMethodHead", or if the filter includes "builtin method" and the key is "BuiltinMethodHead", or if the filter includes "sdo" and the key is "SyntaxDirectedOperationHead"
+3. For each remaining JSON file: search using JSONPath query `$.Algorithm.body..<type name of the step>`, then for each result transform its subtree by replacing primitive values with their type names (e.g., `{"name": "foo", "value": true}` becomes `{"name": "string", "value": "boolean"}`), then check if `occurrences` already contains an element with the same "step" structure and add the algorithm name to its "appearsIn" property, otherwise add a new element with "step" (the transformed subtree) and "appearsIn" (array with the algorithm name)
 
-Example
-Input:
-    - folder: '/path/to/folder'
-    - step: 'LetStep'
-Output:
+## Example
+**Input**: folder '/path/to/folder', step 'LetStep'
 
+**Output**:
+```json
 [
   {
     "step": {
@@ -72,14 +60,8 @@ Output:
       }
     },
     "appearsIn": [
-      "ValidateIntegerTypedArray", ...
+      "ValidateIntegerTypedArray"
     ]
-  }, 
-  ...
+  }
 ]
- - variable
-     - Variable 
-         - name
- - expr
-     - ReferenceExpression
- */
+```

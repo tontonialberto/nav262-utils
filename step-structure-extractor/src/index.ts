@@ -49,7 +49,7 @@ const ALGORITHM_TYPE_TO_HEAD_KEY: Record<AlgorithmType, string> = {
     "numeric method": "NumericMethodHead",
     "concrete method": "ConcreteMethodHead",
     "internal method": "InternalMethodHead",
-    "builtin method": "BuiltinMethodHead",
+    "builtin method": "BuiltinHead",
     "sdo": "SyntaxDirectedOperationHead"
 };
 
