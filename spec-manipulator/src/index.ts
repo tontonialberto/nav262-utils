@@ -4,6 +4,8 @@ import { jsXml } from 'json-xml-parse';
 import { JSONPath } from 'jsonpath-plus';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+// @ts-ignore
+import SaxonJS from 'saxon-js';
 
 type AlgorithmType = "abstract operation" | "numeric method" | "concrete method" | "internal method" | "builtin method" | "sdo";
 
@@ -15,6 +17,43 @@ const ALGORITHM_TYPE_TO_HEAD_KEY: Record<AlgorithmType, string> = {
   "builtin method": "BuiltinHead",
   "sdo": "SyntaxDirectedOperationHead"
 };
+
+async function applyXsltTransformation(xmlContent: string, xsltPath: string): Promise<string> {
+  try {
+    // Read the XSLT file
+    const xsltContent = await fs.readFile(xsltPath, 'utf-8');
+
+    // Apply the transformation using Saxon-JS
+    const result = SaxonJS.transform({
+      sourceText: xmlContent,
+      stylesheetInternal: JSON.parse(xsltContent),
+      destination: 'serialized'
+    });
+
+    if (result.principalResult) {
+      return result.principalResult as string;
+    } else {
+      throw new Error('XSLT transformation produced no result');
+    }
+  } catch (error) {
+    throw new Error(`XSLT transformation failed: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+async function applyMultipleXsltTransformations(xmlContent: string, xsltPaths: string[]): Promise<string> {
+  let transformedXml = xmlContent;
+
+  for (const xsltPath of xsltPaths) {
+    try {
+      transformedXml = await applyXsltTransformation(transformedXml, xsltPath);
+      console.log(`  Applied XSLT: ${path.basename(xsltPath)}`);
+    } catch (error) {
+      throw new Error(`Failed to apply XSLT ${path.basename(xsltPath)}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  return transformedXml;
+}
 
 function isPrimitive(value: any): boolean {
   return value === null ||
@@ -67,7 +106,7 @@ async function shouldExcludeByAlgorithmType(json: any, algorithmExcludeFilter: A
   if (!algorithmExcludeFilter || algorithmExcludeFilter.length === 0) {
     return false;
   }
-  
+
   const excludedHeadKeys = algorithmExcludeFilter.map(type => ALGORITHM_TYPE_TO_HEAD_KEY[type]);
   const head = json.Algorithm?.head;
   if (head) {
@@ -88,17 +127,17 @@ async function filterAlgorithmFiles(files: string[], algorithmExcludeFilter: Alg
     try {
       const content = await fs.readFile(file, 'utf-8');
       const json = JSON.parse(content);
-      
+
       // Filter by algorithm type
       if (await shouldExcludeByAlgorithmType(json, algorithmExcludeFilter)) {
         return false;
       }
-      
+
       // Filter by YetStep/YetExpression
       if (excludeYet && await shouldExcludeByYetElements(json)) {
         return false;
       }
-      
+
       return true;
     } catch (error) {
       console.error(`Error processing file ${file} during filtering:`, error);
@@ -118,7 +157,7 @@ async function ensureDir(dir: string) {
   }
 }
 
-async function convertJsonFolderToXml(inputDir: string, outputDir: string, algorithmExcludeFilter: AlgorithmType[], excludeYet: boolean) {
+async function convertJsonFolderToXml(inputDir: string, outputDir: string, algorithmExcludeFilter: AlgorithmType[], excludeYet: boolean, xsltPaths: string[]) {
   await ensureDir(outputDir);
   let files = await fs.readdir(inputDir);
   files = files.filter(file => file.endsWith('.json')).map(file => path.join(inputDir, file));
@@ -131,7 +170,17 @@ async function convertJsonFolderToXml(inputDir: string, outputDir: string, algor
       const jsonContent = await fs.readFile(file, 'utf-8');
       const jsonObj = JSON.parse(jsonContent);
       const transformedObj = transformJsonToXmlStructure(jsonObj);
-      const xml = jsXml.toXmlString(transformedObj);
+      let xml = jsXml.toXmlString(transformedObj);
+
+      // Apply XSLT transformations if any are specified
+      try {
+        xml = await applyMultipleXsltTransformations(xml, xsltPaths);
+        console.log(`Applied ${xsltPaths.length} XSLT transformation(s) to: ${path.basename(file)}`);
+      } catch (xsltError) {
+        console.error(`XSLT transformation failed for ${path.basename(file)}:`, xsltError instanceof Error ? xsltError.message : String(xsltError));
+        console.log(`Continuing with original XML for: ${path.basename(file)}`);
+      }
+
       await fs.writeFile(outputPath, xml, 'utf-8');
       console.log(`Converted: ${path.basename(file)} -> ${path.basename(outputPath)}`);
     } catch (err) {
@@ -167,11 +216,18 @@ async function main() {
       type: 'boolean',
       default: false,
     })
+    .option('xslt', {
+      alias: 'x',
+      description: 'Paths to SEF (Stylesheet Export Format) files to apply to each generated XML file (applied in order). XSLT files must be compiled to SEF format using: npx xslt3 -t -xsl:path/to/file.xsl -export:path/to/file.sef.json -nogo -relocate:on',
+      type: 'array',
+      string: true,
+      default: [],
+    })
     .help()
     .alias('help', 'h')
     .argv;
 
-  await convertJsonFolderToXml(argv.input, argv.output, argv.algorithmExcludeFilter as AlgorithmType[], argv.excludeYet);
+  await convertJsonFolderToXml(argv.input, argv.output, argv.algorithmExcludeFilter as AlgorithmType[], argv.excludeYet, argv.xslt || []);
 }
 
 main();
