@@ -57,6 +57,9 @@
                     <xsl:with-param name="node" select="$node/base/*" />
                 </xsl:call-template>
             </xsl:when>
+            <xsl:when test="name($node)='YetPath'">
+                <xsl:value-of select="$node/@name" />
+            </xsl:when>
         </xsl:choose>
     </xsl:template>
     
