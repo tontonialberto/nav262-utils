@@ -1,22 +1,74 @@
-language EcmaScriptSpec
+language EcmaScriptMetaLanguage
 
-concept Step {}
+model Spec {
+    algorithms: Algorithm[];
+}
 
-// let {{ var }} be
+modelunit Algorithm {
+    body: Step;
+}
+
+abstract concept Step {}
+
+// Let {{ var }} be {{ expr }}.
 concept LetStep base Step {
     variable: Variable;
     expr: Expression;
 }
 
-concept Reference {}
+// Throw a *{{ exception }}* exception.
+concept ThrowStep base Step {
+    exception: string;
+}
+
+// Return {{ expr }}.
+/** possible children (with line numbers from ReturnStep.json):
+48 ReturnIfAbruptExpression
+404 UndefinedLiteral
+483 InvokeAbstractOperationExpression
+535 EnumLiteral
+743 BinaryExpression
+793 FalseLiteral
+921 TrueLiteral
+1088 RecordExpression
+1170 StringConcatExpression
+1383 ReferenceExpression
+1467 MathFuncExpression
+1586 DecimalMathValueLiteral
+1685 NumberLiteral
+1749 ConversionExpression
+1840 StringLiteral
+1871 InvokeNumericMethodExpression
+2073 PositiveInfinityMathValueLiteral
+2085 NegativeInfinityMathValueLiteral
+2475 RecordExpression
+2646 UnaryExpression
+2937 InvokeAbstractClosureExpression
+3098 NullLiteral
+3392 InvokeMethodExpression
+3445 ListExpression
+3750 ListConcatExpression
+5362 PositiveInfinityNumberLiteral
+5379 ConversionExpression !! ToApproxNumber
+5434 NegativeInfinityNumberLiteral
+6812 ThisLiteral
+7250 SubstringExpression (FromTo)
+11036 BigIntLiteral
+11267 MathOpExpression
+**/
+concept ReturnStep base Step {
+    expr: Expression;
+}
+
+abstract concept Reference {}
 
 concept Variable base Reference {
     name: identifier;
 }
 
-concept Expression {}
+abstract concept Expression {}
 
-concept InvokeExpression base Expression {}
+abstract concept InvokeExpression base Expression {}
 
 // {{ str }}({{ expr }}*)
 concept InvokeAbstractOperationExpression base InvokeExpression {
@@ -31,7 +83,7 @@ concept ReferenceExpression base CalcExpression {
     ref: Reference;
 }
 
-concept CalcExpression base Expression {}
+abstract concept CalcExpression base Expression {}
 
 concept Property {}
 
@@ -68,9 +120,13 @@ concept ActiveFunctionObject base Reference {}
 // the Agent Record of the surrounding agent
 concept AgentRecord base Reference {}
 
+// the current Realm Record
+concept CurrentRealmRecord base Reference {}
+
 // (FieldProperty) {{base}}.[[{{name}}]]
 // (IndexProperty) let {{var}} be {{base}}[{{index}}]
 // (IndexProperty) let {{var}} be the {{index}} element of {{base}}
+// (ComponentProperty) let {{var}} be {{base}}.{{prop}}
 // (ComponentProperty) let {{var}} be the running execution context's {{prop}}
 // (IntrinsicProperty) let {{var}} be {{base}}.[[%{{prop.ident}}%]]
 concept PropertyReference base Reference {
@@ -200,7 +256,7 @@ concept RecordField {
 concept Literal base CalcExpression {}
 
 // "{{ str }}"
-// (if value is empty) the empty string
+// (if value is empty) the empty String
 concept StringLiteral base Literal {
     value: string;
 }
@@ -418,8 +474,8 @@ concept HexNamedLiteral base HexLiteral {
 
 // 11923
 
-// *this* value
-// the *this* value
+// (top-level if/let) *this* value
+// (inside function calls) the *this* value
 concept ThisLiteral base Literal {}
 
 // ------------------------------
@@ -433,8 +489,15 @@ concept NewTargetLiteral base Literal {}
 
 // 17166
 
-// {{ number }}
-concept NumberLiteral base NumericLiteral {}
+abstract concept NumberLiteral base NumericLiteral {}
+
+// {{ number }}<sub>𝔽</sub>
+// (if isNegative) -{{ number }}<sub>𝔽</sub>
+// (if !isNegative and value eq '0') +0<sub>𝔽</sub>
+concept SimpleNumberLiteral base NumberLiteral {
+    value: string;
+    isNegative: boolean;
+}
 
 // *NaN*
 concept NaNLiteral base NumberLiteral {}
@@ -453,38 +516,36 @@ concept NegativeInfinityNumberLiteral base NumberLiteral {}
 
 // 17251
 
-// (optional) the result of
-// (optional) the
-// (optional) the result of the
-// inverse tangent of ...
-// raising ...
-// base 10 logarithm of ...
-// base 2 logarithm of ...
-// cosine of ...
-// cube root of ...
-// exponential function of ...
-// hyperbolic cosine of ...
-// hyperbolic sine of ...
-// hyperbolic tangent of ...
-// inverse cosine of ...
-// inverse hyperbolic cosine of ...
-// inverse hyperbolic sine of ...
-// inverse hyperbolic tangent of ...
-// inverse sine of ...
-// natural logarithm of ...
-// natural logarithm of 1 + ...
-// sine of ...
-// square root of ...
+// the result of raising {{ base }} to the {{ exponent }} power
+// the base 10 logarithm of ...
+// the base 2 logarithm of ...
+// the cosine of ...
+// the inverse cosine of ...
+// the hyperbolic cosine of ...
+// the inverse hyperbolic cosine of ...
+// the sine of ...
+// the inverse sine of ...
+// the hyperbolic sine of ...
+// the inverse hyperbolic sine of ...
+// the tangent of ... 
+// the inverse tangent of ...
+// the hyperbolic tangent of ...
+// the inverse hyperbolic tangent of ...
+// the cube root of ...
+// the square root of ...
+// the exponential function of ...
+// the natural logarithm of ...
+// the natural logarithm of 1 + ...
 // subtracting 1 from the exponential function of ...
-// tangent of ... 
 concept MathOpExpression base Expression {
     op: MathOpExpressionOperator;
     args: CalcExpression[];
 }
 
 limited MathOpExpressionOperator {
-    Neg; Add; Sub; Mul; Pow;
-    Expm1; Log10; Log2; Cos; Cbrt; Exp; Cosh; Sinh; Tanh; Acos; Acosh;
+    /*Neg; Expm1; Sub;*/ 
+    Add; Mul; Pow;
+    Log10; Log2; Cos; Cbrt; Exp; Cosh; Sinh; Tanh; Acos; Acosh;
     Asinh; Atanh; Asin; Atan2; Atan; Log1p; Log; Sin; Sqrt; Tan;
 }
 
@@ -525,3 +586,48 @@ concept CodeUnitAtExpression base Expression {
 }
 
 // ------------------------------
+
+// 1890
+
+// @@{{ name }}
+concept SymbolLiteral base Literal {
+    name: string;
+}
+
+// ------------------------------
+
+// 1340
+
+// {{ expr }} <sup>{{ expr }}</sup>
+concept ExponentiationExpression base CalcExpression {
+    base: CalcExpression;
+    exponent: CalcExpression;
+}
+
+// ------------------------------
+
+// 1446
+
+// [[{{ name }}]]
+concept FieldLiteral base Literal {
+    name: string;
+}
+
+// ------------------------------
+
+// 4631
+
+// *undefined*
+concept UndefinedLiteral base Literal {}
+
+// ------------------------------
+
+abstract concept ESTypeLiteral {}
+
+// 6233 
+
+// String
+concept StringTypeLiteral base ESTypeLiteral {}
+
+// Symbol
+concept SymbolTypeLiteral base ESTypeLiteral {}
