@@ -11,6 +11,11 @@ interface Occurrence {
   appearsIn: string[];
 }
 
+interface ParentAndRoleOccurrence {
+  parentAndRole: string;
+  appearsIn: string[];
+}
+
 function transformPrimitiveValues(obj: any): any {
   if (obj === null) {
     return 'null';
@@ -120,6 +125,51 @@ async function analyze(algorithmsFolder: string, stepType: string, algorithmExcl
   return occurrences;
 }
 
+async function analyzeParentAndRole(algorithmsFolder: string, stepType: string, algorithmExcludeFilter: AlgorithmType[]): Promise<ParentAndRoleOccurrence[]> {
+  const occurrences: ParentAndRoleOccurrence[] = [];
+  let files = await glob(`${algorithmsFolder}/**/*.json`);
+
+  files = await filterAlgorithmFiles(files, algorithmExcludeFilter);
+
+  for (const file of files) {
+    try {
+      const content = await fs.readFile(file, 'utf-8');
+      const json = JSON.parse(content);
+      const algorithmName = path.basename(file, '.json');
+
+      const results = JSONPath({ path: `$.Algorithm.body..${stepType}`, json, resultType: 'pointer' });
+
+      for (const result of results) {
+        if (typeof result === 'string') {
+          // Filter out array index segments (segments that are only digits)
+          const pathSegments = result.split('/').filter(segment => !/^\d+$/.test(segment));
+          const parts = pathSegments.slice(-3, -1);
+          if (parts.length === 2) {
+            const parentAndRole = parts.join('.');
+
+            const existingOccurrence = occurrences.find((o) => o.parentAndRole === parentAndRole);
+
+            if (existingOccurrence) {
+              if (!existingOccurrence.appearsIn.includes(algorithmName)) {
+                existingOccurrence.appearsIn.push(algorithmName);
+              }
+            } else {
+              occurrences.push({
+                parentAndRole,
+                appearsIn: [algorithmName],
+              });
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error(`Error processing file ${file}:`, error);
+    }
+  }
+
+  return occurrences;
+}
+
 async function main() {
   const argv = await yargs(hideBin(process.argv))
     .option('algorithmsFolder', {
@@ -134,12 +184,6 @@ async function main() {
       type: 'string',
       demandOption: true,
     })
-    .option('output', {
-        alias: 'o',
-        description: 'The output file path',
-        type: 'string',
-        demandOption: true,
-    })
     .option('algorithmExcludeFilter', {
         alias: 'e',
         description: `A set of Abstract Operation types to exclude`,
@@ -151,12 +195,26 @@ async function main() {
     .alias('help', 'h')
     .argv;
 
-  const { algorithmsFolder, step, output, algorithmExcludeFilter } = argv;
+  const { algorithmsFolder, step, algorithmExcludeFilter } = argv;
 
   try {
+    // Ensure output directories exist
+    const stepsDir = path.join('resources', 'steps');
+    const parentsDir = path.join('resources', 'parents');
+    await fs.mkdir(stepsDir, { recursive: true });
+    await fs.mkdir(parentsDir, { recursive: true });
+
+    // Analyze step structures
     const occurrences = await analyze(algorithmsFolder, step, algorithmExcludeFilter as AlgorithmType[]);
-    await fs.writeFile(output, JSON.stringify(occurrences, null, 2));
-    console.log(`Analysis complete. Results saved to ${output}`);
+    const stepsOutputPath = path.join(stepsDir, `${step}.json`);
+    await fs.writeFile(stepsOutputPath, JSON.stringify(occurrences, null, 2));
+    console.log(`Step analysis complete. Results saved to ${stepsOutputPath}`);
+
+    // Analyze parent and role structures
+    const parentAndRoleOccurrences = await analyzeParentAndRole(algorithmsFolder, step, algorithmExcludeFilter as AlgorithmType[]);
+    const parentsOutputPath = path.join(parentsDir, `${step}.json`);
+    await fs.writeFile(parentsOutputPath, JSON.stringify(parentAndRoleOccurrences, null, 2));
+    console.log(`Parent and role analysis complete. Results saved to ${parentsOutputPath}`);
   } catch (error) {
     console.error('An error occurred during analysis:', error);
   }
