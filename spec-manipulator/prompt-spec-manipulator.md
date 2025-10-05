@@ -6,6 +6,7 @@ Write a TypeScript project that, given the path of an input folder containing JS
 - **algorithmExcludeFilter**: Set of Abstract Operation types to exclude (accepted values: "abstract operation", "numeric method", "concrete method", "internal method", "builtin method", "sdo")
 - **excludeYet**: Boolean flag to exclude algorithms that contain YetStep or YetExpression elements
 - **xslt**: Array of paths to SEF (Stylesheet Export Format) files to apply to each generated XML file (applied in order)
+- **biblio**: Optional path to biblio JSON file for enriching section information with metadata
 
 ## Technical details
 - Use the "json-xml-parse" library for JSON to XML conversion
@@ -13,6 +14,7 @@ Write a TypeScript project that, given the path of an input folder containing JS
 - JSON keys whose value is a JS primitive value type will become an attribute of the parent node. The name of the attribute will be the key.
 - Filter JSON files based on their `Algorithm.head` object property key and `algorithmExcludeFilter`: exclude files if the filter includes "abstract operation" and the key is "AbstractOperationHead", or if the filter includes "numeric method" and the key is "NumericMethodHead", or if the filter includes "concrete method" and the key is "ConcreteMethodHead", or if the filter includes "internal method" and the key is "InternalMethodHead", or if the filter includes "builtin method" and the key is "BuiltinMethodHead", or if the filter includes "sdo" and the key is "SyntaxDirectedOperationHead"
 - If `excludeYet` is true, exclude algorithms that contain YetStep or YetExpression elements (using JSONPath queries `$.Algorithm.body..YetStep` and `$.Algorithm.body..YetExpression`)
+- If `biblio` path is provided, each string in `Algorithm.sections` is replaced with a `Section` object containing `id` (the original string), `title`, `number`, and `relativeNumber` (last segment of number after splitting by "."), derived from the matching biblio entry where `type` is "clause" and `id` matches the section string. An error is thrown if no match is found. Additionally, the algorithm head node (e.g., `AbstractOperationHead`, `BuiltinHead`, etc.) receives three new attributes: `id` (from the last section's id), `virtualPackage` (a concatenated string of all sections in format "relativeNumber title" joined by ".", with "..." removed from titles), and `location` (from the biblio file's root `location` property).
 - XSLT transformations are applied sequentially in the order specified by the user after XML generation but before writing to disk
 - XSLT files must be compiled to SEF (Stylesheet Export Format) before use. Compile using: `npx xslt3 -t -xsl:src/xslt/flatten-builtin-path.xsl -export:src/sef/flatten-builtin-path.sef.json -nogo -relocate:on`
 - Multiple XSLT transformations can be chained together by providing multiple SEF file paths

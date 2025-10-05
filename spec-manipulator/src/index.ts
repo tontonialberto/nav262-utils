@@ -157,18 +157,134 @@ async function ensureDir(dir: string) {
   }
 }
 
-async function convertJsonFolderToXml(inputDir: string, outputDir: string, algorithmExcludeFilter: AlgorithmType[], excludeYet: boolean, xsltPaths: string[]) {
+interface BiblioEntry {
+  type: string;
+  id: string;
+  title: string;
+  number: string;
+}
+
+interface BiblioData {
+  location: string;
+  entries: BiblioEntry[];
+}
+
+interface Section {
+  id: string;
+  title: string;
+  number: string;
+  relativeNumber: string;
+}
+
+async function loadBiblioData(biblioPath: string | undefined): Promise<{ map: Map<string, BiblioEntry>, location: string } | null> {
+  if (!biblioPath) {
+    return null;
+  }
+
+  try {
+    const biblioContent = await fs.readFile(biblioPath, 'utf-8');
+    const biblioData: BiblioData = JSON.parse(biblioContent);
+    
+    // Create a map of id -> entry for quick lookup
+    const biblioMap = new Map<string, BiblioEntry>();
+    for (const entry of biblioData.entries) {
+      if (entry.type === 'clause' && entry.id) {
+        biblioMap.set(entry.id, entry);
+      }
+    }
+    
+    console.log(`Loaded ${biblioMap.size} clause entries from biblio file`);
+    return { map: biblioMap, location: biblioData.location };
+  } catch (error) {
+    console.error(`Failed to load biblio file: ${error instanceof Error ? error.message : String(error)}`);
+    return null;
+  }
+}
+
+function enrichSections(jsonObj: any, biblioData: { map: Map<string, BiblioEntry>, location: string } | null): any {
+  if (!biblioData) {
+    return jsonObj;
+  }
+
+  const biblioMap = biblioData.map;
+  const sections = jsonObj.Algorithm?.sections;
+  if (!Array.isArray(sections)) {
+    return jsonObj;
+  }
+
+  const enrichedSections = sections.map((sectionId: string) => {
+    if (typeof sectionId !== 'string') {
+      return sectionId;
+    }
+
+    const biblioEntry = biblioMap.get(sectionId);
+    if (!biblioEntry) {
+      throw new Error(`No biblio entry found for section id: ${sectionId}`);
+    }
+
+    const number = biblioEntry.number || '';
+    const parts = number.split('.');
+    const relativeNumber = parts.length > 0 ? parts[parts.length - 1] : '';
+
+    const section: Section = {
+      id: sectionId,
+      title: biblioEntry.title || '',
+      number: number,
+      relativeNumber: relativeNumber
+    };
+
+    return { "Section": section };
+  });
+
+  jsonObj.Algorithm.sections = enrichedSections;
+  
+  // Add the id, virtualPackage, and location to the algorithm head node
+  if (enrichedSections.length > 0) {
+    const lastSection = enrichedSections[enrichedSections.length - 1];
+    const sectionId = lastSection.Section.id;
+    
+    // Build virtualPackage by concatenating all sections
+    const virtualPackage = enrichedSections
+      .map((sectionWrapper: any) => {
+        const section = sectionWrapper.Section;
+        return `${section.relativeNumber} ${section.title.replaceAll('...', '')}`;
+      })
+      .join('.');
+    
+    // Add id, virtualPackage, and location to the algorithm head node
+    const head = jsonObj.Algorithm.head;
+    if (head) {
+      const headKey = Object.keys(head)[0];
+      if (headKey && head[headKey]) {
+        head[headKey].id = sectionId;
+        head[headKey].virtualPackage = virtualPackage;
+        head[headKey].location = biblioData.location;
+      }
+    }
+  }
+  
+  return jsonObj;
+}
+
+async function convertJsonFolderToXml(inputDir: string, outputDir: string, algorithmExcludeFilter: AlgorithmType[], excludeYet: boolean, xsltPaths: string[], biblioPath: string | undefined) {
   await ensureDir(outputDir);
   let files = await fs.readdir(inputDir);
   files = files.filter(file => file.endsWith('.json')).map(file => path.join(inputDir, file));
 
   files = await filterAlgorithmFiles(files, algorithmExcludeFilter, excludeYet);
 
+  // Load biblio data once before processing files
+  const biblioData = await loadBiblioData(biblioPath);
+
   for (const file of files) {
     const outputPath = path.join(outputDir, path.basename(file).replace(/\.json$/, '.xml'));
     try {
       const jsonContent = await fs.readFile(file, 'utf-8');
-      const jsonObj = JSON.parse(jsonContent);
+      let jsonObj = JSON.parse(jsonContent);
+      
+      // Enrich sections with biblio data
+      jsonObj = enrichSections(jsonObj, biblioData);
+      
       const transformedObj = transformJsonToXmlStructure(jsonObj);
       let xml = jsXml.toXmlString(transformedObj);
 
@@ -223,11 +339,16 @@ async function main() {
       string: true,
       default: [],
     })
+    .option('biblio', {
+      alias: 'b',
+      description: 'Path to biblio JSON file for enriching section information',
+      type: 'string',
+    })
     .help()
     .alias('help', 'h')
     .argv;
 
-  await convertJsonFolderToXml(argv.input, argv.output, argv.algorithmExcludeFilter as AlgorithmType[], argv.excludeYet, argv.xslt || []);
+  await convertJsonFolderToXml(argv.input, argv.output, argv.algorithmExcludeFilter as AlgorithmType[], argv.excludeYet, argv.xslt || [], argv.biblio);
 }
 
 main();
