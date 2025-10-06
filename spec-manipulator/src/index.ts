@@ -269,7 +269,7 @@ function enrichSections(jsonObj: any, biblioData: { map: Map<string, BiblioEntry
 async function convertJsonFolderToXml(inputDir: string, outputDir: string, algorithmExcludeFilter: AlgorithmType[], excludeYet: boolean, xsltPaths: string[], biblioPath: string | undefined) {
   await ensureDir(outputDir);
   let files = await fs.readdir(inputDir);
-  files = files.filter(file => file.endsWith('.json')).map(file => path.join(inputDir, file));
+  files = files.filter(file => file.endsWith('.json')).filter(file => file !== 'RunJobs.json').map(file => path.join(inputDir, file));
 
   files = await filterAlgorithmFiles(files, algorithmExcludeFilter, excludeYet);
 

@@ -55,7 +55,7 @@
                 </xsl:call-template>
             </xsl:when>
             <xsl:when test="name($node)='Setter'">
-                <xsl:text>get </xsl:text>
+                <xsl:text>set </xsl:text>
                 <xsl:call-template name="flattenPath">
                     <xsl:with-param name="node" select="$node/base/*" />
                 </xsl:call-template>
