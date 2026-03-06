@@ -1,0 +1,1284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. Let _targetBuffer_ be _target_.[[ViewedArrayBuffer]].             1. Let _targetRecord_ be MakeTypedArrayWithBufferWitnessRecord(_target_, ~seq-cst~).             1. If IsTypedArrayOutOfBounds(_targetRecord_) is *true*, throw a *TypeError* exception.             1. Let _targetLength_ be TypedArrayLength(_targetRecord_).             1. Let _srcBuffer_ be _source_.[[ViewedArrayBuffer]].             1. Let _srcRecord_ be MakeTypedArrayWithBufferWitnessRecord(_source_, ~seq-cst~).             1. If IsTypedArrayOutOfBounds(_srcRecord_) is *true*, throw a *TypeError* exception.             1. Let _srcLength_ be TypedArrayLength(_srcRecord_).             1. Let _targetType_ be TypedArrayElementType(_target_).             1. Let _targetElementSize_ be TypedArrayElementSize(_target_).             1. Let _targetByteOffset_ be _target_.[[ByteOffset]].             1. Let _srcType_ be TypedArrayElementType(_source_).             1. Let _srcElementSize_ be TypedArrayElementSize(_source_).             1. Let _srcByteOffset_ be _source_.[[ByteOffset]].             1. If _targetOffset_ = +∞, throw a *RangeError* exception.             1. If _srcLength_ + _targetOffset_ &gt; _targetLength_, throw a *RangeError* exception.             1. If _target_.[[ContentType]] is not _source_.[[ContentType]], throw a *TypeError* exception.             1. If IsSharedArrayBuffer(_srcBuffer_) is *true*, IsSharedArrayBuffer(_targetBuffer_) is *true*, and _srcBuffer_.[[ArrayBufferData]] is _targetBuffer_.[[ArrayBufferData]], let _sameSharedArrayBuffer_ be *true*; otherwise, let _sameSharedArrayBuffer_ be *false*.             1. If SameValue(_srcBuffer_, _targetBuffer_) is *true* or _sameSharedArrayBuffer_ is *true*, then               1. Let _srcByteLength_ be TypedArrayByteLength(_srcRecord_).               1. Set _srcBuffer_ to ? CloneArrayBuffer(_srcBuffer_, _srcByteOffset_, _srcByteLength_).               1. Let _srcByteIndex_ be 0.             1. Else,               1. Let _srcByteIndex_ be _srcByteOffset_.             1. Let _targetByteIndex_ be (_targetOffset_ × _targetElementSize_) + _targetByteOffset_.             1. Let _limit_ be _targetByteIndex_ + (_targetElementSize_ × _srcLength_).             1. If _srcType_ is _targetType_, then               1. NOTE: The transfer must be performed in a manner that preserves the bit-level encoding of the source data.               1. Repeat, while _targetByteIndex_ &lt; _limit_,                 1. Let _value_ be GetValueFromBuffer(_srcBuffer_, _srcByteIndex_, ~uint8~, *true*, ~unordered~).                 1. Perform SetValueInBuffer(_targetBuffer_, _targetByteIndex_, ~uint8~, _value_, *true*, ~unordered~).                 1. Set _srcByteIndex_ to _srcByteIndex_ + 1.                 1. Set _targetByteIndex_ to _targetByteIndex_ + 1.             1. Else,               1. Repeat, while _targetByteIndex_ &lt; _limit_,                 1. Let _value_ be GetValueFromBuffer(_srcBuffer_, _srcByteIndex_, _srcType_, *true*, ~unordered~).                 1. Perform SetValueInBuffer(_targetBuffer_, _targetByteIndex_, _targetType_, _value_, *true*, ~unordered~).                 1. Set _srcByteIndex_ to _srcByteIndex_ + _srcElementSize_.                 1. Set _targetByteIndex_ to _targetByteIndex_ + _targetElementSize_.             1. Return ~unused~.           ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="SetTypedArrayFromTypedArray" retTy="either a normal completion containing ~unused~ or a throw completion" id="sec-settypedarrayfromtypedarray" virtualPackage="23 Indexed Collections.2 TypedArray Objects.3 Properties of the %TypedArray% Prototype Object.26 %TypedArray%.prototype.set ( source [ , offset ] ).1 SetTypedArrayFromTypedArray ( target, targetOffset, source )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="target" ty="a Typed Array"/>
+         </params>
+         <params>
+            <NormalParam name="targetOffset" ty="a math value"/>
+         </params>
+         <params>
+            <NormalParam name="source" ty="a Typed Array"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="targetBuffer"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="target"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ViewedArrayBuffer"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="targetRecord"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="MakeTypedArrayWithBufferWitnessRecord">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="target"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <EnumLiteral name="seq-cst"/>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsTypedArrayOutOfBounds">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="targetRecord"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="targetLength"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="TypedArrayLength">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="targetRecord"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="srcBuffer"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="source"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ViewedArrayBuffer"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="srcRecord"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="MakeTypedArrayWithBufferWitnessRecord">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="source"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <EnumLiteral name="seq-cst"/>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsTypedArrayOutOfBounds">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="srcRecord"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="srcLength"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="TypedArrayLength">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="srcRecord"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="targetType"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="TypedArrayElementType">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="target"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="targetElementSize"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="TypedArrayElementSize">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="target"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="targetByteOffset"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="target"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ByteOffset"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="srcType"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="TypedArrayElementType">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="source"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="srcElementSize"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="TypedArrayElementSize">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="source"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="srcByteOffset"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="source"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ByteOffset"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="targetOffset"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Eq/>
+                                 </op>
+                                 <right>
+                                    <PositiveInfinityMathValueLiteral/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="RangeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="srcLength"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Add/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="targetOffset"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryExpression>
+                                 </left>
+                                 <op>
+                                    <GreaterThan/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="targetLength"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="RangeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="target"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="ContentType"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="source"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="ContentType"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="false" keyword="otherwise" comma="true">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <InvokeAbstractOperationExpression name="IsSharedArrayBuffer">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="srcBuffer"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </left>
+                                       <right>
+                                          <TrueLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <CompoundCondition>
+                                       <left>
+                                          <IsAreCondition negation="false">
+                                             <left>
+                                                <InvokeAbstractOperationExpression name="IsSharedArrayBuffer">
+                                                   <args>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="targetBuffer"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </args>
+                                                </InvokeAbstractOperationExpression>
+                                             </left>
+                                             <right>
+                                                <TrueLiteral/>
+                                             </right>
+                                          </IsAreCondition>
+                                       </left>
+                                       <op>
+                                          <And/>
+                                       </op>
+                                       <right>
+                                          <IsAreCondition negation="false">
+                                             <left>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <PropertyReference>
+                                                         <base>
+                                                            <Variable name="srcBuffer"/>
+                                                         </base>
+                                                         <prop>
+                                                            <FieldProperty name="ArrayBufferData"/>
+                                                         </prop>
+                                                      </PropertyReference>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </left>
+                                             <right>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <PropertyReference>
+                                                         <base>
+                                                            <Variable name="targetBuffer"/>
+                                                         </base>
+                                                         <prop>
+                                                            <FieldProperty name="ArrayBufferData"/>
+                                                         </prop>
+                                                      </PropertyReference>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </right>
+                                          </IsAreCondition>
+                                       </right>
+                                    </CompoundCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="sameSharedArrayBuffer"/>
+                                 </variable>
+                                 <expr>
+                                    <TrueLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="sameSharedArrayBuffer"/>
+                                 </variable>
+                                 <expr>
+                                    <FalseLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <InvokeAbstractOperationExpression name="SameValue">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="srcBuffer"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="targetBuffer"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </left>
+                                       <right>
+                                          <TrueLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="sameSharedArrayBuffer"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <TrueLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="srcByteLength"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="TypedArrayByteLength">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="srcRecord"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="srcBuffer"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="CloneArrayBuffer">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="srcBuffer"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="srcByteOffset"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="srcByteLength"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="srcByteIndex"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <DecimalMathValueLiteral n="0"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="srcByteIndex"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="srcByteOffset"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="targetByteIndex"/>
+                           </variable>
+                           <expr>
+                              <BinaryExpression>
+                                 <left>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="targetOffset"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Mul/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="targetElementSize"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryExpression>
+                                 </left>
+                                 <op>
+                                    <Add/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="targetByteOffset"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="limit"/>
+                           </variable>
+                           <expr>
+                              <BinaryExpression>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="targetByteIndex"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Add/>
+                                 </op>
+                                 <right>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="targetElementSize"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Mul/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="srcLength"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryExpression>
+                                 </right>
+                              </BinaryExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="srcType"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="targetType"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <NoteStep note="The transfer must be performed in a manner that preserves the bit-level encoding of the source data."/>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <RepeatWhileStep>
+                                                   <cond>
+                                                      <BinaryCondition>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="targetByteIndex"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <LessThan/>
+                                                         </op>
+                                                         <right>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="limit"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </right>
+                                                      </BinaryCondition>
+                                                   </cond>
+                                                   <body>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="value"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <InvokeAbstractOperationExpression name="GetValueFromBuffer">
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="srcBuffer"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="srcByteIndex"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <EnumLiteral name="uint8"/>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <TrueLiteral/>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <EnumLiteral name="unordered"/>
+                                                                                 </args>
+                                                                              </InvokeAbstractOperationExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <PerformStep>
+                                                                           <expr>
+                                                                              <InvokeAbstractOperationExpression name="SetValueInBuffer">
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="targetBuffer"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="targetByteIndex"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <EnumLiteral name="uint8"/>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="value"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <TrueLiteral/>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <EnumLiteral name="unordered"/>
+                                                                                 </args>
+                                                                              </InvokeAbstractOperationExpression>
+                                                                           </expr>
+                                                                        </PerformStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="srcByteIndex"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <BinaryExpression>
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="srcByteIndex"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <op>
+                                                                                    <Add/>
+                                                                                 </op>
+                                                                                 <right>
+                                                                                    <DecimalMathValueLiteral n="1"/>
+                                                                                 </right>
+                                                                              </BinaryExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="targetByteIndex"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <BinaryExpression>
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="targetByteIndex"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <op>
+                                                                                    <Add/>
+                                                                                 </op>
+                                                                                 <right>
+                                                                                    <DecimalMathValueLiteral n="1"/>
+                                                                                 </right>
+                                                                              </BinaryExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </body>
+                                                </RepeatWhileStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <RepeatWhileStep>
+                                                   <cond>
+                                                      <BinaryCondition>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="targetByteIndex"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <LessThan/>
+                                                         </op>
+                                                         <right>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="limit"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </right>
+                                                      </BinaryCondition>
+                                                   </cond>
+                                                   <body>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="value"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <InvokeAbstractOperationExpression name="GetValueFromBuffer">
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="srcBuffer"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="srcByteIndex"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="srcType"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <TrueLiteral/>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <EnumLiteral name="unordered"/>
+                                                                                 </args>
+                                                                              </InvokeAbstractOperationExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <PerformStep>
+                                                                           <expr>
+                                                                              <InvokeAbstractOperationExpression name="SetValueInBuffer">
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="targetBuffer"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="targetByteIndex"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="targetType"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="value"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <TrueLiteral/>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <EnumLiteral name="unordered"/>
+                                                                                 </args>
+                                                                              </InvokeAbstractOperationExpression>
+                                                                           </expr>
+                                                                        </PerformStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="srcByteIndex"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <BinaryExpression>
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="srcByteIndex"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <op>
+                                                                                    <Add/>
+                                                                                 </op>
+                                                                                 <right>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="srcElementSize"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </right>
+                                                                              </BinaryExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="targetByteIndex"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <BinaryExpression>
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="targetByteIndex"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <op>
+                                                                                    <Add/>
+                                                                                 </op>
+                                                                                 <right>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="targetElementSize"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </right>
+                                                                              </BinaryExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </body>
+                                                </RepeatWhileStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <EnumLiteral name="unused"/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-indexed-collections" title="Indexed Collections" number="23" relativeNumber="23"/>
+   </sections>
+   <sections>
+      <Section id="sec-typedarray-objects" title="TypedArray Objects" number="23.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-properties-of-the-%typedarrayprototype%-object" title="Properties of the %TypedArray% Prototype Object" number="23.2.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-%typedarray%.prototype.set" title="%TypedArray%.prototype.set ( source [ , offset ] )" number="23.2.3.26" relativeNumber="26"/>
+   </sections>
+   <sections>
+      <Section id="sec-settypedarrayfromtypedarray" title="SetTypedArrayFromTypedArray ( target, targetOffset, source )" number="23.2.3.26.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

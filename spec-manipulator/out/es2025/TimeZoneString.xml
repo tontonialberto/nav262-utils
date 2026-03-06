@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. Let _systemTimeZoneIdentifier_ be SystemTimeZoneIdentifier().             1. If IsTimeZoneOffsetString(_systemTimeZoneIdentifier_) is *true*, then               1. Let _offsetNs_ be ParseTimeZoneOffsetString(_systemTimeZoneIdentifier_).             1. Else,               1. Let _offsetNs_ be GetNamedTimeZoneOffsetNanoseconds(_systemTimeZoneIdentifier_, ℤ(ℝ(_tv_) × 10&lt;sup&gt;6&lt;/sup&gt;)).             1. Let _offset_ be 𝔽(truncate(_offsetNs_ / 10&lt;sup&gt;6&lt;/sup&gt;)).             1. If _offset_ is *+0*&lt;sub&gt;𝔽&lt;/sub&gt; or _offset_ &gt; *+0*&lt;sub&gt;𝔽&lt;/sub&gt;, then               1. Let _offsetSign_ be *&#34;+&#34;*.               1. Let _absOffset_ be _offset_.             1. Else,               1. Let _offsetSign_ be *&#34;-&#34;*.               1. Let _absOffset_ be -_offset_.             1. Let _offsetMin_ be ToZeroPaddedDecimalString(ℝ(MinFromTime(_absOffset_)), 2).             1. Let _offsetHour_ be ToZeroPaddedDecimalString(ℝ(HourFromTime(_absOffset_)), 2).             1. Let _tzName_ be an implementation-defined string that is either the empty String or the string-concatenation of the code unit 0x0020 (SPACE), the code unit 0x0028 (LEFT PARENTHESIS), an implementation-defined timezone name, and the code unit 0x0029 (RIGHT PARENTHESIS).             1. Return the string-concatenation of _offsetSign_, _offsetHour_, _offsetMin_, and _tzName_.           ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="TimeZoneString" retTy="a String" id="sec-timezoneestring" virtualPackage="21 Numbers and Dates.4 Date Objects.4 Properties of the Date Prototype Object.41 Date.prototype.toString ( ).3 TimeZoneString ( tv )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="tv" ty="a Number"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="systemTimeZoneIdentifier"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="SystemTimeZoneIdentifier">
+                                 <args/>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsTimeZoneOffsetString">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="systemTimeZoneIdentifier"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="offsetNs"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="ParseTimeZoneOffsetString">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="systemTimeZoneIdentifier"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="offsetNs"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="GetNamedTimeZoneOffsetNanoseconds">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="systemTimeZoneIdentifier"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ConversionExpression>
+                                                               <op>
+                                                                  <ToBigInt/>
+                                                               </op>
+                                                               <expr>
+                                                                  <BinaryExpression>
+                                                                     <left>
+                                                                        <ConversionExpression>
+                                                                           <op>
+                                                                              <ToMath/>
+                                                                           </op>
+                                                                           <expr>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="tv"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </expr>
+                                                                        </ConversionExpression>
+                                                                     </left>
+                                                                     <op>
+                                                                        <Mul/>
+                                                                     </op>
+                                                                     <right>
+                                                                        <ExponentiationExpression>
+                                                                           <base>
+                                                                              <DecimalMathValueLiteral n="10"/>
+                                                                           </base>
+                                                                           <power>
+                                                                              <DecimalMathValueLiteral n="6"/>
+                                                                           </power>
+                                                                        </ExponentiationExpression>
+                                                                     </right>
+                                                                  </BinaryExpression>
+                                                               </expr>
+                                                            </ConversionExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="offset"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToNumber/>
+                                 </op>
+                                 <expr>
+                                    <MathFuncExpression>
+                                       <op>
+                                          <Truncate/>
+                                       </op>
+                                       <args>
+                                          <BinaryExpression>
+                                             <left>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="offsetNs"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </left>
+                                             <op>
+                                                <Div/>
+                                             </op>
+                                             <right>
+                                                <ExponentiationExpression>
+                                                   <base>
+                                                      <DecimalMathValueLiteral n="10"/>
+                                                   </base>
+                                                   <power>
+                                                      <DecimalMathValueLiteral n="6"/>
+                                                   </power>
+                                                </ExponentiationExpression>
+                                             </right>
+                                          </BinaryExpression>
+                                       </args>
+                                    </MathFuncExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="offset"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <NumberLiteral value="0" isNegative="false"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="offset"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <GreaterThan/>
+                                       </op>
+                                       <right>
+                                          <NumberLiteral value="0" isNegative="false"/>
+                                       </right>
+                                    </BinaryCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="offsetSign"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <StringLiteral s="+"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="absOffset"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="offset"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="offsetSign"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <StringLiteral s="-"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="absOffset"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <UnaryExpression>
+                                                         <op>
+                                                            <Neg/>
+                                                         </op>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="offset"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </UnaryExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="offsetMin"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="ToZeroPaddedDecimalString">
+                                 <args>
+                                    <ConversionExpression>
+                                       <op>
+                                          <ToMath/>
+                                       </op>
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="MinFromTime">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="absOffset"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ConversionExpression>
+                                 </args>
+                                 <args>
+                                    <DecimalMathValueLiteral n="2"/>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="offsetHour"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="ToZeroPaddedDecimalString">
+                                 <args>
+                                    <ConversionExpression>
+                                       <op>
+                                          <ToMath/>
+                                       </op>
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="HourFromTime">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="absOffset"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ConversionExpression>
+                                 </args>
+                                 <args>
+                                    <DecimalMathValueLiteral n="2"/>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _tzName_ be an implementation-defined string that is either the empty String or the string-concatenation of the code unit 0x0020 (SPACE), the code unit 0x0028 (LEFT PARENTHESIS), an implementation-defined timezone name, and the code unit 0x0029 (RIGHT PARENTHESIS)." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <StringConcatExpression>
+                                 <exprs>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="offsetSign"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </exprs>
+                                 <exprs>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="offsetHour"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </exprs>
+                                 <exprs>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="offsetMin"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </exprs>
+                                 <exprs>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="tzName"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </exprs>
+                              </StringConcatExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-numbers-and-dates" title="Numbers and Dates" number="21" relativeNumber="21"/>
+   </sections>
+   <sections>
+      <Section id="sec-date-objects" title="Date Objects" number="21.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-properties-of-the-date-prototype-object" title="Properties of the Date Prototype Object" number="21.4.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-date.prototype.tostring" title="Date.prototype.toString ( )" number="21.4.4.41" relativeNumber="41"/>
+   </sections>
+   <sections>
+      <Section id="sec-timezoneestring" title="TimeZoneString ( tv )" number="21.4.4.41.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. Let _len_ be the length of _string_.         1. Let _k_ be 0.         1. Repeat, while _k_ &lt; _len_,           1. Let _cp_ be CodePointAt(_string_, _k_).           1. If _cp_.[[IsUnpairedSurrogate]] is *true*, return *false*.           1. Set _k_ to _k_ + _cp_.[[CodeUnitCount]].         1. Return *true*.       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="IsStringWellFormedUnicode" retTy="a Boolean" id="sec-isstringwellformedunicode" virtualPackage="7 Abstract Operations.2 Testing and Comparison Operations.7 Static Semantics: IsStringWellFormedUnicode ( string )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="string" ty="a String"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="len"/>
+                           </variable>
+                           <expr>
+                              <LengthExpression>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="string"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </LengthExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="k"/>
+                           </variable>
+                           <expr>
+                              <DecimalMathValueLiteral n="0"/>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RepeatWhileStep>
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="k"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <LessThan/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="len"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="cp"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="CodePointAt">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="string"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="k"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="cp"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="IsUnpairedSurrogate"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <TrueLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <FalseLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="k"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <BinaryExpression>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="k"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Add/>
+                                                         </op>
+                                                         <right>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="cp"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="CodeUnitCount"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </right>
+                                                      </BinaryExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </RepeatWhileStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <TrueLiteral/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-abstract-operations" title="Abstract Operations" number="7" relativeNumber="7"/>
+   </sections>
+   <sections>
+      <Section id="sec-testing-and-comparison-operations" title="Testing and Comparison Operations" number="7.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-isstringwellformedunicode" title="Static Semantics: IsStringWellFormedUnicode ( string )" number="7.2.7" relativeNumber="7"/>
+   </sections>
+</Algorithm>

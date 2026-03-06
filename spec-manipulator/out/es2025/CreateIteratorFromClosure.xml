@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. NOTE: _closure_ can contain uses of the Yield operation to yield an IteratorResult object.           1. If _extraSlots_ is not present, set _extraSlots_ to a new empty List.           1. Let _internalSlotsList_ be the list-concatenation of _extraSlots_ and « [[GeneratorState]], [[GeneratorContext]], [[GeneratorBrand]] ».           1. Let _generator_ be OrdinaryObjectCreate(_generatorPrototype_, _internalSlotsList_).           1. Set _generator_.[[GeneratorBrand]] to _generatorBrand_.           1. Set _generator_.[[GeneratorState]] to ~suspended-start~.           1. Let _callerContext_ be the running execution context.           1. Let _calleeContext_ be a new execution context.           1. Set the Function of _calleeContext_ to *null*.           1. Set the Realm of _calleeContext_ to the current Realm Record.           1. Set the ScriptOrModule of _calleeContext_ to _callerContext_'s ScriptOrModule.           1. If _callerContext_ is not already suspended, suspend _callerContext_.           1. Push _calleeContext_ onto the execution context stack; _calleeContext_ is now the running execution context.           1. Perform GeneratorStart(_generator_, _closure_).           1. Remove _calleeContext_ from the execution context stack and restore _callerContext_ as the running execution context.           1. Return _generator_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="CreateIteratorFromClosure" retTy="a Generator" id="sec-createiteratorfromclosure" virtualPackage="27 Control Abstraction Objects.5 Generator Objects.3 Generator Abstract Operations.8 CreateIteratorFromClosure ( closure, generatorBrand, generatorPrototype [ , extraSlots ] )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="closure" ty="an abstract closure"/>
+         </params>
+         <params>
+            <NormalParam name="generatorBrand" ty="~empty~ or a String"/>
+         </params>
+         <params>
+            <NormalParam name="generatorPrototype" ty="an Object"/>
+         </params>
+         <params>
+            <OptionalParam name="extraSlots" ty="a List of names of internal slots"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="_closure_ can contain uses of the Yield operation to yield an IteratorResult object."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="extraSlots"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Present/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <SetStep>
+                                 <ref>
+                                    <Variable name="extraSlots"/>
+                                 </ref>
+                                 <expr>
+                                    <ListExpression>
+                                       <entries/>
+                                    </ListExpression>
+                                 </expr>
+                              </SetStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="internalSlotsList"/>
+                           </variable>
+                           <expr>
+                              <ListConcatExpression>
+                                 <exprs>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="extraSlots"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </exprs>
+                                 <exprs>
+                                    <ListExpression>
+                                       <entries>
+                                          <FieldLiteral name="GeneratorState"/>
+                                       </entries>
+                                       <entries>
+                                          <FieldLiteral name="GeneratorContext"/>
+                                       </entries>
+                                       <entries>
+                                          <FieldLiteral name="GeneratorBrand"/>
+                                       </entries>
+                                    </ListExpression>
+                                 </exprs>
+                              </ListConcatExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="generator"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="OrdinaryObjectCreate">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="generatorPrototype"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="internalSlotsList"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="generator"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="GeneratorBrand"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="generatorBrand"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="generator"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="GeneratorState"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <EnumLiteral name="suspended-start"/>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="callerContext"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <RunningExecutionContext/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="calleeContext"/>
+                           </variable>
+                           <expr>
+                              <RecordExpression tname="ExecutionContext">
+                                 <fields/>
+                              </RecordExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="calleeContext"/>
+                                 </base>
+                                 <prop>
+                                    <ComponentProperty name="Function"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <NullLiteral/>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="calleeContext"/>
+                                 </base>
+                                 <prop>
+                                    <ComponentProperty name="Realm"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <CurrentRealmRecord/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="calleeContext"/>
+                                 </base>
+                                 <prop>
+                                    <ComponentProperty name="ScriptOrModule"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="callerContext"/>
+                                       </base>
+                                       <prop>
+                                          <ComponentProperty name="ScriptOrModule"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="If _callerContext_ is not already suspended, suspend _callerContext_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PushContextStep>
+                           <ref>
+                              <Variable name="calleeContext"/>
+                           </ref>
+                        </PushContextStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="GeneratorStart">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="generator"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="closure"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RemoveContextStep>
+                           <context>
+                              <Variable name="calleeContext"/>
+                           </context>
+                           <restoreTarget>
+                              <Context>
+                                 <ref>
+                                    <Variable name="callerContext"/>
+                                 </ref>
+                              </Context>
+                           </restoreTarget>
+                        </RemoveContextStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="generator"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-control-abstraction-objects" title="Control Abstraction Objects" number="27" relativeNumber="27"/>
+   </sections>
+   <sections>
+      <Section id="sec-generator-objects" title="Generator Objects" number="27.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="sec-generator-abstract-operations" title="Generator Abstract Operations" number="27.5.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-createiteratorfromclosure" title="CreateIteratorFromClosure ( closure, generatorBrand, generatorPrototype [ , extraSlots ] )" number="27.5.3.8" relativeNumber="8"/>
+   </sections>
+</Algorithm>

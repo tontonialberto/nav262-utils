@@ -1,0 +1,846 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If _state_.[[Stack]] contains _value_, throw a *TypeError* exception because the structure is cyclical.           1. Append _value_ to _state_.[[Stack]].           1. Let _stepBack_ be _state_.[[Indent]].           1. Set _state_.[[Indent]] to the string-concatenation of _state_.[[Indent]] and _state_.[[Gap]].           1. If _state_.[[PropertyList]] is not *undefined*, then             1. Let _K_ be _state_.[[PropertyList]].           1. Else,             1. Let _K_ be ? EnumerableOwnProperties(_value_, ~key~).           1. Let _partial_ be a new empty List.           1. For each element _P_ of _K_, do             1. Let _strP_ be ? SerializeJSONProperty(_state_, _P_, _value_).             1. If _strP_ is not *undefined*, then               1. Let _member_ be QuoteJSONString(_P_).               1. Set _member_ to the string-concatenation of _member_ and *&#34;:&#34;*.               1. If _state_.[[Gap]] is not the empty String, then                 1. Set _member_ to the string-concatenation of _member_ and the code unit 0x0020 (SPACE).               1. Set _member_ to the string-concatenation of _member_ and _strP_.               1. Append _member_ to _partial_.           1. If _partial_ is empty, then             1. Let _final_ be *&#34;{}&#34;*.           1. Else,             1. If _state_.[[Gap]] is the empty String, then               1. Let _properties_ be the String value formed by concatenating all the element Strings of _partial_ with each adjacent pair of Strings separated with the code unit 0x002C (COMMA). A comma is not inserted either before the first String or after the last String.               1. Let _final_ be the string-concatenation of *&#34;{&#34;*, _properties_, and *&#34;}&#34;*.             1. Else,               1. Let _separator_ be the string-concatenation of the code unit 0x002C (COMMA), the code unit 0x000A (LINE FEED), and _state_.[[Indent]].               1. Let _properties_ be the String value formed by concatenating all the element Strings of _partial_ with each adjacent pair of Strings separated with _separator_. The _separator_ String is not inserted either before the first String or after the last String.               1. Let _final_ be the string-concatenation of *&#34;{&#34;*, the code unit 0x000A (LINE FEED), _state_.[[Indent]], _properties_, the code unit 0x000A (LINE FEED), _stepBack_, and *&#34;}&#34;*.           1. Remove the last element of _state_.[[Stack]].           1. Set _state_.[[Indent]] to _stepBack_.           1. Return _final_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="SerializeJSONObject" retTy="either a normal completion containing a String or a throw completion" id="sec-serializejsonobject" virtualPackage="25 Structured Data.5 The JSON Object.2 JSON.stringify ( value [ , replacer [ , space ] ] ).5 SerializeJSONObject ( state, value )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="state" ty="a J S O N Serialization Record"/>
+         </params>
+         <params>
+            <NormalParam name="value" ty="an Object"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <ContainsExprCondition negation="false">
+                                 <list>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="state"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Stack"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </list>
+                                 <target>
+                                    <Expr>
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="value"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </Expr>
+                                 </target>
+                              </ContainsExprCondition>
+                           </cond>
+                           <thenStep>
+                              <YetStep>
+                                 <expr>
+                                    <YetExpression str="throw a *TypeError* exception because the structure is cyclical." block="null"/>
+                                 </expr>
+                              </YetStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AppendStep>
+                           <elem>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="value"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </elem>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="state"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Stack"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                        </AppendStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="stepBack"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="state"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Indent"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="state"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Indent"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <StringConcatExpression>
+                                 <exprs>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="state"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Indent"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </exprs>
+                                 <exprs>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="state"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Gap"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </exprs>
+                              </StringConcatExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="state"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="PropertyList"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="K"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="state"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <FieldProperty name="PropertyList"/>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="K"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="EnumerableOwnProperties">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="value"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <EnumLiteral name="key"/>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="partial"/>
+                           </variable>
+                           <expr>
+                              <ListExpression>
+                                 <entries/>
+                              </ListExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ForEachStep ty="null" forward="true">
+                           <variable>
+                              <Variable name="P"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="K"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="strP"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="SerializeJSONProperty">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="state"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="P"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="value"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="true">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="strP"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <UndefinedLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="member"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <InvokeAbstractOperationExpression name="QuoteJSONString">
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="P"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                              </InvokeAbstractOperationExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="member"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <StringConcatExpression>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="member"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <StringLiteral s=":"/>
+                                                                                 </exprs>
+                                                                              </StringConcatExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep elseStep="null">
+                                                                           <cond>
+                                                                              <IsAreCondition negation="true">
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="state"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Gap"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <right>
+                                                                                    <StringLiteral s=""/>
+                                                                                 </right>
+                                                                              </IsAreCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <SetStep>
+                                                                                                   <ref>
+                                                                                                      <Variable name="member"/>
+                                                                                                   </ref>
+                                                                                                   <expr>
+                                                                                                      <StringConcatExpression>
+                                                                                                         <exprs>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="member"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </exprs>
+                                                                                                         <exprs>
+                                                                                                            <HexLiteral hex="32" name="SPACE"/>
+                                                                                                         </exprs>
+                                                                                                      </StringConcatExpression>
+                                                                                                   </expr>
+                                                                                                </SetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </thenStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="member"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <StringConcatExpression>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="member"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="strP"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                              </StringConcatExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AppendStep>
+                                                                           <elem>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="member"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </elem>
+                                                                           <ref>
+                                                                              <Variable name="partial"/>
+                                                                           </ref>
+                                                                        </AppendStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </ForEachStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="partial"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Empty/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="final"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <StringLiteral s="{}"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="true">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="state"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="Gap"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <StringLiteral s=""/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Let _properties_ be the String value formed by concatenating all the element Strings of _partial_ with each adjacent pair of Strings separated with the code unit 0x002C (COMMA). A comma is not inserted either before the first String or after the last String." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="final"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <StringConcatExpression>
+                                                                                 <exprs>
+                                                                                    <StringLiteral s="{"/>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="properties"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <StringLiteral s="}"/>
+                                                                                 </exprs>
+                                                                              </StringConcatExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="separator"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <StringConcatExpression>
+                                                                                 <exprs>
+                                                                                    <HexLiteral hex="44" name="COMMA"/>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <HexLiteral hex="10" name="LINE FEED"/>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="state"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Indent"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                              </StringConcatExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Let _properties_ be the String value formed by concatenating all the element Strings of _partial_ with each adjacent pair of Strings separated with _separator_. The _separator_ String is not inserted either before the first String or after the last String." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="final"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <StringConcatExpression>
+                                                                                 <exprs>
+                                                                                    <StringLiteral s="{"/>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <HexLiteral hex="10" name="LINE FEED"/>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="state"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Indent"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="properties"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <HexLiteral hex="10" name="LINE FEED"/>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="stepBack"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <StringLiteral s="}"/>
+                                                                                 </exprs>
+                                                                              </StringConcatExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RemoveStep prep="of">
+                           <target>
+                              <Last count="null"/>
+                           </target>
+                           <list>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="state"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Stack"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </list>
+                        </RemoveStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="state"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Indent"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="stepBack"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="final"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-structured-data" title="Structured Data" number="25" relativeNumber="25"/>
+   </sections>
+   <sections>
+      <Section id="sec-json-object" title="The JSON Object" number="25.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="sec-json.stringify" title="JSON.stringify ( value [ , replacer [ , space ] ] )" number="25.5.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-serializejsonobject" title="SerializeJSONObject ( state, value )" number="25.5.2.5" relativeNumber="5"/>
+   </sections>
+</Algorithm>

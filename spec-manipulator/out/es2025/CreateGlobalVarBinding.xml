@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. Let _ObjRec_ be _envRec_.[[ObjectRecord]].             1. Let _globalObject_ be _ObjRec_.[[BindingObject]].             1. Let _hasProperty_ be ? HasOwnProperty(_globalObject_, _N_).             1. Let _extensible_ be ? IsExtensible(_globalObject_).             1. If _hasProperty_ is *false* and _extensible_ is *true*, then               1. Perform ? &lt;emu-meta effects=&#34;user-code&#34;&gt;_ObjRec_.CreateMutableBinding&lt;/emu-meta&gt;(_N_, _D_).               1. Perform ? &lt;emu-meta effects=&#34;user-code&#34;&gt;_ObjRec_.InitializeBinding&lt;/emu-meta&gt;(_N_, *undefined*).             1. Return ~unused~.           ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="CreateGlobalVarBinding" retTy="either a normal completion containing ~unused~ or a throw completion" id="sec-createglobalvarbinding" virtualPackage="9 Executable Code and Execution Contexts.1 Environment Records.1 The Environment Record Type Hierarchy.4 Global Environment Records.16 CreateGlobalVarBinding ( envRec, N, D )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="envRec" ty="a Global Environment Record"/>
+         </params>
+         <params>
+            <NormalParam name="N" ty="a String"/>
+         </params>
+         <params>
+            <NormalParam name="D" ty="a Boolean"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="ObjRec"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="envRec"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ObjectRecord"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="globalObject"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="ObjRec"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="BindingObject"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="hasProperty"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="HasOwnProperty">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="globalObject"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="N"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="extensible"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="IsExtensible">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="globalObject"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="hasProperty"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <FalseLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="extensible"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <TrueLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeMethodExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="ObjRec"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <ComponentProperty name="CreateMutableBinding"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="N"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="D"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeMethodExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeMethodExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="ObjRec"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <ComponentProperty name="InitializeBinding"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="N"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <UndefinedLiteral/>
+                                                               </args>
+                                                            </InvokeMethodExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <EnumLiteral name="unused"/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-executable-code-and-execution-contexts" title="Executable Code and Execution Contexts" number="9" relativeNumber="9"/>
+   </sections>
+   <sections>
+      <Section id="sec-environment-records" title="Environment Records" number="9.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-the-environment-record-type-hierarchy" title="The Environment Record Type Hierarchy" number="9.1.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-global-environment-records" title="Global Environment Records" number="9.1.1.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-createglobalvarbinding" title="CreateGlobalVarBinding ( envRec, N, D )" number="9.1.1.4.16" relativeNumber="16"/>
+   </sections>
+</Algorithm>

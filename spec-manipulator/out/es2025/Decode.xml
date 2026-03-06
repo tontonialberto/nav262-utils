@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _len_ be the length of _string_.           1. Let _R_ be the empty String.           1. Let _k_ be 0.           1. Repeat, while _k_ &lt; _len_,             1. Let _C_ be the code unit at index _k_ within _string_.             1. Let _S_ be _C_.             1. If _C_ is the code unit 0x0025 (PERCENT SIGN), then               1. If _k_ + 3 &gt; _len_, throw a *URIError* exception.               1. Let _escape_ be the substring of _string_ from _k_ to _k_ + 3.               1. Let _B_ be ParseHexOctet(_string_, _k_ + 1).               1. If _B_ is not an integer, throw a *URIError* exception.               1. Set _k_ to _k_ + 2.               1. Let _n_ be the number of leading 1 bits in _B_.               1. If _n_ = 0, then                 1. Let _asciiChar_ be the code unit whose numeric value is _B_.                 1. If _preserveEscapeSet_ contains _asciiChar_, set _S_ to _escape_. Otherwise, set _S_ to _asciiChar_.               1. Else,                 1. If _n_ = 1 or _n_ &gt; 4, throw a *URIError* exception.                 1. Let _Octets_ be « _B_ ».                 1. Let _j_ be 1.                 1. Repeat, while _j_ &lt; _n_,                   1. Set _k_ to _k_ + 1.                   1. If _k_ + 3 &gt; _len_, throw a *URIError* exception.                   1. If the code unit at index _k_ within _string_ is not the code unit 0x0025 (PERCENT SIGN), throw a *URIError* exception.                   1. Let _continuationByte_ be ParseHexOctet(_string_, _k_ + 1).                   1. If _continuationByte_ is not an integer, throw a *URIError* exception.                   1. Append _continuationByte_ to _Octets_.                   1. Set _k_ to _k_ + 2.                   1. Set _j_ to _j_ + 1.                 1. Assert: The length of _Octets_ is _n_.                 1. If _Octets_ does not contain a valid UTF-8 encoding of a Unicode code point, throw a *URIError* exception.                 1. Let _V_ be the code point obtained by applying the UTF-8 transformation to _Octets_, that is, from a List of octets into a 21-bit value.                 1. Set _S_ to UTF16EncodeCodePoint(_V_).             1. Set _R_ to the string-concatenation of _R_ and _S_.             1. Set _k_ to _k_ + 1.           1. Return _R_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="Decode" retTy="either a normal completion containing a String or a throw completion" id="sec-decode" virtualPackage="19 The Global Object.2 Function Properties of the Global Object.6 URI Handling Functions.6 Decode ( string, preserveEscapeSet )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="string" ty="a String"/>
+         </params>
+         <params>
+            <NormalParam name="preserveEscapeSet" ty="a String"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="len"/>
+                           </variable>
+                           <expr>
+                              <LengthExpression>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="string"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </LengthExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="R"/>
+                           </variable>
+                           <expr>
+                              <StringLiteral s=""/>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="k"/>
+                           </variable>
+                           <expr>
+                              <DecimalMathValueLiteral n="0"/>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RepeatWhileStep>
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="k"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <LessThan/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="len"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="C"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <CodeUnitAtExpression>
+                                                         <base>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="string"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </base>
+                                                         <index>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="k"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </index>
+                                                      </CodeUnitAtExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="S"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="C"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="C"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <HexLiteral hex="37" name="PERCENT SIGN"/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep elseStep="null">
+                                                                           <cond>
+                                                                              <BinaryCondition>
+                                                                                 <left>
+                                                                                    <BinaryExpression>
+                                                                                       <left>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="k"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </left>
+                                                                                       <op>
+                                                                                          <Add/>
+                                                                                       </op>
+                                                                                       <right>
+                                                                                          <DecimalMathValueLiteral n="3"/>
+                                                                                       </right>
+                                                                                    </BinaryExpression>
+                                                                                 </left>
+                                                                                 <op>
+                                                                                    <GreaterThan/>
+                                                                                 </op>
+                                                                                 <right>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="len"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </right>
+                                                                              </BinaryCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <ThrowStep name="URIError"/>
+                                                                           </thenStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="escape"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <SubstringExpression>
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="string"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                                 <from>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="k"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </from>
+                                                                                 <to>
+                                                                                    <BinaryExpression>
+                                                                                       <left>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="k"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </left>
+                                                                                       <op>
+                                                                                          <Add/>
+                                                                                       </op>
+                                                                                       <right>
+                                                                                          <DecimalMathValueLiteral n="3"/>
+                                                                                       </right>
+                                                                                    </BinaryExpression>
+                                                                                 </to>
+                                                                              </SubstringExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="B"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <InvokeAbstractOperationExpression name="ParseHexOctet">
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="string"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <BinaryExpression>
+                                                                                       <left>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="k"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </left>
+                                                                                       <op>
+                                                                                          <Add/>
+                                                                                       </op>
+                                                                                       <right>
+                                                                                          <DecimalMathValueLiteral n="1"/>
+                                                                                       </right>
+                                                                                    </BinaryExpression>
+                                                                                 </args>
+                                                                              </InvokeAbstractOperationExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep elseStep="null">
+                                                                           <cond>
+                                                                              <TypeCheckCondition negation="true">
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="B"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                                 <ty>
+                                                                                    <Type value="a math value"/>
+                                                                                 </ty>
+                                                                              </TypeCheckCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <ThrowStep name="URIError"/>
+                                                                           </thenStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="k"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <BinaryExpression>
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="k"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <op>
+                                                                                    <Add/>
+                                                                                 </op>
+                                                                                 <right>
+                                                                                    <DecimalMathValueLiteral n="2"/>
+                                                                                 </right>
+                                                                              </BinaryExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Let _n_ be the number of leading 1 bits in _B_." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep newLine="true" keyword="else" comma="true">
+                                                                           <cond>
+                                                                              <BinaryCondition>
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="n"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <op>
+                                                                                    <Eq/>
+                                                                                 </op>
+                                                                                 <right>
+                                                                                    <DecimalMathValueLiteral n="0"/>
+                                                                                 </right>
+                                                                              </BinaryCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <YetStep>
+                                                                                                   <expr>
+                                                                                                      <YetExpression str="Let _asciiChar_ be the code unit whose numeric value is _B_." block="null"/>
+                                                                                                   </expr>
+                                                                                                </YetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <IfStep newLine="false" keyword="otherwise" comma="true">
+                                                                                                   <cond>
+                                                                                                      <ContainsExprCondition negation="false">
+                                                                                                         <list>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="preserveEscapeSet"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </list>
+                                                                                                         <target>
+                                                                                                            <Expr>
+                                                                                                               <expr>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="asciiChar"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </expr>
+                                                                                                            </Expr>
+                                                                                                         </target>
+                                                                                                      </ContainsExprCondition>
+                                                                                                   </cond>
+                                                                                                   <thenStep>
+                                                                                                      <SetStep>
+                                                                                                         <ref>
+                                                                                                            <Variable name="S"/>
+                                                                                                         </ref>
+                                                                                                         <expr>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="escape"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </expr>
+                                                                                                      </SetStep>
+                                                                                                   </thenStep>
+                                                                                                   <elseStep>
+                                                                                                      <SetStep>
+                                                                                                         <ref>
+                                                                                                            <Variable name="S"/>
+                                                                                                         </ref>
+                                                                                                         <expr>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="asciiChar"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </expr>
+                                                                                                      </SetStep>
+                                                                                                   </elseStep>
+                                                                                                </IfStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </thenStep>
+                                                                           <elseStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <IfStep elseStep="null">
+                                                                                                   <cond>
+                                                                                                      <CompoundCondition>
+                                                                                                         <left>
+                                                                                                            <BinaryCondition>
+                                                                                                               <left>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="n"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </left>
+                                                                                                               <op>
+                                                                                                                  <Eq/>
+                                                                                                               </op>
+                                                                                                               <right>
+                                                                                                                  <DecimalMathValueLiteral n="1"/>
+                                                                                                               </right>
+                                                                                                            </BinaryCondition>
+                                                                                                         </left>
+                                                                                                         <op>
+                                                                                                            <Or/>
+                                                                                                         </op>
+                                                                                                         <right>
+                                                                                                            <BinaryCondition>
+                                                                                                               <left>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="n"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </left>
+                                                                                                               <op>
+                                                                                                                  <GreaterThan/>
+                                                                                                               </op>
+                                                                                                               <right>
+                                                                                                                  <DecimalMathValueLiteral n="4"/>
+                                                                                                               </right>
+                                                                                                            </BinaryCondition>
+                                                                                                         </right>
+                                                                                                      </CompoundCondition>
+                                                                                                   </cond>
+                                                                                                   <thenStep>
+                                                                                                      <ThrowStep name="URIError"/>
+                                                                                                   </thenStep>
+                                                                                                </IfStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <LetStep>
+                                                                                                   <variable>
+                                                                                                      <Variable name="Octets"/>
+                                                                                                   </variable>
+                                                                                                   <expr>
+                                                                                                      <ListExpression>
+                                                                                                         <entries>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="B"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </entries>
+                                                                                                      </ListExpression>
+                                                                                                   </expr>
+                                                                                                </LetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <LetStep>
+                                                                                                   <variable>
+                                                                                                      <Variable name="j"/>
+                                                                                                   </variable>
+                                                                                                   <expr>
+                                                                                                      <DecimalMathValueLiteral n="1"/>
+                                                                                                   </expr>
+                                                                                                </LetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <RepeatWhileStep>
+                                                                                                   <cond>
+                                                                                                      <BinaryCondition>
+                                                                                                         <left>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="j"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </left>
+                                                                                                         <op>
+                                                                                                            <LessThan/>
+                                                                                                         </op>
+                                                                                                         <right>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="n"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </right>
+                                                                                                      </BinaryCondition>
+                                                                                                   </cond>
+                                                                                                   <body>
+                                                                                                      <BlockStep>
+                                                                                                         <block>
+                                                                                                            <StepBlock>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <SetStep>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="k"/>
+                                                                                                                           </ref>
+                                                                                                                           <expr>
+                                                                                                                              <BinaryExpression>
+                                                                                                                                 <left>
+                                                                                                                                    <ReferenceExpression>
+                                                                                                                                       <ref>
+                                                                                                                                          <Variable name="k"/>
+                                                                                                                                       </ref>
+                                                                                                                                    </ReferenceExpression>
+                                                                                                                                 </left>
+                                                                                                                                 <op>
+                                                                                                                                    <Add/>
+                                                                                                                                 </op>
+                                                                                                                                 <right>
+                                                                                                                                    <DecimalMathValueLiteral n="1"/>
+                                                                                                                                 </right>
+                                                                                                                              </BinaryExpression>
+                                                                                                                           </expr>
+                                                                                                                        </SetStep>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <IfStep elseStep="null">
+                                                                                                                           <cond>
+                                                                                                                              <BinaryCondition>
+                                                                                                                                 <left>
+                                                                                                                                    <BinaryExpression>
+                                                                                                                                       <left>
+                                                                                                                                          <ReferenceExpression>
+                                                                                                                                             <ref>
+                                                                                                                                                <Variable name="k"/>
+                                                                                                                                             </ref>
+                                                                                                                                          </ReferenceExpression>
+                                                                                                                                       </left>
+                                                                                                                                       <op>
+                                                                                                                                          <Add/>
+                                                                                                                                       </op>
+                                                                                                                                       <right>
+                                                                                                                                          <DecimalMathValueLiteral n="3"/>
+                                                                                                                                       </right>
+                                                                                                                                    </BinaryExpression>
+                                                                                                                                 </left>
+                                                                                                                                 <op>
+                                                                                                                                    <GreaterThan/>
+                                                                                                                                 </op>
+                                                                                                                                 <right>
+                                                                                                                                    <ReferenceExpression>
+                                                                                                                                       <ref>
+                                                                                                                                          <Variable name="len"/>
+                                                                                                                                       </ref>
+                                                                                                                                    </ReferenceExpression>
+                                                                                                                                 </right>
+                                                                                                                              </BinaryCondition>
+                                                                                                                           </cond>
+                                                                                                                           <thenStep>
+                                                                                                                              <ThrowStep name="URIError"/>
+                                                                                                                           </thenStep>
+                                                                                                                        </IfStep>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <IfStep elseStep="null">
+                                                                                                                           <cond>
+                                                                                                                              <IsAreCondition negation="true">
+                                                                                                                                 <left>
+                                                                                                                                    <CodeUnitAtExpression>
+                                                                                                                                       <base>
+                                                                                                                                          <ReferenceExpression>
+                                                                                                                                             <ref>
+                                                                                                                                                <Variable name="string"/>
+                                                                                                                                             </ref>
+                                                                                                                                          </ReferenceExpression>
+                                                                                                                                       </base>
+                                                                                                                                       <index>
+                                                                                                                                          <ReferenceExpression>
+                                                                                                                                             <ref>
+                                                                                                                                                <Variable name="k"/>
+                                                                                                                                             </ref>
+                                                                                                                                          </ReferenceExpression>
+                                                                                                                                       </index>
+                                                                                                                                    </CodeUnitAtExpression>
+                                                                                                                                 </left>
+                                                                                                                                 <right>
+                                                                                                                                    <HexLiteral hex="37" name="PERCENT SIGN"/>
+                                                                                                                                 </right>
+                                                                                                                              </IsAreCondition>
+                                                                                                                           </cond>
+                                                                                                                           <thenStep>
+                                                                                                                              <ThrowStep name="URIError"/>
+                                                                                                                           </thenStep>
+                                                                                                                        </IfStep>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <LetStep>
+                                                                                                                           <variable>
+                                                                                                                              <Variable name="continuationByte"/>
+                                                                                                                           </variable>
+                                                                                                                           <expr>
+                                                                                                                              <InvokeAbstractOperationExpression name="ParseHexOctet">
+                                                                                                                                 <args>
+                                                                                                                                    <ReferenceExpression>
+                                                                                                                                       <ref>
+                                                                                                                                          <Variable name="string"/>
+                                                                                                                                       </ref>
+                                                                                                                                    </ReferenceExpression>
+                                                                                                                                 </args>
+                                                                                                                                 <args>
+                                                                                                                                    <BinaryExpression>
+                                                                                                                                       <left>
+                                                                                                                                          <ReferenceExpression>
+                                                                                                                                             <ref>
+                                                                                                                                                <Variable name="k"/>
+                                                                                                                                             </ref>
+                                                                                                                                          </ReferenceExpression>
+                                                                                                                                       </left>
+                                                                                                                                       <op>
+                                                                                                                                          <Add/>
+                                                                                                                                       </op>
+                                                                                                                                       <right>
+                                                                                                                                          <DecimalMathValueLiteral n="1"/>
+                                                                                                                                       </right>
+                                                                                                                                    </BinaryExpression>
+                                                                                                                                 </args>
+                                                                                                                              </InvokeAbstractOperationExpression>
+                                                                                                                           </expr>
+                                                                                                                        </LetStep>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <IfStep elseStep="null">
+                                                                                                                           <cond>
+                                                                                                                              <TypeCheckCondition negation="true">
+                                                                                                                                 <expr>
+                                                                                                                                    <ReferenceExpression>
+                                                                                                                                       <ref>
+                                                                                                                                          <Variable name="continuationByte"/>
+                                                                                                                                       </ref>
+                                                                                                                                    </ReferenceExpression>
+                                                                                                                                 </expr>
+                                                                                                                                 <ty>
+                                                                                                                                    <Type value="a math value"/>
+                                                                                                                                 </ty>
+                                                                                                                              </TypeCheckCondition>
+                                                                                                                           </cond>
+                                                                                                                           <thenStep>
+                                                                                                                              <ThrowStep name="URIError"/>
+                                                                                                                           </thenStep>
+                                                                                                                        </IfStep>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <AppendStep>
+                                                                                                                           <elem>
+                                                                                                                              <ReferenceExpression>
+                                                                                                                                 <ref>
+                                                                                                                                    <Variable name="continuationByte"/>
+                                                                                                                                 </ref>
+                                                                                                                              </ReferenceExpression>
+                                                                                                                           </elem>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="Octets"/>
+                                                                                                                           </ref>
+                                                                                                                        </AppendStep>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <SetStep>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="k"/>
+                                                                                                                           </ref>
+                                                                                                                           <expr>
+                                                                                                                              <BinaryExpression>
+                                                                                                                                 <left>
+                                                                                                                                    <ReferenceExpression>
+                                                                                                                                       <ref>
+                                                                                                                                          <Variable name="k"/>
+                                                                                                                                       </ref>
+                                                                                                                                    </ReferenceExpression>
+                                                                                                                                 </left>
+                                                                                                                                 <op>
+                                                                                                                                    <Add/>
+                                                                                                                                 </op>
+                                                                                                                                 <right>
+                                                                                                                                    <DecimalMathValueLiteral n="2"/>
+                                                                                                                                 </right>
+                                                                                                                              </BinaryExpression>
+                                                                                                                           </expr>
+                                                                                                                        </SetStep>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <SetStep>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="j"/>
+                                                                                                                           </ref>
+                                                                                                                           <expr>
+                                                                                                                              <BinaryExpression>
+                                                                                                                                 <left>
+                                                                                                                                    <ReferenceExpression>
+                                                                                                                                       <ref>
+                                                                                                                                          <Variable name="j"/>
+                                                                                                                                       </ref>
+                                                                                                                                    </ReferenceExpression>
+                                                                                                                                 </left>
+                                                                                                                                 <op>
+                                                                                                                                    <Add/>
+                                                                                                                                 </op>
+                                                                                                                                 <right>
+                                                                                                                                    <DecimalMathValueLiteral n="1"/>
+                                                                                                                                 </right>
+                                                                                                                              </BinaryExpression>
+                                                                                                                           </expr>
+                                                                                                                        </SetStep>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                            </StepBlock>
+                                                                                                         </block>
+                                                                                                      </BlockStep>
+                                                                                                   </body>
+                                                                                                </RepeatWhileStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <AssertStep>
+                                                                                                   <cond>
+                                                                                                      <IsAreCondition negation="false">
+                                                                                                         <left>
+                                                                                                            <LengthExpression>
+                                                                                                               <expr>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="Octets"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </expr>
+                                                                                                            </LengthExpression>
+                                                                                                         </left>
+                                                                                                         <right>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="n"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </right>
+                                                                                                      </IsAreCondition>
+                                                                                                   </cond>
+                                                                                                </AssertStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <YetStep>
+                                                                                                   <expr>
+                                                                                                      <YetExpression str="If _Octets_ does not contain a valid UTF-8 encoding of a Unicode code point, throw a *URIError* exception." block="null"/>
+                                                                                                   </expr>
+                                                                                                </YetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <YetStep>
+                                                                                                   <expr>
+                                                                                                      <YetExpression str="Let _V_ be the code point obtained by applying the UTF-8 transformation to _Octets_, that is, from a List of octets into a 21-bit value." block="null"/>
+                                                                                                   </expr>
+                                                                                                </YetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <SetStep>
+                                                                                                   <ref>
+                                                                                                      <Variable name="S"/>
+                                                                                                   </ref>
+                                                                                                   <expr>
+                                                                                                      <InvokeAbstractOperationExpression name="UTF16EncodeCodePoint">
+                                                                                                         <args>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="V"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </args>
+                                                                                                      </InvokeAbstractOperationExpression>
+                                                                                                   </expr>
+                                                                                                </SetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </elseStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="R"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <StringConcatExpression>
+                                                         <exprs>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="R"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </exprs>
+                                                         <exprs>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="S"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </exprs>
+                                                      </StringConcatExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="k"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <BinaryExpression>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="k"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Add/>
+                                                         </op>
+                                                         <right>
+                                                            <DecimalMathValueLiteral n="1"/>
+                                                         </right>
+                                                      </BinaryExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </RepeatWhileStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="R"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-global-object" title="The Global Object" number="19" relativeNumber="19"/>
+   </sections>
+   <sections>
+      <Section id="sec-function-properties-of-the-global-object" title="Function Properties of the Global Object" number="19.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-uri-handling-functions" title="URI Handling Functions" number="19.2.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-decode" title="Decode ( string, preserveEscapeSet )" number="19.2.6.6" relativeNumber="6"/>
+   </sections>
+</Algorithm>

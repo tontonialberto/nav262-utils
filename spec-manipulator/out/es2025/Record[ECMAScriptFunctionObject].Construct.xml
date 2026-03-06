@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. Let _callerContext_ be the running execution context.         1. Let _kind_ be _F_.[[ConstructorKind]].         1. If _kind_ is ~base~, then           1. Let _thisArgument_ be ? OrdinaryCreateFromConstructor(_newTarget_, *&#34;%Object.prototype%&#34;*).         1. Let _calleeContext_ be PrepareForOrdinaryCall(_F_, _newTarget_).         1. Assert: _calleeContext_ is now the running execution context.         1. If _kind_ is ~base~, then           1. Perform OrdinaryCallBindThis(_F_, _calleeContext_, _thisArgument_).           1. Let _initializeResult_ be Completion(InitializeInstanceElements(_thisArgument_, _F_)).           1. If _initializeResult_ is an abrupt completion, then             1. Remove _calleeContext_ from the execution context stack and restore _callerContext_ as the running execution context.             1. Return ? _initializeResult_.         1. Let _constructorEnv_ be the LexicalEnvironment of _calleeContext_.         1. Let _result_ be Completion(OrdinaryCallEvaluateBody(_F_, _argumentsList_)).         1. Remove _calleeContext_ from the execution context stack and restore _callerContext_ as the running execution context.         1. If _result_ is a throw completion, then           1. Return ? _result_.         1. Assert: _result_ is a return completion.         1. If _result_.[[Value]] is an Object, return _result_.[[Value]].         1. If _kind_ is ~base~, return _thisArgument_.         1. If _result_.[[Value]] is not *undefined*, throw a *TypeError* exception.         1. Let _thisBinding_ be ? _constructorEnv_.GetThisBinding().         1. Assert: _thisBinding_ is an Object.         1. Return _thisBinding_.       ">
+   <head>
+      <InternalMethodHead methodName="Construct" retTy="either a normal completion containing an Object or a throw completion" id="sec-ecmascript-function-objects-construct-argumentslist-newtarget" virtualPackage="10 Ordinary and Exotic Objects Behaviours.2 ECMAScript Function Objects.2 [[Construct]] ( argumentsList, newTarget )" location="https://tc39.es/ecma262/2025/" name="ECMAScriptFunctionObject.[[Construct]]">
+         <receiver>
+            <NormalParam name="F" ty="an E C M A Script Function Object"/>
+         </receiver>
+         <params>
+            <NormalParam name="argumentsList" ty="a List of ECMAScript language values"/>
+         </params>
+         <params>
+            <NormalParam name="newTarget" ty="a constructor"/>
+         </params>
+      </InternalMethodHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="callerContext"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <RunningExecutionContext/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="kind"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="F"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ConstructorKind"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="kind"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="base"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="thisArgument"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="OrdinaryCreateFromConstructor">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="newTarget"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <StringLiteral s="%Object.prototype%"/>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="calleeContext"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="PrepareForOrdinaryCall">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="F"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="newTarget"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_calleeContext_ is now the running execution context" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="kind"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="base"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="OrdinaryCallBindThis">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="F"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="calleeContext"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="thisArgument"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="initializeResult"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="Completion">
+                                                         <args>
+                                                            <InvokeAbstractOperationExpression name="InitializeInstanceElements">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="thisArgument"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="F"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <PredicateCondition negation="false">
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="initializeResult"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                         <op>
+                                                            <Abrupt/>
+                                                         </op>
+                                                      </PredicateCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <RemoveContextStep>
+                                                                           <context>
+                                                                              <Variable name="calleeContext"/>
+                                                                           </context>
+                                                                           <restoreTarget>
+                                                                              <Context>
+                                                                                 <ref>
+                                                                                    <Variable name="callerContext"/>
+                                                                                 </ref>
+                                                                              </Context>
+                                                                           </restoreTarget>
+                                                                        </RemoveContextStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <ReturnStep>
+                                                                           <expr>
+                                                                              <ReturnIfAbruptExpression check="true">
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="initializeResult"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                              </ReturnIfAbruptExpression>
+                                                                           </expr>
+                                                                        </ReturnStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="constructorEnv"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="calleeContext"/>
+                                       </base>
+                                       <prop>
+                                          <ComponentProperty name="LexicalEnvironment"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="result"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="Completion">
+                                 <args>
+                                    <InvokeAbstractOperationExpression name="OrdinaryCallEvaluateBody">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="F"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="argumentsList"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RemoveContextStep>
+                           <context>
+                              <Variable name="calleeContext"/>
+                           </context>
+                           <restoreTarget>
+                              <Context>
+                                 <ref>
+                                    <Variable name="callerContext"/>
+                                 </ref>
+                              </Context>
+                           </restoreTarget>
+                        </RemoveContextStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="result"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Throw/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="result"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="result"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Return/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="result"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Value"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="an Object"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="result"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Value"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="kind"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="base"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="thisArgument"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="result"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Value"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="thisBinding"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeMethodExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="constructorEnv"/>
+                                             </base>
+                                             <prop>
+                                                <ComponentProperty name="GetThisBinding"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                       <args/>
+                                    </InvokeMethodExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="thisBinding"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="an Object"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="thisBinding"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ordinary-and-exotic-objects-behaviours" title="Ordinary and Exotic Objects Behaviours" number="10" relativeNumber="10"/>
+   </sections>
+   <sections>
+      <Section id="sec-ecmascript-function-objects" title="ECMAScript Function Objects" number="10.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-ecmascript-function-objects-construct-argumentslist-newtarget" title="[[Construct]] ( argumentsList, newTarget )" number="10.2.2" relativeNumber="2"/>
+   </sections>
+</Algorithm>

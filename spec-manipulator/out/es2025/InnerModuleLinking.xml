@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="                 1. If _module_ is not a Cyclic Module Record, then                   1. Perform ? _module_.Link().                   1. Return _index_.                 1. If _module_.[[Status]] is one of ~linking~, ~linked~, ~evaluating-async~, or ~evaluated~, then                   1. Return _index_.                 1. Assert: _module_.[[Status]] is ~unlinked~.                 1. Set _module_.[[Status]] to ~linking~.                 1. Set _module_.[[DFSIndex]] to _index_.                 1. Set _module_.[[DFSAncestorIndex]] to _index_.                 1. Set _index_ to _index_ + 1.                 1. Append _module_ to _stack_.                 1. For each ModuleRequest Record _request_ of _module_.[[RequestedModules]], do                   1. Let _requiredModule_ be GetImportedModule(_module_, _request_).                   1. Set _index_ to ? InnerModuleLinking(_requiredModule_, _stack_, _index_).                   1. If _requiredModule_ is a Cyclic Module Record, then                     1. Assert: _requiredModule_.[[Status]] is one of ~linking~, ~linked~, ~evaluating-async~, or ~evaluated~.                     1. Assert: _requiredModule_.[[Status]] is ~linking~ if and only if _stack_ contains _requiredModule_.                     1. If _requiredModule_.[[Status]] is ~linking~, then                       1. Set _module_.[[DFSAncestorIndex]] to min(_module_.[[DFSAncestorIndex]], _requiredModule_.[[DFSAncestorIndex]]).                 1. Perform ? _module_.InitializeEnvironment().                 1. Assert: _module_ occurs exactly once in _stack_.                 1. Assert: _module_.[[DFSAncestorIndex]] ≤ _module_.[[DFSIndex]].                 1. If _module_.[[DFSAncestorIndex]] = _module_.[[DFSIndex]], then                   1. Let _done_ be *false*.                   1. Repeat, while _done_ is *false*,                     1. Let _requiredModule_ be the last element of _stack_.                     1. Remove the last element of _stack_.                     1. Assert: _requiredModule_ is a Cyclic Module Record.                     1. Set _requiredModule_.[[Status]] to ~linked~.                     1. If _requiredModule_ and _module_ are the same Module Record, set _done_ to *true*.                 1. Return _index_.               ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="InnerModuleLinking" retTy="either a normal completion containing a math value or a throw completion" id="sec-InnerModuleLinking" virtualPackage="16 ECMAScript Language: Scripts and Modules.2 Modules.1 Module Semantics.6 Cyclic Module Records.1 Implementation of Module Record Abstract Methods.2 Link ( ).1 InnerModuleLinking ( module, stack, index )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="module" ty="a Module Record"/>
+         </params>
+         <params>
+            <NormalParam name="stack" ty="a List of Cyclic Module Records"/>
+         </params>
+         <params>
+            <NormalParam name="index" ty="a math value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="module"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a Cyclic Module Record"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeMethodExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="module"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <ComponentProperty name="Link"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                               <args/>
+                                                            </InvokeMethodExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="index"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Status"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="linking"/>
+                                 </right>
+                                 <right>
+                                    <EnumLiteral name="linked"/>
+                                 </right>
+                                 <right>
+                                    <EnumLiteral name="evaluating-async"/>
+                                 </right>
+                                 <right>
+                                    <EnumLiteral name="evaluated"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="index"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Status"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="unlinked"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="module"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Status"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <EnumLiteral name="linking"/>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="module"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="DFSIndex"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="index"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="module"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="DFSAncestorIndex"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="index"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <Variable name="index"/>
+                           </ref>
+                           <expr>
+                              <BinaryExpression>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="index"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Add/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="1"/>
+                                 </right>
+                              </BinaryExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AppendStep>
+                           <elem>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="module"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </elem>
+                           <ref>
+                              <Variable name="stack"/>
+                           </ref>
+                        </AppendStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ForEachStep ty="a Module Request Record" forward="true">
+                           <variable>
+                              <Variable name="request"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="module"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="RequestedModules"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="requiredModule"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="GetImportedModule">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="module"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="request"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="index"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="InnerModuleLinking">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="requiredModule"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="stack"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="index"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <TypeCheckCondition negation="false">
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="requiredModule"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                         <ty>
+                                                            <Type value="a Cyclic Module Record"/>
+                                                         </ty>
+                                                      </TypeCheckCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AssertStep>
+                                                                           <cond>
+                                                                              <IsAreCondition negation="false">
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="requiredModule"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Status"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <right>
+                                                                                    <EnumLiteral name="linking"/>
+                                                                                 </right>
+                                                                                 <right>
+                                                                                    <EnumLiteral name="linked"/>
+                                                                                 </right>
+                                                                                 <right>
+                                                                                    <EnumLiteral name="evaluating-async"/>
+                                                                                 </right>
+                                                                                 <right>
+                                                                                    <EnumLiteral name="evaluated"/>
+                                                                                 </right>
+                                                                              </IsAreCondition>
+                                                                           </cond>
+                                                                        </AssertStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AssertStep>
+                                                                           <cond>
+                                                                              <ExpressionCondition>
+                                                                                 <expr>
+                                                                                    <YetExpression str="_requiredModule_.[[Status]] is ~linking~ if and only if _stack_ contains _requiredModule_" block="null"/>
+                                                                                 </expr>
+                                                                              </ExpressionCondition>
+                                                                           </cond>
+                                                                        </AssertStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep elseStep="null">
+                                                                           <cond>
+                                                                              <IsAreCondition negation="false">
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="requiredModule"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Status"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <right>
+                                                                                    <EnumLiteral name="linking"/>
+                                                                                 </right>
+                                                                              </IsAreCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <SetStep>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="module"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="DFSAncestorIndex"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                   <expr>
+                                                                                                      <MathFuncExpression>
+                                                                                                         <op>
+                                                                                                            <Min/>
+                                                                                                         </op>
+                                                                                                         <args>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <PropertyReference>
+                                                                                                                     <base>
+                                                                                                                        <Variable name="module"/>
+                                                                                                                     </base>
+                                                                                                                     <prop>
+                                                                                                                        <FieldProperty name="DFSAncestorIndex"/>
+                                                                                                                     </prop>
+                                                                                                                  </PropertyReference>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </args>
+                                                                                                         <args>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <PropertyReference>
+                                                                                                                     <base>
+                                                                                                                        <Variable name="requiredModule"/>
+                                                                                                                     </base>
+                                                                                                                     <prop>
+                                                                                                                        <FieldProperty name="DFSAncestorIndex"/>
+                                                                                                                     </prop>
+                                                                                                                  </PropertyReference>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </args>
+                                                                                                      </MathFuncExpression>
+                                                                                                   </expr>
+                                                                                                </SetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </thenStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </ForEachStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeMethodExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <ComponentProperty name="InitializeEnvironment"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                       <args/>
+                                    </InvokeMethodExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_module_ occurs exactly once in _stack_" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="DFSAncestorIndex"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <LessThanEqual/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="DFSIndex"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="DFSAncestorIndex"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Eq/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="DFSIndex"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="done"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <FalseLiteral/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <RepeatWhileStep>
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="done"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <FalseLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <body>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Let _requiredModule_ be the last element of _stack_." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <RemoveStep prep="of">
+                                                                           <target>
+                                                                              <Last count="null"/>
+                                                                           </target>
+                                                                           <list>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="stack"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </list>
+                                                                        </RemoveStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AssertStep>
+                                                                           <cond>
+                                                                              <TypeCheckCondition negation="false">
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="requiredModule"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                                 <ty>
+                                                                                    <Type value="a Cyclic Module Record"/>
+                                                                                 </ty>
+                                                                              </TypeCheckCondition>
+                                                                           </cond>
+                                                                        </AssertStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <PropertyReference>
+                                                                                 <base>
+                                                                                    <Variable name="requiredModule"/>
+                                                                                 </base>
+                                                                                 <prop>
+                                                                                    <FieldProperty name="Status"/>
+                                                                                 </prop>
+                                                                              </PropertyReference>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <EnumLiteral name="linked"/>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep elseStep="null">
+                                                                           <cond>
+                                                                              <IsAreCondition negation="false">
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="requiredModule"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <right>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="module"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </right>
+                                                                              </IsAreCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <SetStep>
+                                                                                 <ref>
+                                                                                    <Variable name="done"/>
+                                                                                 </ref>
+                                                                                 <expr>
+                                                                                    <TrueLiteral/>
+                                                                                 </expr>
+                                                                              </SetStep>
+                                                                           </thenStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </body>
+                                                </RepeatWhileStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="index"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-language-scripts-and-modules" title="ECMAScript Language: Scripts and Modules" number="16" relativeNumber="16"/>
+   </sections>
+   <sections>
+      <Section id="sec-modules" title="Modules" number="16.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-module-semantics" title="Module Semantics" number="16.2.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-cyclic-module-records" title="Cyclic Module Records" number="16.2.1.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-cyclic-module-record-module-record-methods" title="Implementation of Module Record Abstract Methods" number="16.2.1.6.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-moduledeclarationlinking" title="Link ( )" number="16.2.1.6.1.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-InnerModuleLinking" title="InnerModuleLinking ( module, stack, index )" number="16.2.1.6.1.2.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

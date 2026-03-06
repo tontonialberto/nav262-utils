@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If _pattern_ is *undefined*, let _P_ be the empty String.           1. Else, let _P_ be ? ToString(_pattern_).           1. If _flags_ is *undefined*, let _F_ be the empty String.           1. Else, let _F_ be ? ToString(_flags_).           1. If _F_ contains any code unit other than *&#34;d&#34;*, *&#34;g&#34;*, *&#34;i&#34;*, *&#34;m&#34;*, *&#34;s&#34;*, *&#34;u&#34;*, *&#34;v&#34;*, or *&#34;y&#34;*, or if _F_ contains any code unit more than once, throw a *SyntaxError* exception.           1. If _F_ contains *&#34;i&#34;*, let _i_ be *true*; else let _i_ be *false*.           1. If _F_ contains *&#34;m&#34;*, let _m_ be *true*; else let _m_ be *false*.           1. If _F_ contains *&#34;s&#34;*, let _s_ be *true*; else let _s_ be *false*.           1. If _F_ contains *&#34;u&#34;*, let _u_ be *true*; else let _u_ be *false*.           1. If _F_ contains *&#34;v&#34;*, let _v_ be *true*; else let _v_ be *false*.           1. If _u_ is *true* or _v_ is *true*, then             1. Let _patternText_ be StringToCodePoints(_P_).           1. Else,             1. Let _patternText_ be the result of interpreting each of _P_'s 16-bit elements as a Unicode BMP code point. UTF-16 decoding is not applied to the elements.           1. Let _parseResult_ be ParsePattern(_patternText_, _u_, _v_).           1. If _parseResult_ is a non-empty List of *SyntaxError* objects, throw a *SyntaxError* exception.           1. Assert: _parseResult_ is a |Pattern| Parse Node.           1. Set _obj_.[[OriginalSource]] to _P_.           1. Set _obj_.[[OriginalFlags]] to _F_.           1. Let _capturingGroupsCount_ be CountLeftCapturingParensWithin(_parseResult_).           1. Let _rer_ be the RegExp Record { [[IgnoreCase]]: _i_, [[Multiline]]: _m_, [[DotAll]]: _s_, [[Unicode]]: _u_, [[UnicodeSets]]: _v_, [[CapturingGroupsCount]]: _capturingGroupsCount_ }.           1. Set _obj_.[[RegExpRecord]] to _rer_.           1. Set _obj_.[[RegExpMatcher]] to CompilePattern of _parseResult_ with argument _rer_.           1. Perform ? Set(_obj_, *&#34;lastIndex&#34;*, *+0*&lt;sub&gt;𝔽&lt;/sub&gt;, *true*).           1. Return _obj_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="RegExpInitialize" retTy="either a normal completion containing an Object or a throw completion" id="sec-regexpinitialize" virtualPackage="22 Text Processing.2 RegExp (Regular Expression) Objects.3 Abstract Operations for RegExp Creation.3 RegExpInitialize ( obj, pattern, flags )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="obj" ty="an Object"/>
+         </params>
+         <params>
+            <NormalParam name="pattern" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="flags" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="pattern"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="P"/>
+                                 </variable>
+                                 <expr>
+                                    <StringLiteral s=""/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="P"/>
+                                 </variable>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToString">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="pattern"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="flags"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="F"/>
+                                 </variable>
+                                 <expr>
+                                    <StringLiteral s=""/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="F"/>
+                                 </variable>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToString">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="flags"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="If _F_ contains any code unit other than *&#34;d&#34;*, *&#34;g&#34;*, *&#34;i&#34;*, *&#34;m&#34;*, *&#34;s&#34;*, *&#34;u&#34;*, *&#34;v&#34;*, or *&#34;y&#34;*, or if _F_ contains any code unit more than once, throw a *SyntaxError* exception." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="false" keyword="else" comma="false">
+                           <cond>
+                              <ContainsExprCondition negation="false">
+                                 <list>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="F"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </list>
+                                 <target>
+                                    <Expr>
+                                       <expr>
+                                          <StringLiteral s="i"/>
+                                       </expr>
+                                    </Expr>
+                                 </target>
+                              </ContainsExprCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="i"/>
+                                 </variable>
+                                 <expr>
+                                    <TrueLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="i"/>
+                                 </variable>
+                                 <expr>
+                                    <FalseLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="false" keyword="else" comma="false">
+                           <cond>
+                              <ContainsExprCondition negation="false">
+                                 <list>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="F"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </list>
+                                 <target>
+                                    <Expr>
+                                       <expr>
+                                          <StringLiteral s="m"/>
+                                       </expr>
+                                    </Expr>
+                                 </target>
+                              </ContainsExprCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="m"/>
+                                 </variable>
+                                 <expr>
+                                    <TrueLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="m"/>
+                                 </variable>
+                                 <expr>
+                                    <FalseLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="false" keyword="else" comma="false">
+                           <cond>
+                              <ContainsExprCondition negation="false">
+                                 <list>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="F"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </list>
+                                 <target>
+                                    <Expr>
+                                       <expr>
+                                          <StringLiteral s="s"/>
+                                       </expr>
+                                    </Expr>
+                                 </target>
+                              </ContainsExprCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="s"/>
+                                 </variable>
+                                 <expr>
+                                    <TrueLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="s"/>
+                                 </variable>
+                                 <expr>
+                                    <FalseLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="false" keyword="else" comma="false">
+                           <cond>
+                              <ContainsExprCondition negation="false">
+                                 <list>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="F"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </list>
+                                 <target>
+                                    <Expr>
+                                       <expr>
+                                          <StringLiteral s="u"/>
+                                       </expr>
+                                    </Expr>
+                                 </target>
+                              </ContainsExprCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="u"/>
+                                 </variable>
+                                 <expr>
+                                    <TrueLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="u"/>
+                                 </variable>
+                                 <expr>
+                                    <FalseLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="false" keyword="else" comma="false">
+                           <cond>
+                              <ContainsExprCondition negation="false">
+                                 <list>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="F"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </list>
+                                 <target>
+                                    <Expr>
+                                       <expr>
+                                          <StringLiteral s="v"/>
+                                       </expr>
+                                    </Expr>
+                                 </target>
+                              </ContainsExprCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="v"/>
+                                 </variable>
+                                 <expr>
+                                    <TrueLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="v"/>
+                                 </variable>
+                                 <expr>
+                                    <FalseLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="u"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <TrueLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="v"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <TrueLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="patternText"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="StringToCodePoints">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="P"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Let _patternText_ be the result of interpreting each of _P_'s 16-bit elements as a Unicode BMP code point. UTF-16 decoding is not applied to the elements." block="null"/>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="parseResult"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="ParsePattern">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="patternText"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="u"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="v"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="If _parseResult_ is a non-empty List of *SyntaxError* objects, throw a *SyntaxError* exception." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="parseResult"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a |Pattern| Parse Node"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="OriginalSource"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="P"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="OriginalFlags"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="F"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="capturingGroupsCount"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="CountLeftCapturingParensWithin">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="parseResult"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="rer"/>
+                           </variable>
+                           <expr>
+                              <RecordExpression tname="RegExp Record">
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="IgnoreCase"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="i"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Multiline"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="m"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="DotAll"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="s"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Unicode"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="u"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="UnicodeSets"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="v"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="CapturingGroupsCount"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="capturingGroupsCount"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                              </RecordExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="RegExpRecord"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="rer"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="RegExpMatcher"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <InvokeSyntaxDirectedOperationExpression name="CompilePattern">
+                                 <base>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="parseResult"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </base>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="rer"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeSyntaxDirectedOperationExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="Set">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="obj"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <StringLiteral s="lastIndex"/>
+                                       </args>
+                                       <args>
+                                          <NumberLiteral value="0" isNegative="false"/>
+                                       </args>
+                                       <args>
+                                          <TrueLiteral/>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="obj"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-text-processing" title="Text Processing" number="22" relativeNumber="22"/>
+   </sections>
+   <sections>
+      <Section id="sec-regexp-regular-expression-objects" title="RegExp (Regular Expression) Objects" number="22.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-abstract-operations-for-regexp-creation" title="Abstract Operations for RegExp Creation" number="22.2.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-regexpinitialize" title="RegExpInitialize ( obj, pattern, flags )" number="22.2.3.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

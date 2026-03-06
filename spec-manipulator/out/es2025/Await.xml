@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _asyncContext_ be the running execution context.           1. Let _promise_ be ? PromiseResolve(%Promise%, _value_).           1. Let _fulfilledClosure_ be a new Abstract Closure with parameters (_v_) that captures _asyncContext_ and performs the following steps when called:             1. Let _prevContext_ be the running execution context.             1. Suspend _prevContext_.             1. Push _asyncContext_ onto the execution context stack; _asyncContext_ is now the running execution context.             1. &lt;emu-meta effects=&#34;user-code&#34;&gt;Resume the suspended evaluation of _asyncContext_&lt;/emu-meta&gt; using NormalCompletion(_v_) as the result of the operation that suspended it.             1. Assert: When we reach this step, _asyncContext_ has already been removed from the execution context stack and _prevContext_ is the currently running execution context.             1. Return *undefined*.           1. Let _onFulfilled_ be CreateBuiltinFunction(_fulfilledClosure_, 1, *&#34;&#34;*, « »).           1. Let _rejectedClosure_ be a new Abstract Closure with parameters (_reason_) that captures _asyncContext_ and performs the following steps when called:             1. Let _prevContext_ be the running execution context.             1. Suspend _prevContext_.             1. Push _asyncContext_ onto the execution context stack; _asyncContext_ is now the running execution context.             1. &lt;emu-meta effects=&#34;user-code&#34;&gt;Resume the suspended evaluation of _asyncContext_&lt;/emu-meta&gt; using ThrowCompletion(_reason_) as the result of the operation that suspended it.             1. Assert: When we reach this step, _asyncContext_ has already been removed from the execution context stack and _prevContext_ is the currently running execution context.             1. Return *undefined*.           1. Let _onRejected_ be CreateBuiltinFunction(_rejectedClosure_, 1, *&#34;&#34;*, « »).           1. Perform PerformPromiseThen(_promise_, _onFulfilled_, _onRejected_).           1. Remove _asyncContext_ from the execution context stack and restore the execution context that is at the top of the execution context stack as the running execution context.           1. Let _callerContext_ be the running execution context.           1. Resume _callerContext_ passing ~empty~. If _asyncContext_ is ever resumed again, let _completion_ be the Completion Record with which it is resumed.           1. Assert: If control reaches here, then _asyncContext_ is the running execution context again.           1. Return _completion_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="Await" retTy="either a normal completion containing either an ECMAScript language value or ~empty~, or a throw completion" id="await" virtualPackage="27 Control Abstraction Objects.7 AsyncFunction Objects.5 Async Functions Abstract Operations.3 Await ( value )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="value" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="asyncContext"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <RunningExecutionContext/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="promise"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="PromiseResolve">
+                                       <args>
+                                          <IntrinsicExpression>
+                                             <intr>
+                                                <Intrinsic base="Promise">
+                                                   <props/>
+                                                </Intrinsic>
+                                             </intr>
+                                          </IntrinsicExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="value"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="fulfilledClosure"/>
+                           </variable>
+                           <expr>
+                              <AbstractClosureExpression>
+                                 <params>
+                                    <Variable name="v"/>
+                                 </params>
+                                 <captured>
+                                    <Variable name="asyncContext"/>
+                                 </captured>
+                                 <body>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="prevContext"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <RunningExecutionContext/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <SuspendStep remove="false">
+                                                         <variable>
+                                                            <Variable name="prevContext"/>
+                                                         </variable>
+                                                      </SuspendStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <PushContextStep>
+                                                         <ref>
+                                                            <Variable name="asyncContext"/>
+                                                         </ref>
+                                                      </PushContextStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <ResumeEvaluationStep param="null">
+                                                         <context>
+                                                            <Variable name="asyncContext"/>
+                                                         </context>
+                                                         <argument>
+                                                            <InvokeAbstractOperationExpression name="NormalCompletion">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="v"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </argument>
+                                                         <steps>
+                                                            <SubStep directive="null">
+                                                               <step>
+                                                                  <AssertStep>
+                                                                     <cond>
+                                                                        <ExpressionCondition>
+                                                                           <expr>
+                                                                              <YetExpression str="When we reach this step, _asyncContext_ has already been removed from the execution context stack and _prevContext_ is the currently running execution context" block="null"/>
+                                                                           </expr>
+                                                                        </ExpressionCondition>
+                                                                     </cond>
+                                                                  </AssertStep>
+                                                               </step>
+                                                            </SubStep>
+                                                         </steps>
+                                                         <steps>
+                                                            <SubStep directive="null">
+                                                               <step>
+                                                                  <ReturnStep>
+                                                                     <expr>
+                                                                        <UndefinedLiteral/>
+                                                                     </expr>
+                                                                  </ReturnStep>
+                                                               </step>
+                                                            </SubStep>
+                                                         </steps>
+                                                      </ResumeEvaluationStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </body>
+                              </AbstractClosureExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="onFulfilled"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="CreateBuiltinFunction">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="fulfilledClosure"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <DecimalMathValueLiteral n="1"/>
+                                 </args>
+                                 <args>
+                                    <StringLiteral s=""/>
+                                 </args>
+                                 <args>
+                                    <ListExpression>
+                                       <entries/>
+                                    </ListExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="rejectedClosure"/>
+                           </variable>
+                           <expr>
+                              <AbstractClosureExpression>
+                                 <params>
+                                    <Variable name="reason"/>
+                                 </params>
+                                 <captured>
+                                    <Variable name="asyncContext"/>
+                                 </captured>
+                                 <body>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="prevContext"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <RunningExecutionContext/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <SuspendStep remove="false">
+                                                         <variable>
+                                                            <Variable name="prevContext"/>
+                                                         </variable>
+                                                      </SuspendStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <PushContextStep>
+                                                         <ref>
+                                                            <Variable name="asyncContext"/>
+                                                         </ref>
+                                                      </PushContextStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <ResumeEvaluationStep param="null">
+                                                         <context>
+                                                            <Variable name="asyncContext"/>
+                                                         </context>
+                                                         <argument>
+                                                            <InvokeAbstractOperationExpression name="ThrowCompletion">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="reason"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </argument>
+                                                         <steps>
+                                                            <SubStep directive="null">
+                                                               <step>
+                                                                  <AssertStep>
+                                                                     <cond>
+                                                                        <ExpressionCondition>
+                                                                           <expr>
+                                                                              <YetExpression str="When we reach this step, _asyncContext_ has already been removed from the execution context stack and _prevContext_ is the currently running execution context" block="null"/>
+                                                                           </expr>
+                                                                        </ExpressionCondition>
+                                                                     </cond>
+                                                                  </AssertStep>
+                                                               </step>
+                                                            </SubStep>
+                                                         </steps>
+                                                         <steps>
+                                                            <SubStep directive="null">
+                                                               <step>
+                                                                  <ReturnStep>
+                                                                     <expr>
+                                                                        <UndefinedLiteral/>
+                                                                     </expr>
+                                                                  </ReturnStep>
+                                                               </step>
+                                                            </SubStep>
+                                                         </steps>
+                                                      </ResumeEvaluationStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </body>
+                              </AbstractClosureExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="onRejected"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="CreateBuiltinFunction">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="rejectedClosure"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <DecimalMathValueLiteral n="1"/>
+                                 </args>
+                                 <args>
+                                    <StringLiteral s=""/>
+                                 </args>
+                                 <args>
+                                    <ListExpression>
+                                       <entries/>
+                                    </ListExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="PerformPromiseThen">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="promise"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="onFulfilled"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="onRejected"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RemoveContextStep>
+                           <context>
+                              <Variable name="asyncContext"/>
+                           </context>
+                           <restoreTarget>
+                              <StackTop/>
+                           </restoreTarget>
+                        </RemoveContextStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="callerContext"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <RunningExecutionContext/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ResumeStep>
+                           <callerContext>
+                              <Variable name="callerContext"/>
+                           </callerContext>
+                           <argument>
+                              <EnumLiteral name="empty"/>
+                           </argument>
+                           <generatorContext>
+                              <Variable name="asyncContext"/>
+                           </generatorContext>
+                           <param>
+                              <Variable name="completion"/>
+                           </param>
+                           <steps>
+                              <SubStep directive="null">
+                                 <step>
+                                    <AssertStep>
+                                       <cond>
+                                          <ExpressionCondition>
+                                             <expr>
+                                                <YetExpression str="If control reaches here, then _asyncContext_ is the running execution context again" block="null"/>
+                                             </expr>
+                                          </ExpressionCondition>
+                                       </cond>
+                                    </AssertStep>
+                                 </step>
+                              </SubStep>
+                           </steps>
+                           <steps>
+                              <SubStep directive="null">
+                                 <step>
+                                    <ReturnStep>
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="completion"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </ReturnStep>
+                                 </step>
+                              </SubStep>
+                           </steps>
+                        </ResumeStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-control-abstraction-objects" title="Control Abstraction Objects" number="27" relativeNumber="27"/>
+   </sections>
+   <sections>
+      <Section id="sec-async-function-objects" title="AsyncFunction Objects" number="27.7" relativeNumber="7"/>
+   </sections>
+   <sections>
+      <Section id="sec-async-functions-abstract-operations" title="Async Functions Abstract Operations" number="27.7.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="await" title="Await ( value )" number="27.7.5.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

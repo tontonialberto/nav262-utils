@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Perform ? RequireInternalSlot(_arrayBuffer_, [[ArrayBufferData]]).           1. If IsSharedArrayBuffer(_arrayBuffer_) is *true*, throw a *TypeError* exception.           1. If _newLength_ is *undefined*, then             1. Let _newByteLength_ be _arrayBuffer_.[[ArrayBufferByteLength]].           1. Else,             1. Let _newByteLength_ be ? ToIndex(_newLength_).           1. If IsDetachedBuffer(_arrayBuffer_) is *true*, throw a *TypeError* exception.           1. If _preserveResizability_ is ~preserve-resizability~ and IsFixedLengthArrayBuffer(_arrayBuffer_) is *false*, then             1. Let _newMaxByteLength_ be _arrayBuffer_.[[ArrayBufferMaxByteLength]].           1. Else,             1. Let _newMaxByteLength_ be ~empty~.           1. If _arrayBuffer_.[[ArrayBufferDetachKey]] is not *undefined*, throw a *TypeError* exception.           1. Let _newBuffer_ be ? &lt;emu-meta suppress-effects=&#34;user-code&#34;&gt;AllocateArrayBuffer(%ArrayBuffer%, _newByteLength_, _newMaxByteLength_)&lt;/emu-meta&gt;.           1. Let _copyLength_ be min(_newByteLength_, _arrayBuffer_.[[ArrayBufferByteLength]]).           1. Let _fromBlock_ be _arrayBuffer_.[[ArrayBufferData]].           1. Let _toBlock_ be _newBuffer_.[[ArrayBufferData]].           1. Perform CopyDataBlockBytes(_toBlock_, 0, _fromBlock_, 0, _copyLength_).           1. NOTE: Neither creation of the new Data Block nor copying from the old Data Block are observable. Implementations may implement this method as a zero-copy move or a `realloc`.           1. Perform ! DetachArrayBuffer(_arrayBuffer_).           1. Return _newBuffer_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ArrayBufferCopyAndDetach" retTy="either a normal completion containing an Array Buffer or a throw completion" id="sec-arraybuffercopyanddetach" virtualPackage="25 Structured Data.1 ArrayBuffer Objects.3 Abstract Operations For ArrayBuffer Objects.3 ArrayBufferCopyAndDetach ( arrayBuffer, newLength, preserveResizability )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="arrayBuffer" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="newLength" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="preserveResizability" ty="~fixed-length~ or ~preserve-resizability~"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="RequireInternalSlot">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="arrayBuffer"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <FieldLiteral name="ArrayBufferData"/>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsSharedArrayBuffer">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="arrayBuffer"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="newLength"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="newByteLength"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="arrayBuffer"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <FieldProperty name="ArrayBufferByteLength"/>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="newByteLength"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="ToIndex">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="newLength"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsDetachedBuffer">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="arrayBuffer"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="preserveResizability"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <EnumLiteral name="preserve-resizability"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <InvokeAbstractOperationExpression name="IsFixedLengthArrayBuffer">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="arrayBuffer"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </left>
+                                       <right>
+                                          <FalseLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="newMaxByteLength"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="arrayBuffer"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <FieldProperty name="ArrayBufferMaxByteLength"/>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="newMaxByteLength"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <EnumLiteral name="empty"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="arrayBuffer"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="ArrayBufferDetachKey"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="newBuffer"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="AllocateArrayBuffer">
+                                       <args>
+                                          <IntrinsicExpression>
+                                             <intr>
+                                                <Intrinsic base="ArrayBuffer">
+                                                   <props/>
+                                                </Intrinsic>
+                                             </intr>
+                                          </IntrinsicExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="newByteLength"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="newMaxByteLength"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="copyLength"/>
+                           </variable>
+                           <expr>
+                              <MathFuncExpression>
+                                 <op>
+                                    <Min/>
+                                 </op>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="newByteLength"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="arrayBuffer"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="ArrayBufferByteLength"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </MathFuncExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="fromBlock"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="arrayBuffer"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ArrayBufferData"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="toBlock"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="newBuffer"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ArrayBufferData"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="CopyDataBlockBytes">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="toBlock"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="fromBlock"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="copyLength"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="Neither creation of the new Data Block nor copying from the old Data Block are observable. Implementations may implement this method as a zero-copy move or a `realloc`."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="DetachArrayBuffer">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="arrayBuffer"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="newBuffer"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-structured-data" title="Structured Data" number="25" relativeNumber="25"/>
+   </sections>
+   <sections>
+      <Section id="sec-arraybuffer-objects" title="ArrayBuffer Objects" number="25.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-abstract-operations-for-arraybuffer-objects" title="Abstract Operations For ArrayBuffer Objects" number="25.1.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-arraybuffercopyanddetach" title="ArrayBufferCopyAndDetach ( arrayBuffer, newLength, preserveResizability )" number="25.1.3.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

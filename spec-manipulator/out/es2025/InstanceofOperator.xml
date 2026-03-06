@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. If _target_ is not an Object, throw a *TypeError* exception.         1. Let _instOfHandler_ be ? GetMethod(_target_, %Symbol.hasInstance%).         1. If _instOfHandler_ is not *undefined*, then           1. Return ToBoolean(? Call(_instOfHandler_, _target_, « _V_ »)).         1. [id=&#34;step-instanceof-check-function&#34;] If IsCallable(_target_) is *false*, throw a *TypeError* exception.         1. [id=&#34;step-instanceof-fallback&#34;] Return ? OrdinaryHasInstance(_target_, _V_).       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="InstanceofOperator" retTy="either a normal completion containing a Boolean or a throw completion" id="sec-instanceofoperator" virtualPackage="13 ECMAScript Language: Expressions.10 Relational Operators.2 InstanceofOperator ( V, target )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="V" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="target" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="target"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="an Object"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="instOfHandler"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="GetMethod">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="target"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <SymbolLiteral sym="hasInstance"/>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="instOfHandler"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="ToBoolean">
+                                                         <args>
+                                                            <ReturnIfAbruptExpression check="true">
+                                                               <expr>
+                                                                  <InvokeAbstractOperationExpression name="Call">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="instOfHandler"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="target"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                     <args>
+                                                                        <ListExpression>
+                                                                           <entries>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="V"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </entries>
+                                                                        </ListExpression>
+                                                                     </args>
+                                                                  </InvokeAbstractOperationExpression>
+                                                               </expr>
+                                                            </ReturnIfAbruptExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep>
+                     <directive>
+                        <Directive name="id">
+                           <values>step-instanceof-check-function</values>
+                        </Directive>
+                     </directive>
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsCallable">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="target"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep>
+                     <directive>
+                        <Directive name="id">
+                           <values>step-instanceof-fallback</values>
+                        </Directive>
+                     </directive>
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="OrdinaryHasInstance">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="target"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="V"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-language-expressions" title="ECMAScript Language: Expressions" number="13" relativeNumber="13"/>
+   </sections>
+   <sections>
+      <Section id="sec-relational-operators" title="Relational Operators" number="13.10" relativeNumber="10"/>
+   </sections>
+   <sections>
+      <Section id="sec-instanceofoperator" title="InstanceofOperator ( V, target )" number="13.10.2" relativeNumber="2"/>
+   </sections>
+</Algorithm>

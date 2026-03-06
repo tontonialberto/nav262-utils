@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _view_ be _viewRecord_.[[Object]].           1. Let _bufferByteLength_ be _viewRecord_.[[CachedBufferByteLength]].           1. Assert: IsDetachedBuffer(_view_.[[ViewedArrayBuffer]]) is *true* if and only if _bufferByteLength_ is ~detached~.           1. If _bufferByteLength_ is ~detached~, return *true*.           1. Let _byteOffsetStart_ be _view_.[[ByteOffset]].           1. If _view_.[[ByteLength]] is ~auto~, then             1. Let _byteOffsetEnd_ be _bufferByteLength_.           1. Else,             1. Let _byteOffsetEnd_ be _byteOffsetStart_ + _view_.[[ByteLength]].           1. If _byteOffsetStart_ &gt; _bufferByteLength_ or _byteOffsetEnd_ &gt; _bufferByteLength_, return *true*.           1. NOTE: 0-length DataViews are not considered out-of-bounds.           1. Return *false*.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="IsViewOutOfBounds" retTy="a Boolean" id="sec-isviewoutofbounds" virtualPackage="25 Structured Data.3 DataView Objects.1 Abstract Operations For DataView Objects.4 IsViewOutOfBounds ( viewRecord )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="viewRecord" ty="a Data View With Buffer Witness Record"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="view"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="viewRecord"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Object"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="bufferByteLength"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="viewRecord"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="CachedBufferByteLength"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="IsDetachedBuffer(_view_.[[ViewedArrayBuffer]]) is *true* if and only if _bufferByteLength_ is ~detached~" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="bufferByteLength"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="detached"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <TrueLiteral/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="byteOffsetStart"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="view"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ByteOffset"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="view"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="ByteLength"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="auto"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="byteOffsetEnd"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="bufferByteLength"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="byteOffsetEnd"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <BinaryExpression>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="byteOffsetStart"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Add/>
+                                                         </op>
+                                                         <right>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="view"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="ByteLength"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </right>
+                                                      </BinaryExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="byteOffsetStart"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <GreaterThan/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="bufferByteLength"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="byteOffsetEnd"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <GreaterThan/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="bufferByteLength"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <TrueLiteral/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="0-length DataViews are not considered out-of-bounds."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <FalseLiteral/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-structured-data" title="Structured Data" number="25" relativeNumber="25"/>
+   </sections>
+   <sections>
+      <Section id="sec-dataview-objects" title="DataView Objects" number="25.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-abstract-operations-for-dataview-objects" title="Abstract Operations For DataView Objects" number="25.3.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-isviewoutofbounds" title="IsViewOutOfBounds ( viewRecord )" number="25.3.1.4" relativeNumber="4"/>
+   </sections>
+</Algorithm>

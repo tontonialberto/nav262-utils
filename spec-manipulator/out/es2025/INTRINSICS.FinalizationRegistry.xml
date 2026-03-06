@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If NewTarget is *undefined*, throw a *TypeError* exception.           1. If IsCallable(_cleanupCallback_) is *false*, throw a *TypeError* exception.           1. Let _finalizationRegistry_ be ? OrdinaryCreateFromConstructor(NewTarget, *&#34;%FinalizationRegistry.prototype%&#34;*, « [[Realm]], [[CleanupCallback]], [[Cells]] »).           1. Let _fn_ be the active function object.           1. Set _finalizationRegistry_.[[Realm]] to _fn_.[[Realm]].           1. Set _finalizationRegistry_.[[CleanupCallback]] to HostMakeJobCallback(_cleanupCallback_).           1. Set _finalizationRegistry_.[[Cells]] to a new empty List.           1. Return _finalizationRegistry_.         ">
+   <head>
+      <BuiltinHead name="FinalizationRegistry" retTy="unknown" id="sec-finalization-registry-cleanup-callback" virtualPackage="26 Managing Memory.2 FinalizationRegistry Objects.1 The FinalizationRegistry Constructor.1 FinalizationRegistry ( cleanupCallback )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="cleanupCallback" ty="unknown"/>
+         </params>
+      </BuiltinHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <NewTargetLiteral/>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsCallable">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="cleanupCallback"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="finalizationRegistry"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="OrdinaryCreateFromConstructor">
+                                       <args>
+                                          <NewTargetLiteral/>
+                                       </args>
+                                       <args>
+                                          <StringLiteral s="%FinalizationRegistry.prototype%"/>
+                                       </args>
+                                       <args>
+                                          <ListExpression>
+                                             <entries>
+                                                <FieldLiteral name="Realm"/>
+                                             </entries>
+                                             <entries>
+                                                <FieldLiteral name="CleanupCallback"/>
+                                             </entries>
+                                             <entries>
+                                                <FieldLiteral name="Cells"/>
+                                             </entries>
+                                          </ListExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="fn"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <ActiveFunctionObject/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="finalizationRegistry"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Realm"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="fn"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Realm"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="finalizationRegistry"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="CleanupCallback"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="HostMakeJobCallback">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="cleanupCallback"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="finalizationRegistry"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Cells"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ListExpression>
+                                 <entries/>
+                              </ListExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="finalizationRegistry"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-managing-memory" title="Managing Memory" number="26" relativeNumber="26"/>
+   </sections>
+   <sections>
+      <Section id="sec-finalization-registry-objects" title="FinalizationRegistry Objects" number="26.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-finalization-registry-constructor" title="The FinalizationRegistry Constructor" number="26.2.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-finalization-registry-cleanup-callback" title="FinalizationRegistry ( cleanupCallback )" number="26.2.1.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

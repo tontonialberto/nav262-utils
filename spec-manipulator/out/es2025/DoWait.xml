@@ -1,0 +1,1439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _taRecord_ be ? ValidateIntegerTypedArray(_typedArray_, *true*).           1. Let _buffer_ be _taRecord_.[[Object]].[[ViewedArrayBuffer]].           1. If IsSharedArrayBuffer(_buffer_) is *false*, throw a *TypeError* exception.           1. Let _i_ be ? ValidateAtomicAccess(_taRecord_, _index_).           1. Let _arrayTypeName_ be _typedArray_.[[TypedArrayName]].           1. If _arrayTypeName_ is *&#34;BigInt64Array&#34;*, let _v_ be ? ToBigInt64(_value_).           1. Else, let _v_ be ? ToInt32(_value_).           1. Let _q_ be ? ToNumber(_timeout_).           1. If _q_ is either *NaN* or *+∞*&lt;sub&gt;𝔽&lt;/sub&gt;, let _t_ be +∞; else if _q_ is *-∞*&lt;sub&gt;𝔽&lt;/sub&gt;, let _t_ be 0; else let _t_ be max(ℝ(_q_), 0).           1. If _mode_ is ~sync~ and AgentCanSuspend() is *false*, throw a *TypeError* exception.           1. Let _block_ be _buffer_.[[ArrayBufferData]].           1. Let _offset_ be _typedArray_.[[ByteOffset]].           1. Let _byteIndexInBuffer_ be (_i_ × 4) + _offset_.           1. Let _WL_ be GetWaiterList(_block_, _byteIndexInBuffer_).           1. If _mode_ is ~sync~, then             1. Let _promiseCapability_ be ~blocking~.             1. Let _resultObject_ be *undefined*.           1. Else,             1. Let _promiseCapability_ be ! NewPromiseCapability(%Promise%).             1. Let _resultObject_ be OrdinaryObjectCreate(%Object.prototype%).           1. Perform EnterCriticalSection(_WL_).           1. Let _elementType_ be TypedArrayElementType(_typedArray_).           1. Let _w_ be GetValueFromBuffer(_buffer_, _byteIndexInBuffer_, _elementType_, *true*, ~seq-cst~).           1. If _v_ ≠ _w_, then             1. Perform LeaveCriticalSection(_WL_).             1. If _mode_ is ~sync~, return *&#34;not-equal&#34;*.             1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *&#34;async&#34;*, *false*).             1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *&#34;value&#34;*, *&#34;not-equal&#34;*).             1. Return _resultObject_.           1. If _t_ = 0 and _mode_ is ~async~, then             1. NOTE: There is no special handling of synchronous immediate timeouts. Asynchronous immediate timeouts have special handling in order to fail fast and avoid unnecessary Promise jobs.             1. Perform LeaveCriticalSection(_WL_).             1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *&#34;async&#34;*, *false*).             1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *&#34;value&#34;*, *&#34;timed-out&#34;*).             1. Return _resultObject_.           1. Let _thisAgent_ be AgentSignifier().           1. Let _now_ be the time value (UTC) identifying the current time.           1. Let _additionalTimeout_ be an implementation-defined non-negative mathematical value.           1. Let _timeoutTime_ be ℝ(_now_) + _t_ + _additionalTimeout_.           1. NOTE: When _t_ is +∞, _timeoutTime_ is also +∞.           1. Let _waiterRecord_ be a new Waiter Record { [[AgentSignifier]]: _thisAgent_, [[PromiseCapability]]: _promiseCapability_, [[TimeoutTime]]: _timeoutTime_, [[Result]]: *&#34;ok&#34;* }.           1. Perform AddWaiter(_WL_, _waiterRecord_).           1. If _mode_ is ~sync~, then             1. Perform SuspendThisAgent(_WL_, _waiterRecord_).           1. Else if _timeoutTime_ is finite, then             1. Perform EnqueueAtomicsWaitAsyncTimeoutJob(_WL_, _waiterRecord_).           1. Perform LeaveCriticalSection(_WL_).           1. If _mode_ is ~sync~, return _waiterRecord_.[[Result]].           1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *&#34;async&#34;*, *true*).           1. Perform ! CreateDataPropertyOrThrow(_resultObject_, *&#34;value&#34;*, _promiseCapability_.[[Promise]]).           1. Return _resultObject_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="DoWait" retTy="either a normal completion containing either an Object, *&#34;not-equal&#34;*, *&#34;timed-out&#34;*, or *&#34;ok&#34;*, or a throw completion" id="sec-dowait" virtualPackage="25 Structured Data.4 The Atomics Object.3 Abstract Operations for Atomics.14 DoWait ( mode, typedArray, index, value, timeout )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="mode" ty="~async~ or ~sync~"/>
+         </params>
+         <params>
+            <NormalParam name="typedArray" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="index" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="value" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="timeout" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="taRecord"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ValidateIntegerTypedArray">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="typedArray"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <TrueLiteral/>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="buffer"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="taRecord"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Object"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ViewedArrayBuffer"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsSharedArrayBuffer">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="buffer"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="i"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ValidateAtomicAccess">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="taRecord"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="index"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="arrayTypeName"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="typedArray"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="TypedArrayName"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="arrayTypeName"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <StringLiteral s="BigInt64Array"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="v"/>
+                                 </variable>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToBigInt64">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="value"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="v"/>
+                                 </variable>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToInt32">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="value"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="q"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToNumber">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="timeout"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="false" keyword="else" comma="false">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="q"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </right>
+                                 <right>
+                                    <PositiveInfinityNumberLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="t"/>
+                                 </variable>
+                                 <expr>
+                                    <PositiveInfinityMathValueLiteral/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <IfStep newLine="false" keyword="else" comma="false">
+                                 <cond>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="q"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <NegativeInfinityNumberLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </cond>
+                                 <thenStep>
+                                    <LetStep>
+                                       <variable>
+                                          <Variable name="t"/>
+                                       </variable>
+                                       <expr>
+                                          <DecimalMathValueLiteral n="0"/>
+                                       </expr>
+                                    </LetStep>
+                                 </thenStep>
+                                 <elseStep>
+                                    <LetStep>
+                                       <variable>
+                                          <Variable name="t"/>
+                                       </variable>
+                                       <expr>
+                                          <MathFuncExpression>
+                                             <op>
+                                                <Max/>
+                                             </op>
+                                             <args>
+                                                <ConversionExpression>
+                                                   <op>
+                                                      <ToMath/>
+                                                   </op>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="q"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </ConversionExpression>
+                                             </args>
+                                             <args>
+                                                <DecimalMathValueLiteral n="0"/>
+                                             </args>
+                                          </MathFuncExpression>
+                                       </expr>
+                                    </LetStep>
+                                 </elseStep>
+                              </IfStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="mode"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <EnumLiteral name="sync"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <InvokeAbstractOperationExpression name="AgentCanSuspend">
+                                             <args/>
+                                          </InvokeAbstractOperationExpression>
+                                       </left>
+                                       <right>
+                                          <FalseLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="block"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="buffer"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ArrayBufferData"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="offset"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="typedArray"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ByteOffset"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="byteIndexInBuffer"/>
+                           </variable>
+                           <expr>
+                              <BinaryExpression>
+                                 <left>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="i"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Mul/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="4"/>
+                                       </right>
+                                    </BinaryExpression>
+                                 </left>
+                                 <op>
+                                    <Add/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="offset"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="WL"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="GetWaiterList">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="block"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="byteIndexInBuffer"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="mode"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="sync"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="promiseCapability"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <EnumLiteral name="blocking"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="resultObject"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <UndefinedLiteral/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="promiseCapability"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="NewPromiseCapability">
+                                                               <args>
+                                                                  <IntrinsicExpression>
+                                                                     <intr>
+                                                                        <Intrinsic base="Promise">
+                                                                           <props/>
+                                                                        </Intrinsic>
+                                                                     </intr>
+                                                                  </IntrinsicExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="resultObject"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="OrdinaryObjectCreate">
+                                                         <args>
+                                                            <IntrinsicExpression>
+                                                               <intr>
+                                                                  <Intrinsic base="Object">
+                                                                     <props>prototype</props>
+                                                                  </Intrinsic>
+                                                               </intr>
+                                                            </IntrinsicExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="EnterCriticalSection">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="WL"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="elementType"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="TypedArrayElementType">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="typedArray"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="w"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="GetValueFromBuffer">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="buffer"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="byteIndexInBuffer"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="elementType"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <TrueLiteral/>
+                                 </args>
+                                 <args>
+                                    <EnumLiteral name="seq-cst"/>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="v"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <NEq/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="w"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="LeaveCriticalSection">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="WL"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="mode"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <EnumLiteral name="sync"/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <StringLiteral s="not-equal"/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="CreateDataPropertyOrThrow">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="resultObject"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <StringLiteral s="async"/>
+                                                               </args>
+                                                               <args>
+                                                                  <FalseLiteral/>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="CreateDataPropertyOrThrow">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="resultObject"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <StringLiteral s="value"/>
+                                                               </args>
+                                                               <args>
+                                                                  <StringLiteral s="not-equal"/>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="resultObject"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="t"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Eq/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="0"/>
+                                       </right>
+                                    </BinaryCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="mode"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <EnumLiteral name="async"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <NoteStep note="There is no special handling of synchronous immediate timeouts. Asynchronous immediate timeouts have special handling in order to fail fast and avoid unnecessary Promise jobs."/>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="LeaveCriticalSection">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="WL"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="CreateDataPropertyOrThrow">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="resultObject"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <StringLiteral s="async"/>
+                                                               </args>
+                                                               <args>
+                                                                  <FalseLiteral/>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="CreateDataPropertyOrThrow">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="resultObject"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <StringLiteral s="value"/>
+                                                               </args>
+                                                               <args>
+                                                                  <StringLiteral s="timed-out"/>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="resultObject"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="thisAgent"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="AgentSignifier">
+                                 <args/>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _now_ be the time value (UTC) identifying the current time." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _additionalTimeout_ be an implementation-defined non-negative mathematical value." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="timeoutTime"/>
+                           </variable>
+                           <expr>
+                              <BinaryExpression>
+                                 <left>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ConversionExpression>
+                                             <op>
+                                                <ToMath/>
+                                             </op>
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="now"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                          </ConversionExpression>
+                                       </left>
+                                       <op>
+                                          <Add/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="t"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryExpression>
+                                 </left>
+                                 <op>
+                                    <Add/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="additionalTimeout"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="When _t_ is +∞, _timeoutTime_ is also +∞."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _waiterRecord_ be a new Waiter Record { [[AgentSignifier]]: _thisAgent_, [[PromiseCapability]]: _promiseCapability_, [[TimeoutTime]]: _timeoutTime_, [[Result]]: *&#34;ok&#34;* }." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="AddWaiter">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="WL"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="waiterRecord"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="false">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="mode"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="sync"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="SuspendThisAgent">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="WL"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="waiterRecord"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <IfStep elseStep="null">
+                                 <cond>
+                                    <PredicateCondition negation="false">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="timeoutTime"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                       <op>
+                                          <Finite/>
+                                       </op>
+                                    </PredicateCondition>
+                                 </cond>
+                                 <thenStep>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <PerformStep>
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="EnqueueAtomicsWaitAsyncTimeoutJob">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="WL"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="waiterRecord"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </PerformStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </thenStep>
+                              </IfStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="LeaveCriticalSection">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="WL"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="mode"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="sync"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="waiterRecord"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Result"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="CreateDataPropertyOrThrow">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="resultObject"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <StringLiteral s="async"/>
+                                       </args>
+                                       <args>
+                                          <TrueLiteral/>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="CreateDataPropertyOrThrow">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="resultObject"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <StringLiteral s="value"/>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="promiseCapability"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="Promise"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="resultObject"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-structured-data" title="Structured Data" number="25" relativeNumber="25"/>
+   </sections>
+   <sections>
+      <Section id="sec-atomics-object" title="The Atomics Object" number="25.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-abstract-operations-for-atomics" title="Abstract Operations for Atomics" number="25.4.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-dowait" title="DoWait ( mode, typedArray, index, value, timeout )" number="25.4.3.14" relativeNumber="14"/>
+   </sections>
+</Algorithm>

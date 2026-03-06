@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _O_ be the *this* value.           1. Let _taRecord_ be ? ValidateTypedArray(_O_, ~seq-cst~).           1. Let _len_ be TypedArrayLength(_taRecord_).           1. If _O_.[[ContentType]] is ~bigint~, set _value_ to ? ToBigInt(_value_).           1. Otherwise, set _value_ to ? ToNumber(_value_).           1. Let _relativeStart_ be ? ToIntegerOrInfinity(_start_).           1. If _relativeStart_ = -∞, let _startIndex_ be 0.           1. Else if _relativeStart_ &lt; 0, let _startIndex_ be max(_len_ + _relativeStart_, 0).           1. Else, let _startIndex_ be min(_relativeStart_, _len_).           1. If _end_ is *undefined*, let _relativeEnd_ be _len_; else let _relativeEnd_ be ? ToIntegerOrInfinity(_end_).           1. If _relativeEnd_ = -∞, let _endIndex_ be 0.           1. Else if _relativeEnd_ &lt; 0, let _endIndex_ be max(_len_ + _relativeEnd_, 0).           1. Else, let _endIndex_ be min(_relativeEnd_, _len_).           1. Set _taRecord_ to MakeTypedArrayWithBufferWitnessRecord(_O_, ~seq-cst~).           1. If IsTypedArrayOutOfBounds(_taRecord_) is *true*, throw a *TypeError* exception.           1. Set _len_ to TypedArrayLength(_taRecord_).           1. Set _endIndex_ to min(_endIndex_, _len_).           1. Let _k_ be _startIndex_.           1. Repeat, while _k_ &lt; _endIndex_,             1. Let _Pk_ be ! ToString(𝔽(_k_)).             1. Perform ! Set(_O_, _Pk_, _value_, *true*).             1. Set _k_ to _k_ + 1.           1. Return _O_.         ">
+   <head>
+      <BuiltinHead name="TypedArray.prototype.fill" retTy="unknown" id="sec-%typedarray%.prototype.fill" virtualPackage="23 Indexed Collections.2 TypedArray Objects.3 Properties of the %TypedArray% Prototype Object.9 %TypedArray%.prototype.fill ( value [ , start [ , end ] ] )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="value" ty="unknown"/>
+         </params>
+         <params>
+            <OptionalParam name="start" ty="unknown"/>
+         </params>
+         <params>
+            <OptionalParam name="end" ty="unknown"/>
+         </params>
+      </BuiltinHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="O"/>
+                           </variable>
+                           <expr>
+                              <ThisLiteral/>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="taRecord"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ValidateTypedArray">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="O"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <EnumLiteral name="seq-cst"/>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="len"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="TypedArrayLength">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="taRecord"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="otherwise" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="O"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="ContentType"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="bigint"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <SetStep>
+                                 <ref>
+                                    <Variable name="value"/>
+                                 </ref>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToBigInt">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="value"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </SetStep>
+                           </thenStep>
+                           <elseStep>
+                              <SetStep>
+                                 <ref>
+                                    <Variable name="value"/>
+                                 </ref>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToNumber">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="value"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </SetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="relativeStart"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToIntegerOrInfinity">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="start"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="false">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="relativeStart"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Eq/>
+                                 </op>
+                                 <right>
+                                    <NegativeInfinityMathValueLiteral/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="startIndex"/>
+                                 </variable>
+                                 <expr>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <IfStep newLine="true" keyword="else" comma="true">
+                                 <cond>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="relativeStart"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <LessThan/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="0"/>
+                                       </right>
+                                    </BinaryCondition>
+                                 </cond>
+                                 <thenStep>
+                                    <LetStep>
+                                       <variable>
+                                          <Variable name="startIndex"/>
+                                       </variable>
+                                       <expr>
+                                          <MathFuncExpression>
+                                             <op>
+                                                <Max/>
+                                             </op>
+                                             <args>
+                                                <BinaryExpression>
+                                                   <left>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="len"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </left>
+                                                   <op>
+                                                      <Add/>
+                                                   </op>
+                                                   <right>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="relativeStart"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </right>
+                                                </BinaryExpression>
+                                             </args>
+                                             <args>
+                                                <DecimalMathValueLiteral n="0"/>
+                                             </args>
+                                          </MathFuncExpression>
+                                       </expr>
+                                    </LetStep>
+                                 </thenStep>
+                                 <elseStep>
+                                    <LetStep>
+                                       <variable>
+                                          <Variable name="startIndex"/>
+                                       </variable>
+                                       <expr>
+                                          <MathFuncExpression>
+                                             <op>
+                                                <Min/>
+                                             </op>
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="relativeStart"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="len"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </MathFuncExpression>
+                                       </expr>
+                                    </LetStep>
+                                 </elseStep>
+                              </IfStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="false" keyword="else" comma="false">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="end"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="relativeEnd"/>
+                                 </variable>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="len"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="relativeEnd"/>
+                                 </variable>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToIntegerOrInfinity">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="end"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="false">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="relativeEnd"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Eq/>
+                                 </op>
+                                 <right>
+                                    <NegativeInfinityMathValueLiteral/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="endIndex"/>
+                                 </variable>
+                                 <expr>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <IfStep newLine="true" keyword="else" comma="true">
+                                 <cond>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="relativeEnd"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <LessThan/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="0"/>
+                                       </right>
+                                    </BinaryCondition>
+                                 </cond>
+                                 <thenStep>
+                                    <LetStep>
+                                       <variable>
+                                          <Variable name="endIndex"/>
+                                       </variable>
+                                       <expr>
+                                          <MathFuncExpression>
+                                             <op>
+                                                <Max/>
+                                             </op>
+                                             <args>
+                                                <BinaryExpression>
+                                                   <left>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="len"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </left>
+                                                   <op>
+                                                      <Add/>
+                                                   </op>
+                                                   <right>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="relativeEnd"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </right>
+                                                </BinaryExpression>
+                                             </args>
+                                             <args>
+                                                <DecimalMathValueLiteral n="0"/>
+                                             </args>
+                                          </MathFuncExpression>
+                                       </expr>
+                                    </LetStep>
+                                 </thenStep>
+                                 <elseStep>
+                                    <LetStep>
+                                       <variable>
+                                          <Variable name="endIndex"/>
+                                       </variable>
+                                       <expr>
+                                          <MathFuncExpression>
+                                             <op>
+                                                <Min/>
+                                             </op>
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="relativeEnd"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="len"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </MathFuncExpression>
+                                       </expr>
+                                    </LetStep>
+                                 </elseStep>
+                              </IfStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <Variable name="taRecord"/>
+                           </ref>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="MakeTypedArrayWithBufferWitnessRecord">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="O"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <EnumLiteral name="seq-cst"/>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsTypedArrayOutOfBounds">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="taRecord"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <Variable name="len"/>
+                           </ref>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="TypedArrayLength">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="taRecord"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <Variable name="endIndex"/>
+                           </ref>
+                           <expr>
+                              <MathFuncExpression>
+                                 <op>
+                                    <Min/>
+                                 </op>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="endIndex"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="len"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </MathFuncExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="k"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="startIndex"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RepeatWhileStep>
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="k"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <LessThan/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="endIndex"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="Pk"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="ToString">
+                                                               <args>
+                                                                  <ConversionExpression>
+                                                                     <op>
+                                                                        <ToNumber/>
+                                                                     </op>
+                                                                     <expr>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="k"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </expr>
+                                                                  </ConversionExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="Set">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="O"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="Pk"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="value"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <TrueLiteral/>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="k"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <BinaryExpression>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="k"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Add/>
+                                                         </op>
+                                                         <right>
+                                                            <DecimalMathValueLiteral n="1"/>
+                                                         </right>
+                                                      </BinaryExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </RepeatWhileStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="O"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-indexed-collections" title="Indexed Collections" number="23" relativeNumber="23"/>
+   </sections>
+   <sections>
+      <Section id="sec-typedarray-objects" title="TypedArray Objects" number="23.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-properties-of-the-%typedarrayprototype%-object" title="Properties of the %TypedArray% Prototype Object" number="23.2.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-%typedarray%.prototype.fill" title="%TypedArray%.prototype.fill ( value [ , start [ , end ] ] )" number="23.2.3.9" relativeNumber="9"/>
+   </sections>
+</Algorithm>

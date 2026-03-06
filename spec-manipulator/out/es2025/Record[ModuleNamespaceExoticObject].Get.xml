@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If _P_ is a Symbol, then             1. Return ! OrdinaryGet(_O_, _P_, _Receiver_).           1. Let _exports_ be _O_.[[Exports]].           1. If _exports_ does not contain _P_, return *undefined*.           1. Let _m_ be _O_.[[Module]].           1. Let _binding_ be _m_.ResolveExport(_P_).           1. Assert: _binding_ is a ResolvedBinding Record.           1. Let _targetModule_ be _binding_.[[Module]].           1. Assert: _targetModule_ is not *undefined*.           1. If _binding_.[[BindingName]] is ~namespace~, then             1. Return GetModuleNamespace(_targetModule_).           1. Let _targetEnv_ be _targetModule_.[[Environment]].           1. If _targetEnv_ is ~empty~, throw a *ReferenceError* exception.           1. Return ? _targetEnv_.GetBindingValue(_binding_.[[BindingName]], *true*).         ">
+   <head>
+      <InternalMethodHead methodName="Get" retTy="either a normal completion containing an ECMAScript language value or a throw completion" id="sec-module-namespace-exotic-objects-get-p-receiver" virtualPackage="10 Ordinary and Exotic Objects Behaviours.4 Built-in Exotic Object Internal Methods and Slots.6 Module Namespace Exotic Objects.8 [[Get]] ( P, Receiver )" location="https://tc39.es/ecma262/2025/" name="ModuleNamespaceExoticObject.[[Get]]">
+         <receiver>
+            <NormalParam name="O" ty="a Module Namespace Exotic Object"/>
+         </receiver>
+         <params>
+            <NormalParam name="P" ty="a Symbol or a String"/>
+         </params>
+         <params>
+            <NormalParam name="Receiver" ty="an ECMAScript language value"/>
+         </params>
+      </InternalMethodHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="P"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a Symbol"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="OrdinaryGet">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="O"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="P"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="Receiver"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="exports"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="O"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Exports"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <ContainsExprCondition negation="true">
+                                 <list>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="exports"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </list>
+                                 <target>
+                                    <Expr>
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="P"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </Expr>
+                                 </target>
+                              </ContainsExprCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <UndefinedLiteral/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="m"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="O"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Module"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="binding"/>
+                           </variable>
+                           <expr>
+                              <InvokeMethodExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="m"/>
+                                       </base>
+                                       <prop>
+                                          <ComponentProperty name="ResolveExport"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="P"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeMethodExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="binding"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a Resolved Binding Record"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="targetModule"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="binding"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Module"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="targetModule"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="binding"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="BindingName"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="namespace"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="GetModuleNamespace">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="targetModule"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="targetEnv"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="targetModule"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Environment"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="targetEnv"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="empty"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="ReferenceError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeMethodExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="targetEnv"/>
+                                             </base>
+                                             <prop>
+                                                <ComponentProperty name="GetBindingValue"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="binding"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="BindingName"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <TrueLiteral/>
+                                       </args>
+                                    </InvokeMethodExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ordinary-and-exotic-objects-behaviours" title="Ordinary and Exotic Objects Behaviours" number="10" relativeNumber="10"/>
+   </sections>
+   <sections>
+      <Section id="sec-built-in-exotic-object-internal-methods-and-slots" title="Built-in Exotic Object Internal Methods and Slots" number="10.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-module-namespace-exotic-objects" title="Module Namespace Exotic Objects" number="10.4.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-module-namespace-exotic-objects-get-p-receiver" title="[[Get]] ( P, Receiver )" number="10.4.6.8" relativeNumber="8"/>
+   </sections>
+</Algorithm>

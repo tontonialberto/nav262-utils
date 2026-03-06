@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. [id=&#34;step-isprototypeof-check-object&#34;] If _V_ is not an Object, return *false*.           1. [id=&#34;step-isprototypeof-toobject&#34;] Let _O_ be ? ToObject(*this* value).           1. Repeat,             1. Set _V_ to ? &lt;emu-meta effects=&#34;user-code&#34;&gt;_V_.[[GetPrototypeOf]]()&lt;/emu-meta&gt;.             1. If _V_ is *null*, return *false*.             1. If SameValue(_O_, _V_) is *true*, return *true*.         ">
+   <head>
+      <BuiltinHead name="Object.prototype.isPrototypeOf" retTy="unknown" id="sec-object.prototype.isprototypeof" virtualPackage="20 Fundamental Objects.1 Object Objects.3 Properties of the Object Prototype Object.3 Object.prototype.isPrototypeOf ( V )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="V" ty="unknown"/>
+         </params>
+      </BuiltinHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep>
+                     <directive>
+                        <Directive name="id">
+                           <values>step-isprototypeof-check-object</values>
+                        </Directive>
+                     </directive>
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="V"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="an Object"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <FalseLiteral/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep>
+                     <directive>
+                        <Directive name="id">
+                           <values>step-isprototypeof-toobject</values>
+                        </Directive>
+                     </directive>
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="O"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToObject">
+                                       <args>
+                                          <ThisLiteral/>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RepeatNoCondStep>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="V"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeMethodExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="V"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="GetPrototypeOf"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                               <args/>
+                                                            </InvokeMethodExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="V"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <NullLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <FalseLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <InvokeAbstractOperationExpression name="SameValue">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="O"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="V"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </left>
+                                                         <right>
+                                                            <TrueLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <TrueLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </RepeatNoCondStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-fundamental-objects" title="Fundamental Objects" number="20" relativeNumber="20"/>
+   </sections>
+   <sections>
+      <Section id="sec-object-objects" title="Object Objects" number="20.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-properties-of-the-object-prototype-object" title="Properties of the Object Prototype Object" number="20.1.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-object.prototype.isprototypeof" title="Object.prototype.isPrototypeOf ( V )" number="20.1.3.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

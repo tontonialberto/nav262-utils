@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _genContext_ be the running execution context.           1. Assert: _genContext_ is the execution context of a generator.           1. Let _generator_ be the value of the Generator component of _genContext_.           1. Assert: GetGeneratorKind() is ~sync~.           1. Set _generator_.[[GeneratorState]] to ~suspended-yield~.           1. Remove _genContext_ from the execution context stack and restore the execution context that is at the top of the execution context stack as the running execution context.           1. Let _callerContext_ be the running execution context.           1. Resume _callerContext_ passing NormalCompletion(_iteratorResult_). If _genContext_ is ever resumed again, let _resumptionValue_ be the Completion Record with which it is resumed.           1. Assert: If control reaches here, then _genContext_ is the running execution context again.           1. Return _resumptionValue_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="GeneratorYield" retTy="either a normal completion containing an ECMAScript language value or an abrupt completion" id="sec-generatoryield" virtualPackage="27 Control Abstraction Objects.5 Generator Objects.3 Generator Abstract Operations.6 GeneratorYield ( iteratorResult )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="iteratorResult" ty="an Object that conforms to the IteratorResult interface"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="genContext"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <RunningExecutionContext/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_genContext_ is the execution context of a generator" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="generator"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="genContext"/>
+                                       </base>
+                                       <prop>
+                                          <ComponentProperty name="Generator"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="GetGeneratorKind">
+                                       <args/>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="sync"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="generator"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="GeneratorState"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <EnumLiteral name="suspended-yield"/>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RemoveContextStep>
+                           <context>
+                              <Variable name="genContext"/>
+                           </context>
+                           <restoreTarget>
+                              <StackTop/>
+                           </restoreTarget>
+                        </RemoveContextStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="callerContext"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <RunningExecutionContext/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ResumeStep>
+                           <callerContext>
+                              <Variable name="callerContext"/>
+                           </callerContext>
+                           <argument>
+                              <InvokeAbstractOperationExpression name="NormalCompletion">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="iteratorResult"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </argument>
+                           <generatorContext>
+                              <Variable name="genContext"/>
+                           </generatorContext>
+                           <param>
+                              <Variable name="resumptionValue"/>
+                           </param>
+                           <steps>
+                              <SubStep directive="null">
+                                 <step>
+                                    <AssertStep>
+                                       <cond>
+                                          <ExpressionCondition>
+                                             <expr>
+                                                <YetExpression str="If control reaches here, then _genContext_ is the running execution context again" block="null"/>
+                                             </expr>
+                                          </ExpressionCondition>
+                                       </cond>
+                                    </AssertStep>
+                                 </step>
+                              </SubStep>
+                           </steps>
+                           <steps>
+                              <SubStep directive="null">
+                                 <step>
+                                    <ReturnStep>
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="resumptionValue"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </ReturnStep>
+                                 </step>
+                              </SubStep>
+                           </steps>
+                        </ResumeStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-control-abstraction-objects" title="Control Abstraction Objects" number="27" relativeNumber="27"/>
+   </sections>
+   <sections>
+      <Section id="sec-generator-objects" title="Generator Objects" number="27.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="sec-generator-abstract-operations" title="Generator Abstract Operations" number="27.5.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-generatoryield" title="GeneratorYield ( iteratorResult )" number="27.5.3.6" relativeNumber="6"/>
+   </sections>
+</Algorithm>

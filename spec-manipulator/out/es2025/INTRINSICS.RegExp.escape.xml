@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If _S_ is not a String, throw a *TypeError* exception.           1. Let _escaped_ be the empty String.           1. Let _cpList_ be StringToCodePoints(_S_).           1. For each code point _cp_ of _cpList_, do             1. If _escaped_ is the empty String and _cp_ is matched by either |DecimalDigit| or |AsciiLetter|, then               1. NOTE: Escaping a leading digit ensures that output corresponds with pattern text which may be used after a `\0` character escape or a |DecimalEscape| such as `\1` and still match _S_ rather than be interpreted as an extension of the preceding escape sequence. Escaping a leading ASCII letter does the same for the context after `\c`.               1. Let _numericValue_ be the numeric value of _cp_.               1. Let _hex_ be Number::toString(𝔽(_numericValue_), 16).               1. Assert: The length of _hex_ is 2.               1. Set _escaped_ to the string-concatenation of the code unit 0x005C (REVERSE SOLIDUS), *&#34;x&#34;*, and _hex_.             1. Else,               1. Set _escaped_ to the string-concatenation of _escaped_ and EncodeForRegExpEscape(_cp_).           1. Return _escaped_.         ">
+   <head>
+      <BuiltinHead name="RegExp.escape" retTy="unknown" id="sec-regexp.escape" virtualPackage="22 Text Processing.2 RegExp (Regular Expression) Objects.5 Properties of the RegExp Constructor.1 RegExp.escape ( S )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="S" ty="unknown"/>
+         </params>
+      </BuiltinHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="S"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a String"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="escaped"/>
+                           </variable>
+                           <expr>
+                              <StringLiteral s=""/>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="cpList"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="StringToCodePoints">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="S"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="For each code point _cp_ of _cpList_, do">
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="true">
+                                                   <cond>
+                                                      <ExpressionCondition>
+                                                         <expr>
+                                                            <YetExpression str="_escaped_ is the empty String and _cp_ is matched by either |DecimalDigit| or |AsciiLetter|" block="null"/>
+                                                         </expr>
+                                                      </ExpressionCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <NoteStep note="Escaping a leading digit ensures that output corresponds with pattern text which may be used after a `\0` character escape or a |DecimalEscape| such as `\1` and still match _S_ rather than be interpreted as an extension of the preceding escape sequence. Escaping a leading ASCII letter does the same for the context after `\c`."/>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="numericValue"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <ConversionExpression>
+                                                                                 <op>
+                                                                                    <ToMath/>
+                                                                                 </op>
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="cp"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                              </ConversionExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="hex"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <InvokeNumericMethodExpression name="Number::toString">
+                                                                                 <args>
+                                                                                    <ConversionExpression>
+                                                                                       <op>
+                                                                                          <ToNumber/>
+                                                                                       </op>
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="numericValue"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                    </ConversionExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <DecimalMathValueLiteral n="16"/>
+                                                                                 </args>
+                                                                              </InvokeNumericMethodExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AssertStep>
+                                                                           <cond>
+                                                                              <IsAreCondition negation="false">
+                                                                                 <left>
+                                                                                    <LengthExpression>
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="hex"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                    </LengthExpression>
+                                                                                 </left>
+                                                                                 <right>
+                                                                                    <DecimalMathValueLiteral n="2"/>
+                                                                                 </right>
+                                                                              </IsAreCondition>
+                                                                           </cond>
+                                                                        </AssertStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="escaped"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <StringConcatExpression>
+                                                                                 <exprs>
+                                                                                    <HexLiteral hex="92" name="REVERSE SOLIDUS"/>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <StringLiteral s="x"/>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="hex"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                              </StringConcatExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="escaped"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <StringConcatExpression>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="escaped"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <InvokeAbstractOperationExpression name="EncodeForRegExpEscape">
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="cp"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </exprs>
+                                                                              </StringConcatExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </YetExpression>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="escaped"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-text-processing" title="Text Processing" number="22" relativeNumber="22"/>
+   </sections>
+   <sections>
+      <Section id="sec-regexp-regular-expression-objects" title="RegExp (Regular Expression) Objects" number="22.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-properties-of-the-regexp-constructor" title="Properties of the RegExp Constructor" number="22.2.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="sec-regexp.escape" title="RegExp.escape ( S )" number="22.2.5.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

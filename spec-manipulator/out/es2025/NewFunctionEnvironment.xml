@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _env_ be a new Function Environment Record containing no bindings.           1. Set _env_.[[FunctionObject]] to _F_.           1. If _F_.[[ThisMode]] is ~lexical~, set _env_.[[ThisBindingStatus]] to ~lexical~.           1. Else, set _env_.[[ThisBindingStatus]] to ~uninitialized~.           1. Set _env_.[[NewTarget]] to _newTarget_.           1. Set _env_.[[OuterEnv]] to _F_.[[Environment]].           1. Return _env_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="NewFunctionEnvironment" retTy="a Function Environment Record" id="sec-newfunctionenvironment" virtualPackage="9 Executable Code and Execution Contexts.1 Environment Records.2 Environment Record Operations.4 NewFunctionEnvironment ( F, newTarget )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="F" ty="an E C M A Script Function Object"/>
+         </params>
+         <params>
+            <NormalParam name="newTarget" ty="an Object or *undefined*"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="env"/>
+                           </variable>
+                           <expr>
+                              <RecordExpression tname="Function Environment Record">
+                                 <fields/>
+                              </RecordExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="env"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="FunctionObject"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="F"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="F"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="ThisMode"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="lexical"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <SetStep>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="env"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ThisBindingStatus"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                                 <expr>
+                                    <EnumLiteral name="lexical"/>
+                                 </expr>
+                              </SetStep>
+                           </thenStep>
+                           <elseStep>
+                              <SetStep>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="env"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ThisBindingStatus"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                                 <expr>
+                                    <EnumLiteral name="uninitialized"/>
+                                 </expr>
+                              </SetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="env"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="NewTarget"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="newTarget"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="env"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="OuterEnv"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="F"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Environment"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="env"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-executable-code-and-execution-contexts" title="Executable Code and Execution Contexts" number="9" relativeNumber="9"/>
+   </sections>
+   <sections>
+      <Section id="sec-environment-records" title="Environment Records" number="9.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-environment-record-operations" title="Environment Record Operations" number="9.1.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-newfunctionenvironment" title="NewFunctionEnvironment ( F, newTarget )" number="9.1.2.4" relativeNumber="4"/>
+   </sections>
+</Algorithm>

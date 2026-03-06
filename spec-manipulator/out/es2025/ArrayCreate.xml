@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If _length_ &gt; 2&lt;sup&gt;32&lt;/sup&gt; - 1, throw a *RangeError* exception.           1. If _proto_ is not present, set _proto_ to %Array.prototype%.           1. Let _A_ be MakeBasicObject(« [[Prototype]], [[Extensible]] »).           1. Set _A_.[[Prototype]] to _proto_.           1. Set _A_.[[DefineOwnProperty]] as specified in &lt;emu-xref href=&#34;#sec-array-exotic-objects-defineownproperty-p-desc&#34;&gt;&lt;/emu-xref&gt;.           1. Perform ! OrdinaryDefineOwnProperty(_A_, *&#34;length&#34;*, PropertyDescriptor { [[Value]]: 𝔽(_length_), [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *false* }).           1. Return _A_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ArrayCreate" retTy="either a normal completion containing an Array or a throw completion" id="sec-arraycreate" virtualPackage="10 Ordinary and Exotic Objects Behaviours.4 Built-in Exotic Object Internal Methods and Slots.2 Array Exotic Objects.2 ArrayCreate ( length [ , proto ] )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="length" ty="a math value"/>
+         </params>
+         <params>
+            <OptionalParam name="proto" ty="an Object"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="length"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <GreaterThan/>
+                                 </op>
+                                 <right>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ExponentiationExpression>
+                                             <base>
+                                                <DecimalMathValueLiteral n="2"/>
+                                             </base>
+                                             <power>
+                                                <DecimalMathValueLiteral n="32"/>
+                                             </power>
+                                          </ExponentiationExpression>
+                                       </left>
+                                       <op>
+                                          <Sub/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="1"/>
+                                       </right>
+                                    </BinaryExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="RangeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="proto"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Present/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <SetStep>
+                                 <ref>
+                                    <Variable name="proto"/>
+                                 </ref>
+                                 <expr>
+                                    <IntrinsicExpression>
+                                       <intr>
+                                          <Intrinsic base="Array">
+                                             <props>prototype</props>
+                                          </Intrinsic>
+                                       </intr>
+                                    </IntrinsicExpression>
+                                 </expr>
+                              </SetStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="A"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="MakeBasicObject">
+                                 <args>
+                                    <ListExpression>
+                                       <entries>
+                                          <FieldLiteral name="Prototype"/>
+                                       </entries>
+                                       <entries>
+                                          <FieldLiteral name="Extensible"/>
+                                       </entries>
+                                    </ListExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="A"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Prototype"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="proto"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetAsStep verb="specified" id="sec-array-exotic-objects-defineownproperty-p-desc">
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="A"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="DefineOwnProperty"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                        </SetAsStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="OrdinaryDefineOwnProperty">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="A"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <StringLiteral s="length"/>
+                                       </args>
+                                       <args>
+                                          <RecordExpression tname="PropertyDescriptor">
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Value"/>
+                                                   </field>
+                                                   <value>
+                                                      <ConversionExpression>
+                                                         <op>
+                                                            <ToNumber/>
+                                                         </op>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="length"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </ConversionExpression>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Writable"/>
+                                                   </field>
+                                                   <value>
+                                                      <TrueLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Enumerable"/>
+                                                   </field>
+                                                   <value>
+                                                      <FalseLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Configurable"/>
+                                                   </field>
+                                                   <value>
+                                                      <FalseLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                          </RecordExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="A"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ordinary-and-exotic-objects-behaviours" title="Ordinary and Exotic Objects Behaviours" number="10" relativeNumber="10"/>
+   </sections>
+   <sections>
+      <Section id="sec-built-in-exotic-object-internal-methods-and-slots" title="Built-in Exotic Object Internal Methods and Slots" number="10.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-array-exotic-objects" title="Array Exotic Objects" number="10.4.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-arraycreate" title="ArrayCreate ( length [ , proto ] )" number="10.4.2.2" relativeNumber="2"/>
+   </sections>
+</Algorithm>

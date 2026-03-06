@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. If _F_ contains *&#34;v&#34;*, then               1. Let _patternSymbol_ be |Pattern[+UnicodeMode, +UnicodeSetsMode]|.             1. Else if _F_ contains *&#34;u&#34;*, then               1. Let _patternSymbol_ be |Pattern[+UnicodeMode, ~UnicodeSetsMode]|.             1. Else,               1. Let _patternSymbol_ be |Pattern[~UnicodeMode, ~UnicodeSetsMode]|.             1. Let _S_ be a String in the form of a _patternSymbol_ equivalent to _P_ interpreted as UTF-16 encoded Unicode code points (&lt;emu-xref href=&#34;#sec-ecmascript-language-types-string-type&#34;&gt;&lt;/emu-xref&gt;), in which certain code points are escaped as described below. _S_ may or may not differ from _P_; however, the Abstract Closure that would result from evaluating _S_ as a _patternSymbol_ must behave identically to the Abstract Closure given by the constructed object's [[RegExpMatcher]] internal slot. Multiple calls to this abstract operation using the same values for _P_ and _F_ must produce identical results.             1. The code points `/` or any |LineTerminator| occurring in the pattern shall be escaped in _S_ as necessary to ensure that the string-concatenation of *&#34;/&#34;*, _S_, *&#34;/&#34;*, and _F_ can be parsed (in an appropriate lexical context) as a |RegularExpressionLiteral| that behaves identically to the constructed regular expression. For example, if _P_ is *&#34;/&#34;*, then _S_ could be *&#34;\\/&#34;* or *&#34;\\u002F&#34;*, among other possibilities, but not *&#34;/&#34;*, because `///` followed by _F_ would be parsed as a |SingleLineComment| rather than a |RegularExpressionLiteral|. If _P_ is the empty String, this specification can be met by letting _S_ be *&#34;(?:)&#34;*.             1. Return _S_.           ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="EscapeRegExpPattern" retTy="a String" id="sec-escaperegexppattern" virtualPackage="22 Text Processing.2 RegExp (Regular Expression) Objects.6 Properties of the RegExp Prototype Object.13 get RegExp.prototype.source.1 EscapeRegExpPattern ( P, F )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="P" ty="a String"/>
+         </params>
+         <params>
+            <NormalParam name="F" ty="a String"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="false">
+                           <cond>
+                              <ContainsExprCondition negation="false">
+                                 <list>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="F"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </list>
+                                 <target>
+                                    <Expr>
+                                       <expr>
+                                          <StringLiteral s="v"/>
+                                       </expr>
+                                    </Expr>
+                                 </target>
+                              </ContainsExprCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Let _patternSymbol_ be |Pattern[+UnicodeMode, +UnicodeSetsMode]|." block="null"/>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <IfStep newLine="true" keyword="else" comma="true">
+                                 <cond>
+                                    <ContainsExprCondition negation="false">
+                                       <list>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="F"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </list>
+                                       <target>
+                                          <Expr>
+                                             <expr>
+                                                <StringLiteral s="u"/>
+                                             </expr>
+                                          </Expr>
+                                       </target>
+                                    </ContainsExprCondition>
+                                 </cond>
+                                 <thenStep>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <YetStep>
+                                                         <expr>
+                                                            <YetExpression str="Let _patternSymbol_ be |Pattern[+UnicodeMode, ~UnicodeSetsMode]|." block="null"/>
+                                                         </expr>
+                                                      </YetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </thenStep>
+                                 <elseStep>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <YetStep>
+                                                         <expr>
+                                                            <YetExpression str="Let _patternSymbol_ be |Pattern[~UnicodeMode, ~UnicodeSetsMode]|." block="null"/>
+                                                         </expr>
+                                                      </YetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </elseStep>
+                              </IfStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _S_ be a String in the form of a _patternSymbol_ equivalent to _P_ interpreted as UTF-16 encoded Unicode code points (&lt;emu-xref href=&#34;#sec-ecmascript-language-types-string-type&#34;&gt;&lt;/emu-xref&gt;), in which certain code points are escaped as described below. _S_ may or may not differ from _P_; however, the Abstract Closure that would result from evaluating _S_ as a _patternSymbol_ must behave identically to the Abstract Closure given by the constructed object's [[RegExpMatcher]] internal slot. Multiple calls to this abstract operation using the same values for _P_ and _F_ must produce identical results." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="The code points `/` or any |LineTerminator| occurring in the pattern shall be escaped in _S_ as necessary to ensure that the string-concatenation of *&#34;/&#34;*, _S_, *&#34;/&#34;*, and _F_ can be parsed (in an appropriate lexical context) as a |RegularExpressionLiteral| that behaves identically to the constructed regular expression. For example, if _P_ is *&#34;/&#34;*, then _S_ could be *&#34;\\/&#34;* or *&#34;\\u002F&#34;*, among other possibilities, but not *&#34;/&#34;*, because `///` followed by _F_ would be parsed as a |SingleLineComment| rather than a |RegularExpressionLiteral|. If _P_ is the empty String, this specification can be met by letting _S_ be *&#34;(?:)&#34;*." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="S"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-text-processing" title="Text Processing" number="22" relativeNumber="22"/>
+   </sections>
+   <sections>
+      <Section id="sec-regexp-regular-expression-objects" title="RegExp (Regular Expression) Objects" number="22.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-properties-of-the-regexp-prototype-object" title="Properties of the RegExp Prototype Object" number="22.2.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-get-regexp.prototype.source" title="get RegExp.prototype.source" number="22.2.6.13" relativeNumber="13"/>
+   </sections>
+   <sections>
+      <Section id="sec-escaperegexppattern" title="EscapeRegExpPattern ( P, F )" number="22.2.6.13.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

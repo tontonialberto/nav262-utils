@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _execution_ be the [[CandidateExecution]] field of the surrounding agent's Agent Record.           1. Let _eventsRecord_ be the Agent Events Record of _execution_.[[EventsRecords]] whose [[AgentSignifier]] is AgentSignifier().           1. Let _rawBytesRead_ be a List of length _elementSize_ whose elements are nondeterministically chosen byte values.           1. NOTE: In implementations, _rawBytesRead_ is the result of a load-link, of a load-exclusive, or of an operand of a read-modify-write instruction on the underlying hardware. The nondeterminism is a semantic prescription of the memory model to describe observable behaviour of hardware with weak consistency.           1. NOTE: The comparison of the expected value and the read value is performed outside of the read-modify-write modification function to avoid needlessly strong synchronization when the expected value is not equal to the read value.           1. If ByteListEqual(_rawBytesRead_, _expectedBytes_) is *true*, then             1. Let _second_ be a new read-modify-write modification function with parameters (_oldBytes_, _newBytes_) that captures nothing and performs the following steps atomically when called:               1. Return _newBytes_.             1. Let _event_ be ReadModifyWriteSharedMemory { [[Order]]: ~seq-cst~, [[NoTear]]: *true*, [[Block]]: _block_, [[ByteIndex]]: _byteIndexInBuffer_, [[ElementSize]]: _elementSize_, [[Payload]]: _replacementBytes_, [[ModifyOp]]: _second_ }.           1. Else,             1. Let _event_ be ReadSharedMemory { [[Order]]: ~seq-cst~, [[NoTear]]: *true*, [[Block]]: _block_, [[ByteIndex]]: _byteIndexInBuffer_, [[ElementSize]]: _elementSize_ }.           1. Append _event_ to _eventsRecord_.[[EventList]].           1. Append Chosen Value Record { [[Event]]: _event_, [[ChosenValue]]: _rawBytesRead_ } to _execution_.[[ChosenValues]].           1. Return _rawBytesRead_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="AtomicCompareExchangeInSharedBlock" retTy="a List of byte values" id="sec-atomiccompareexchangeinsharedblock" virtualPackage="25 Structured Data.4 The Atomics Object.3 Abstract Operations for Atomics.16 AtomicCompareExchangeInSharedBlock ( block, byteIndexInBuffer, elementSize, expectedBytes, replacementBytes )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="block" ty="a Shared Data Block"/>
+         </params>
+         <params>
+            <NormalParam name="byteIndexInBuffer" ty="a math value"/>
+         </params>
+         <params>
+            <NormalParam name="elementSize" ty="a math value"/>
+         </params>
+         <params>
+            <NormalParam name="expectedBytes" ty="a List of byte values"/>
+         </params>
+         <params>
+            <NormalParam name="replacementBytes" ty="a List of byte values"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _execution_ be the [[CandidateExecution]] field of the surrounding agent's Agent Record." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _eventsRecord_ be the Agent Events Record of _execution_.[[EventsRecords]] whose [[AgentSignifier]] is AgentSignifier()." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _rawBytesRead_ be a List of length _elementSize_ whose elements are nondeterministically chosen byte values." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="In implementations, _rawBytesRead_ is the result of a load-link, of a load-exclusive, or of an operand of a read-modify-write instruction on the underlying hardware. The nondeterminism is a semantic prescription of the memory model to describe observable behaviour of hardware with weak consistency."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="The comparison of the expected value and the read value is performed outside of the read-modify-write modification function to avoid needlessly strong synchronization when the expected value is not equal to the read value."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="ByteListEqual">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="rawBytesRead"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="expectedBytes"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Let _second_ be a new read-modify-write modification function with parameters (_oldBytes_, _newBytes_) that captures nothing and performs the following steps atomically when called:">
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <ReturnStep>
+                                                                           <expr>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="newBytes"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </expr>
+                                                                        </ReturnStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </YetExpression>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="event"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <RecordExpression tname="ReadModifyWriteSharedMemory">
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="Order"/>
+                                                               </field>
+                                                               <value>
+                                                                  <EnumLiteral name="seq-cst"/>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="NoTear"/>
+                                                               </field>
+                                                               <value>
+                                                                  <TrueLiteral/>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="Block"/>
+                                                               </field>
+                                                               <value>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="block"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="ByteIndex"/>
+                                                               </field>
+                                                               <value>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="byteIndexInBuffer"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="ElementSize"/>
+                                                               </field>
+                                                               <value>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="elementSize"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="Payload"/>
+                                                               </field>
+                                                               <value>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="replacementBytes"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="ModifyOp"/>
+                                                               </field>
+                                                               <value>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="second"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                      </RecordExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="event"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <RecordExpression tname="ReadSharedMemory">
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="Order"/>
+                                                               </field>
+                                                               <value>
+                                                                  <EnumLiteral name="seq-cst"/>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="NoTear"/>
+                                                               </field>
+                                                               <value>
+                                                                  <TrueLiteral/>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="Block"/>
+                                                               </field>
+                                                               <value>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="block"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="ByteIndex"/>
+                                                               </field>
+                                                               <value>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="byteIndexInBuffer"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                         <fields>
+                                                            <RecordField>
+                                                               <field>
+                                                                  <FieldLiteral name="ElementSize"/>
+                                                               </field>
+                                                               <value>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="elementSize"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </value>
+                                                            </RecordField>
+                                                         </fields>
+                                                      </RecordExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AppendStep>
+                           <elem>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="event"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </elem>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="eventsRecord"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="EventList"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                        </AppendStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AppendStep>
+                           <elem>
+                              <RecordExpression tname="Chosen Value Record">
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Event"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="event"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="ChosenValue"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="rawBytesRead"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                              </RecordExpression>
+                           </elem>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="execution"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="ChosenValues"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                        </AppendStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="rawBytesRead"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-structured-data" title="Structured Data" number="25" relativeNumber="25"/>
+   </sections>
+   <sections>
+      <Section id="sec-atomics-object" title="The Atomics Object" number="25.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-abstract-operations-for-atomics" title="Abstract Operations for Atomics" number="25.4.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-atomiccompareexchangeinsharedblock" title="AtomicCompareExchangeInSharedBlock ( block, byteIndexInBuffer, elementSize, expectedBytes, replacementBytes )" number="25.4.3.16" relativeNumber="16"/>
+   </sections>
+</Algorithm>

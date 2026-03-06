@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. [id=&#34;step-json-parse-validate&#34;] If StringToCodePoints(_text_) is not a valid JSON text as specified in ECMA-404, throw a *SyntaxError* exception.           1. Let _scriptString_ be the string-concatenation of *&#34;(&#34;*, _text_, and *&#34;);&#34;*.           1. [id=&#34;step-json-parse-parse&#34;] Let _script_ be ParseText(_scriptString_, |Script|).           1. NOTE: The early error rules defined in &lt;emu-xref href=&#34;#sec-object-initializer-static-semantics-early-errors&#34;&gt;&lt;/emu-xref&gt; have special handling for the above invocation of ParseText.           1. Assert: _script_ is a Parse Node.           1. [id=&#34;step-json-parse-eval&#34;] Let _result_ be ! &lt;emu-meta suppress-effects=&#34;user-code&#34;&gt;Evaluation of _script_&lt;/emu-meta&gt;.           1. NOTE: The PropertyDefinitionEvaluation semantics defined in &lt;emu-xref href=&#34;#sec-runtime-semantics-propertydefinitionevaluation&#34;&gt;&lt;/emu-xref&gt; have special handling for the above evaluation.           1. [id=&#34;step-json-parse-assert-type&#34;] Assert: _result_ is either a String, a Number, a Boolean, an Object that is defined by either an |ArrayLiteral| or an |ObjectLiteral|, or *null*.           1. Return _result_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ParseJSON" retTy="either a normal completion containing an ECMAScript language value or a throw completion" id="sec-ParseJSON" virtualPackage="25 Structured Data.5 The JSON Object.1 JSON.parse ( text [ , reviver ] ).1 ParseJSON ( text )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="text" ty="a String"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep>
+                     <directive>
+                        <Directive name="id">
+                           <values>step-json-parse-validate</values>
+                        </Directive>
+                     </directive>
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="If StringToCodePoints(_text_) is not a valid JSON text as specified in ECMA-404, throw a *SyntaxError* exception." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="scriptString"/>
+                           </variable>
+                           <expr>
+                              <StringConcatExpression>
+                                 <exprs>
+                                    <StringLiteral s="("/>
+                                 </exprs>
+                                 <exprs>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="text"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </exprs>
+                                 <exprs>
+                                    <StringLiteral s=");"/>
+                                 </exprs>
+                              </StringConcatExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep>
+                     <directive>
+                        <Directive name="id">
+                           <values>step-json-parse-parse</values>
+                        </Directive>
+                     </directive>
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="script"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="ParseText">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="scriptString"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <NonterminalLiteral ordinal="null" name="Script">
+                                       <flags/>
+                                    </NonterminalLiteral>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="The early error rules defined in &lt;emu-xref href=&#34;#sec-object-initializer-static-semantics-early-errors&#34;&gt;&lt;/emu-xref&gt; have special handling for the above invocation of ParseText."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="script"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a Parse Node"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep>
+                     <directive>
+                        <Directive name="id">
+                           <values>step-json-parse-eval</values>
+                        </Directive>
+                     </directive>
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="result"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeSyntaxDirectedOperationExpression name="Evaluation">
+                                       <base>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="script"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </base>
+                                       <args/>
+                                    </InvokeSyntaxDirectedOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="The PropertyDefinitionEvaluation semantics defined in &lt;emu-xref href=&#34;#sec-runtime-semantics-propertydefinitionevaluation&#34;&gt;&lt;/emu-xref&gt; have special handling for the above evaluation."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep>
+                     <directive>
+                        <Directive name="id">
+                           <values>step-json-parse-assert-type</values>
+                        </Directive>
+                     </directive>
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_result_ is either a String, a Number, a Boolean, an Object that is defined by either an |ArrayLiteral| or an |ObjectLiteral|, or *null*" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="result"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-structured-data" title="Structured Data" number="25" relativeNumber="25"/>
+   </sections>
+   <sections>
+      <Section id="sec-json-object" title="The JSON Object" number="25.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="sec-json.parse" title="JSON.parse ( text [ , reviver ] )" number="25.5.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-ParseJSON" title="ParseJSON ( text )" number="25.5.1.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

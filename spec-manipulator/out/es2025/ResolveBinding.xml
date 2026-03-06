@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. If _env_ is not present or _env_ is *undefined*, then           1. Set _env_ to the running execution context's LexicalEnvironment.         1. Assert: _env_ is an Environment Record.         1. Let _strict_ be IsStrict(the syntactic production that is being evaluated).         1. Return ? GetIdentifierReference(_env_, _name_, _strict_).       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ResolveBinding" retTy="either a normal completion containing a Reference Record or a throw completion" id="sec-resolvebinding" virtualPackage="9 Executable Code and Execution Contexts.4 Execution Contexts.2 ResolveBinding ( name [ , env ] )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="name" ty="a String"/>
+         </params>
+         <params>
+            <OptionalParam name="env" ty="an Environment Record or *undefined*"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <PredicateCondition negation="true">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="env"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                       <op>
+                                          <Present/>
+                                       </op>
+                                    </PredicateCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="env"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <UndefinedLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="env"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <RunningExecutionContext/>
+                                                               </base>
+                                                               <prop>
+                                                                  <ComponentProperty name="LexicalEnvironment"/>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="env"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="an Environment Record"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _strict_ be IsStrict(the syntactic production that is being evaluated)." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="GetIdentifierReference">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="env"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="name"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="strict"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-executable-code-and-execution-contexts" title="Executable Code and Execution Contexts" number="9" relativeNumber="9"/>
+   </sections>
+   <sections>
+      <Section id="sec-execution-contexts" title="Execution Contexts" number="9.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-resolvebinding" title="ResolveBinding ( name [ , env ] )" number="9.4.2" relativeNumber="2"/>
+   </sections>
+</Algorithm>

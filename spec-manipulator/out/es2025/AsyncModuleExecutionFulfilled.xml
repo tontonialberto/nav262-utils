@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="                 1. If _module_.[[Status]] is ~evaluated~, then                   1. Assert: _module_.[[EvaluationError]] is not ~empty~.                   1. Return ~unused~.                 1. Assert: _module_.[[Status]] is ~evaluating-async~.                 1. Assert: _module_.[[AsyncEvaluationOrder]] is an integer.                 1. Assert: _module_.[[EvaluationError]] is ~empty~.                 1. Set _module_.[[AsyncEvaluationOrder]] to ~done~.                 1. Set _module_.[[Status]] to ~evaluated~.                 1. If _module_.[[TopLevelCapability]] is not ~empty~, then                   1. Assert: _module_.[[CycleRoot]] and _module_ are the same Module Record.                   1. Perform ! Call(_module_.[[TopLevelCapability]].[[Resolve]], *undefined*, « *undefined* »).                 1. Let _execList_ be a new empty List.                 1. Perform GatherAvailableAncestors(_module_, _execList_).                 1. Assert: All elements of _execList_ have their [[AsyncEvaluationOrder]] field set to an integer, [[PendingAsyncDependencies]] field set to 0, and [[EvaluationError]] field set to ~empty~.                 1. Let _sortedExecList_ be a List whose elements are the elements of _execList_, sorted by their [[AsyncEvaluationOrder]] field in ascending order.                 1. For each Cyclic Module Record _m_ of _sortedExecList_, do                   1. If _m_.[[Status]] is ~evaluated~, then                     1. Assert: _m_.[[EvaluationError]] is not ~empty~.                   1. Else if _m_.[[HasTLA]] is *true*, then                     1. Perform ExecuteAsyncModule(_m_).                   1. Else,                     1. Let _result_ be &lt;emu-meta effects=&#34;user-code&#34;&gt;_m_.ExecuteModule()&lt;/emu-meta&gt;.                     1. If _result_ is an abrupt completion, then                       1. Perform AsyncModuleExecutionRejected(_m_, _result_.[[Value]]).                     1. Else,                       1. Set _m_.[[AsyncEvaluationOrder]] to ~done~.                       1. Set _m_.[[Status]] to ~evaluated~.                       1. If _m_.[[TopLevelCapability]] is not ~empty~, then                         1. Assert: _m_.[[CycleRoot]] and _m_ are the same Module Record.                         1. Perform ! Call(_m_.[[TopLevelCapability]].[[Resolve]], *undefined*, « *undefined* »).                 1. Return ~unused~.               ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="AsyncModuleExecutionFulfilled" retTy="~unused~" id="sec-async-module-execution-fulfilled" virtualPackage="16 ECMAScript Language: Scripts and Modules.2 Modules.1 Module Semantics.6 Cyclic Module Records.1 Implementation of Module Record Abstract Methods.3 Evaluate ( ).4 AsyncModuleExecutionFulfilled ( module )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="module" ty="a Cyclic Module Record"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Status"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="evaluated"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <AssertStep>
+                                                   <cond>
+                                                      <IsAreCondition negation="true">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="module"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="EvaluationError"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <EnumLiteral name="empty"/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                </AssertStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <EnumLiteral name="unused"/>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Status"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="evaluating-async"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="AsyncEvaluationOrder"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a math value"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="EvaluationError"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="empty"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="module"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="AsyncEvaluationOrder"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <EnumLiteral name="done"/>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="module"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Status"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <EnumLiteral name="evaluated"/>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="TopLevelCapability"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="empty"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <AssertStep>
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="module"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="CycleRoot"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="module"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                </AssertStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="Call">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <PropertyReference>
+                                                                                 <base>
+                                                                                    <Variable name="module"/>
+                                                                                 </base>
+                                                                                 <prop>
+                                                                                    <FieldProperty name="TopLevelCapability"/>
+                                                                                 </prop>
+                                                                              </PropertyReference>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="Resolve"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <UndefinedLiteral/>
+                                                               </args>
+                                                               <args>
+                                                                  <ListExpression>
+                                                                     <entries>
+                                                                        <UndefinedLiteral/>
+                                                                     </entries>
+                                                                  </ListExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="execList"/>
+                           </variable>
+                           <expr>
+                              <ListExpression>
+                                 <entries/>
+                              </ListExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="GatherAvailableAncestors">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="module"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="execList"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="All elements of _execList_ have their [[AsyncEvaluationOrder]] field set to an integer, [[PendingAsyncDependencies]] field set to 0, and [[EvaluationError]] field set to ~empty~" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _sortedExecList_ be a List whose elements are the elements of _execList_, sorted by their [[AsyncEvaluationOrder]] field in ascending order." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ForEachStep ty="a Cyclic Module Record" forward="true">
+                           <variable>
+                              <Variable name="m"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="sortedExecList"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="false">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="m"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="Status"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <EnumLiteral name="evaluated"/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AssertStep>
+                                                                           <cond>
+                                                                              <IsAreCondition negation="true">
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="m"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="EvaluationError"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <right>
+                                                                                    <EnumLiteral name="empty"/>
+                                                                                 </right>
+                                                                              </IsAreCondition>
+                                                                           </cond>
+                                                                        </AssertStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <IfStep newLine="true" keyword="else" comma="true">
+                                                         <cond>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <Variable name="m"/>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="HasTLA"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <TrueLiteral/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <PerformStep>
+                                                                                 <expr>
+                                                                                    <InvokeAbstractOperationExpression name="ExecuteAsyncModule">
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="m"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </expr>
+                                                                              </PerformStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </thenStep>
+                                                         <elseStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="result"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <InvokeMethodExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="m"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <ComponentProperty name="ExecuteModule"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                       <args/>
+                                                                                    </InvokeMethodExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <IfStep newLine="true" keyword="else" comma="true">
+                                                                                 <cond>
+                                                                                    <PredicateCondition negation="false">
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="result"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                       <op>
+                                                                                          <Abrupt/>
+                                                                                       </op>
+                                                                                    </PredicateCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <BlockStep>
+                                                                                       <block>
+                                                                                          <StepBlock>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <PerformStep>
+                                                                                                         <expr>
+                                                                                                            <InvokeAbstractOperationExpression name="AsyncModuleExecutionRejected">
+                                                                                                               <args>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="m"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </args>
+                                                                                                               <args>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <PropertyReference>
+                                                                                                                           <base>
+                                                                                                                              <Variable name="result"/>
+                                                                                                                           </base>
+                                                                                                                           <prop>
+                                                                                                                              <FieldProperty name="Value"/>
+                                                                                                                           </prop>
+                                                                                                                        </PropertyReference>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </args>
+                                                                                                            </InvokeAbstractOperationExpression>
+                                                                                                         </expr>
+                                                                                                      </PerformStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                          </StepBlock>
+                                                                                       </block>
+                                                                                    </BlockStep>
+                                                                                 </thenStep>
+                                                                                 <elseStep>
+                                                                                    <BlockStep>
+                                                                                       <block>
+                                                                                          <StepBlock>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <SetStep>
+                                                                                                         <ref>
+                                                                                                            <PropertyReference>
+                                                                                                               <base>
+                                                                                                                  <Variable name="m"/>
+                                                                                                               </base>
+                                                                                                               <prop>
+                                                                                                                  <FieldProperty name="AsyncEvaluationOrder"/>
+                                                                                                               </prop>
+                                                                                                            </PropertyReference>
+                                                                                                         </ref>
+                                                                                                         <expr>
+                                                                                                            <EnumLiteral name="done"/>
+                                                                                                         </expr>
+                                                                                                      </SetStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <SetStep>
+                                                                                                         <ref>
+                                                                                                            <PropertyReference>
+                                                                                                               <base>
+                                                                                                                  <Variable name="m"/>
+                                                                                                               </base>
+                                                                                                               <prop>
+                                                                                                                  <FieldProperty name="Status"/>
+                                                                                                               </prop>
+                                                                                                            </PropertyReference>
+                                                                                                         </ref>
+                                                                                                         <expr>
+                                                                                                            <EnumLiteral name="evaluated"/>
+                                                                                                         </expr>
+                                                                                                      </SetStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <IfStep elseStep="null">
+                                                                                                         <cond>
+                                                                                                            <IsAreCondition negation="true">
+                                                                                                               <left>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <PropertyReference>
+                                                                                                                           <base>
+                                                                                                                              <Variable name="m"/>
+                                                                                                                           </base>
+                                                                                                                           <prop>
+                                                                                                                              <FieldProperty name="TopLevelCapability"/>
+                                                                                                                           </prop>
+                                                                                                                        </PropertyReference>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </left>
+                                                                                                               <right>
+                                                                                                                  <EnumLiteral name="empty"/>
+                                                                                                               </right>
+                                                                                                            </IsAreCondition>
+                                                                                                         </cond>
+                                                                                                         <thenStep>
+                                                                                                            <BlockStep>
+                                                                                                               <block>
+                                                                                                                  <StepBlock>
+                                                                                                                     <steps>
+                                                                                                                        <SubStep directive="null">
+                                                                                                                           <step>
+                                                                                                                              <AssertStep>
+                                                                                                                                 <cond>
+                                                                                                                                    <IsAreCondition negation="false">
+                                                                                                                                       <left>
+                                                                                                                                          <ReferenceExpression>
+                                                                                                                                             <ref>
+                                                                                                                                                <PropertyReference>
+                                                                                                                                                   <base>
+                                                                                                                                                      <Variable name="m"/>
+                                                                                                                                                   </base>
+                                                                                                                                                   <prop>
+                                                                                                                                                      <FieldProperty name="CycleRoot"/>
+                                                                                                                                                   </prop>
+                                                                                                                                                </PropertyReference>
+                                                                                                                                             </ref>
+                                                                                                                                          </ReferenceExpression>
+                                                                                                                                       </left>
+                                                                                                                                       <right>
+                                                                                                                                          <ReferenceExpression>
+                                                                                                                                             <ref>
+                                                                                                                                                <Variable name="m"/>
+                                                                                                                                             </ref>
+                                                                                                                                          </ReferenceExpression>
+                                                                                                                                       </right>
+                                                                                                                                    </IsAreCondition>
+                                                                                                                                 </cond>
+                                                                                                                              </AssertStep>
+                                                                                                                           </step>
+                                                                                                                        </SubStep>
+                                                                                                                     </steps>
+                                                                                                                     <steps>
+                                                                                                                        <SubStep directive="null">
+                                                                                                                           <step>
+                                                                                                                              <PerformStep>
+                                                                                                                                 <expr>
+                                                                                                                                    <ReturnIfAbruptExpression check="false">
+                                                                                                                                       <expr>
+                                                                                                                                          <InvokeAbstractOperationExpression name="Call">
+                                                                                                                                             <args>
+                                                                                                                                                <ReferenceExpression>
+                                                                                                                                                   <ref>
+                                                                                                                                                      <PropertyReference>
+                                                                                                                                                         <base>
+                                                                                                                                                            <PropertyReference>
+                                                                                                                                                               <base>
+                                                                                                                                                                  <Variable name="m"/>
+                                                                                                                                                               </base>
+                                                                                                                                                               <prop>
+                                                                                                                                                                  <FieldProperty name="TopLevelCapability"/>
+                                                                                                                                                               </prop>
+                                                                                                                                                            </PropertyReference>
+                                                                                                                                                         </base>
+                                                                                                                                                         <prop>
+                                                                                                                                                            <FieldProperty name="Resolve"/>
+                                                                                                                                                         </prop>
+                                                                                                                                                      </PropertyReference>
+                                                                                                                                                   </ref>
+                                                                                                                                                </ReferenceExpression>
+                                                                                                                                             </args>
+                                                                                                                                             <args>
+                                                                                                                                                <UndefinedLiteral/>
+                                                                                                                                             </args>
+                                                                                                                                             <args>
+                                                                                                                                                <ListExpression>
+                                                                                                                                                   <entries>
+                                                                                                                                                      <UndefinedLiteral/>
+                                                                                                                                                   </entries>
+                                                                                                                                                </ListExpression>
+                                                                                                                                             </args>
+                                                                                                                                          </InvokeAbstractOperationExpression>
+                                                                                                                                       </expr>
+                                                                                                                                    </ReturnIfAbruptExpression>
+                                                                                                                                 </expr>
+                                                                                                                              </PerformStep>
+                                                                                                                           </step>
+                                                                                                                        </SubStep>
+                                                                                                                     </steps>
+                                                                                                                  </StepBlock>
+                                                                                                               </block>
+                                                                                                            </BlockStep>
+                                                                                                         </thenStep>
+                                                                                                      </IfStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                          </StepBlock>
+                                                                                       </block>
+                                                                                    </BlockStep>
+                                                                                 </elseStep>
+                                                                              </IfStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </elseStep>
+                                                      </IfStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </ForEachStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <EnumLiteral name="unused"/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-language-scripts-and-modules" title="ECMAScript Language: Scripts and Modules" number="16" relativeNumber="16"/>
+   </sections>
+   <sections>
+      <Section id="sec-modules" title="Modules" number="16.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-module-semantics" title="Module Semantics" number="16.2.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-cyclic-module-records" title="Cyclic Module Records" number="16.2.1.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-cyclic-module-record-module-record-methods" title="Implementation of Module Record Abstract Methods" number="16.2.1.6.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-moduleevaluation" title="Evaluate ( )" number="16.2.1.6.1.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-async-module-execution-fulfilled" title="AsyncModuleExecutionFulfilled ( module )" number="16.2.1.6.1.3.4" relativeNumber="4"/>
+   </sections>
+</Algorithm>

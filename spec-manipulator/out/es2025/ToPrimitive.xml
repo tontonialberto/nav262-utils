@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. If _input_ is an Object, then           1. Let _exoticToPrim_ be ? GetMethod(_input_, %Symbol.toPrimitive%).           1. If _exoticToPrim_ is not *undefined*, then             1. If _preferredType_ is not present, then               1. Let _hint_ be *&#34;default&#34;*.             1. Else if _preferredType_ is ~string~, then               1. Let _hint_ be *&#34;string&#34;*.             1. Else,               1. Assert: _preferredType_ is ~number~.               1. Let _hint_ be *&#34;number&#34;*.             1. Let _result_ be ? Call(_exoticToPrim_, _input_, « _hint_ »).             1. If _result_ is not an Object, return _result_.             1. Throw a *TypeError* exception.           1. If _preferredType_ is not present, let _preferredType_ be ~number~.           1. Return ? OrdinaryToPrimitive(_input_, _preferredType_).         1. Return _input_.       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ToPrimitive" retTy="either a normal completion containing an ECMAScript language value or a throw completion" id="sec-toprimitive" virtualPackage="7 Abstract Operations.1 Type Conversion.1 ToPrimitive ( input [ , preferredType ] )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="input" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <OptionalParam name="preferredType" ty="~number~ or ~string~"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="input"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="an Object"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="exoticToPrim"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="GetMethod">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="input"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <SymbolLiteral sym="toPrimitive"/>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="true">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="exoticToPrim"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <UndefinedLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep newLine="true" keyword="else" comma="false">
+                                                                           <cond>
+                                                                              <PredicateCondition negation="true">
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="preferredType"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                                 <op>
+                                                                                    <Present/>
+                                                                                 </op>
+                                                                              </PredicateCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <LetStep>
+                                                                                                   <variable>
+                                                                                                      <Variable name="hint"/>
+                                                                                                   </variable>
+                                                                                                   <expr>
+                                                                                                      <StringLiteral s="default"/>
+                                                                                                   </expr>
+                                                                                                </LetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </thenStep>
+                                                                           <elseStep>
+                                                                              <IfStep newLine="true" keyword="else" comma="true">
+                                                                                 <cond>
+                                                                                    <IsAreCondition negation="false">
+                                                                                       <left>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="preferredType"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </left>
+                                                                                       <right>
+                                                                                          <EnumLiteral name="string"/>
+                                                                                       </right>
+                                                                                    </IsAreCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <BlockStep>
+                                                                                       <block>
+                                                                                          <StepBlock>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <LetStep>
+                                                                                                         <variable>
+                                                                                                            <Variable name="hint"/>
+                                                                                                         </variable>
+                                                                                                         <expr>
+                                                                                                            <StringLiteral s="string"/>
+                                                                                                         </expr>
+                                                                                                      </LetStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                          </StepBlock>
+                                                                                       </block>
+                                                                                    </BlockStep>
+                                                                                 </thenStep>
+                                                                                 <elseStep>
+                                                                                    <BlockStep>
+                                                                                       <block>
+                                                                                          <StepBlock>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <AssertStep>
+                                                                                                         <cond>
+                                                                                                            <IsAreCondition negation="false">
+                                                                                                               <left>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="preferredType"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </left>
+                                                                                                               <right>
+                                                                                                                  <EnumLiteral name="number"/>
+                                                                                                               </right>
+                                                                                                            </IsAreCondition>
+                                                                                                         </cond>
+                                                                                                      </AssertStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <LetStep>
+                                                                                                         <variable>
+                                                                                                            <Variable name="hint"/>
+                                                                                                         </variable>
+                                                                                                         <expr>
+                                                                                                            <StringLiteral s="number"/>
+                                                                                                         </expr>
+                                                                                                      </LetStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                          </StepBlock>
+                                                                                       </block>
+                                                                                    </BlockStep>
+                                                                                 </elseStep>
+                                                                              </IfStep>
+                                                                           </elseStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="result"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <ReturnIfAbruptExpression check="true">
+                                                                                 <expr>
+                                                                                    <InvokeAbstractOperationExpression name="Call">
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="exoticToPrim"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="input"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                       <args>
+                                                                                          <ListExpression>
+                                                                                             <entries>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <Variable name="hint"/>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </entries>
+                                                                                          </ListExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </expr>
+                                                                              </ReturnIfAbruptExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep elseStep="null">
+                                                                           <cond>
+                                                                              <TypeCheckCondition negation="true">
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="result"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                                 <ty>
+                                                                                    <Type value="an Object"/>
+                                                                                 </ty>
+                                                                              </TypeCheckCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <ReturnStep>
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="result"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                              </ReturnStep>
+                                                                           </thenStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <ThrowStep name="TypeError"/>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <PredicateCondition negation="true">
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="preferredType"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                         <op>
+                                                            <Present/>
+                                                         </op>
+                                                      </PredicateCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="preferredType"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <EnumLiteral name="number"/>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="OrdinaryToPrimitive">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="input"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="preferredType"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="input"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-abstract-operations" title="Abstract Operations" number="7" relativeNumber="7"/>
+   </sections>
+   <sections>
+      <Section id="sec-type-conversion" title="Type Conversion" number="7.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-toprimitive" title="ToPrimitive ( input [ , preferredType ] )" number="7.1.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

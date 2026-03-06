@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If _environment_ is not *undefined*, then             1. Perform ! _environment_.InitializeBinding(_name_, _value_).             1. Return ~unused~.           1. Else,             1. Let _lhs_ be ? ResolveBinding(_name_).             1. Return ? PutValue(_lhs_, _value_).         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="InitializeBoundName" retTy="either a normal completion containing ~unused~ or an abrupt completion" id="sec-initializeboundname" virtualPackage="8 Syntax-Directed Operations.6 Miscellaneous.2 Runtime Semantics: BindingInitialization.1 InitializeBoundName ( name, value, environment )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="name" ty="a String"/>
+         </params>
+         <params>
+            <NormalParam name="value" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="environment" ty="an Environment Record or *undefined*"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="environment"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeMethodExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="environment"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <ComponentProperty name="InitializeBinding"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="name"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="value"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeMethodExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <EnumLiteral name="unused"/>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="lhs"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="ResolveBinding">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="name"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="PutValue">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="lhs"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="value"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-syntax-directed-operations" title="Syntax-Directed Operations" number="8" relativeNumber="8"/>
+   </sections>
+   <sections>
+      <Section id="sec-syntax-directed-operations-miscellaneous" title="Miscellaneous" number="8.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-runtime-semantics-bindinginitialization" title="Runtime Semantics: BindingInitialization" number="8.6.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-initializeboundname" title="InitializeBoundName ( name, value, environment )" number="8.6.2.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

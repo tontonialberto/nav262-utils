@@ -1,0 +1,740 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _job_ be a new Job Abstract Closure with no parameters that captures _reaction_ and _argument_ and performs the following steps when called:             1. Let _promiseCapability_ be _reaction_.[[Capability]].             1. Let _type_ be _reaction_.[[Type]].             1. Let _handler_ be _reaction_.[[Handler]].             1. If _handler_ is ~empty~, then               1. If _type_ is ~fulfill~, then                 1. Let _handlerResult_ be NormalCompletion(_argument_).               1. Else,                 1. Assert: _type_ is ~reject~.                 1. Let _handlerResult_ be ThrowCompletion(_argument_).             1. Else,               1. Let _handlerResult_ be Completion(HostCallJobCallback(_handler_, *undefined*, « _argument_ »)).             1. If _promiseCapability_ is *undefined*, then               1. Assert: _handlerResult_ is not an abrupt completion.               1. Return ~empty~.             1. Assert: _promiseCapability_ is a PromiseCapability Record.             1. If _handlerResult_ is an abrupt completion, then               1. Return ? Call(_promiseCapability_.[[Reject]], *undefined*, « _handlerResult_.[[Value]] »).             1. Else,               1. Return ? Call(_promiseCapability_.[[Resolve]], *undefined*, « _handlerResult_.[[Value]] »).           1. Let _handlerRealm_ be *null*.           1. If _reaction_.[[Handler]] is not ~empty~, then             1. Let _getHandlerRealmResult_ be Completion(GetFunctionRealm(_reaction_.[[Handler]].[[Callback]])).             1. If _getHandlerRealmResult_ is a normal completion, set _handlerRealm_ to _getHandlerRealmResult_.[[Value]].             1. Else, set _handlerRealm_ to the current Realm Record.             1. NOTE: _handlerRealm_ is never *null* unless the handler is *undefined*. When the handler is a revoked Proxy and no ECMAScript code runs, _handlerRealm_ is used to create error objects.           1. Return the Record { [[Job]]: _job_, [[Realm]]: _handlerRealm_ }.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="NewPromiseReactionJob" retTy="a Record with fields [[Job]] (a Job Abstract Closure) and [[Realm]] (a Realm Record or *null*)" id="sec-newpromisereactionjob" virtualPackage="27 Control Abstraction Objects.2 Promise Objects.2 Promise Jobs.1 NewPromiseReactionJob ( reaction, argument )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="reaction" ty="a Promise Reaction Record"/>
+         </params>
+         <params>
+            <NormalParam name="argument" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="job"/>
+                           </variable>
+                           <expr>
+                              <AbstractClosureExpression>
+                                 <params/>
+                                 <captured>
+                                    <Variable name="reaction"/>
+                                 </captured>
+                                 <captured>
+                                    <Variable name="argument"/>
+                                 </captured>
+                                 <body>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="promiseCapability"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="reaction"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="Capability"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="type"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="reaction"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="Type"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="handler"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="reaction"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="Handler"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <IfStep newLine="true" keyword="else" comma="true">
+                                                         <cond>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="handler"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <EnumLiteral name="empty"/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <IfStep newLine="true" keyword="else" comma="true">
+                                                                                 <cond>
+                                                                                    <IsAreCondition negation="false">
+                                                                                       <left>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="type"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </left>
+                                                                                       <right>
+                                                                                          <EnumLiteral name="fulfill"/>
+                                                                                       </right>
+                                                                                    </IsAreCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <BlockStep>
+                                                                                       <block>
+                                                                                          <StepBlock>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <LetStep>
+                                                                                                         <variable>
+                                                                                                            <Variable name="handlerResult"/>
+                                                                                                         </variable>
+                                                                                                         <expr>
+                                                                                                            <InvokeAbstractOperationExpression name="NormalCompletion">
+                                                                                                               <args>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="argument"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </args>
+                                                                                                            </InvokeAbstractOperationExpression>
+                                                                                                         </expr>
+                                                                                                      </LetStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                          </StepBlock>
+                                                                                       </block>
+                                                                                    </BlockStep>
+                                                                                 </thenStep>
+                                                                                 <elseStep>
+                                                                                    <BlockStep>
+                                                                                       <block>
+                                                                                          <StepBlock>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <AssertStep>
+                                                                                                         <cond>
+                                                                                                            <IsAreCondition negation="false">
+                                                                                                               <left>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="type"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </left>
+                                                                                                               <right>
+                                                                                                                  <EnumLiteral name="reject"/>
+                                                                                                               </right>
+                                                                                                            </IsAreCondition>
+                                                                                                         </cond>
+                                                                                                      </AssertStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <LetStep>
+                                                                                                         <variable>
+                                                                                                            <Variable name="handlerResult"/>
+                                                                                                         </variable>
+                                                                                                         <expr>
+                                                                                                            <InvokeAbstractOperationExpression name="ThrowCompletion">
+                                                                                                               <args>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="argument"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </args>
+                                                                                                            </InvokeAbstractOperationExpression>
+                                                                                                         </expr>
+                                                                                                      </LetStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                          </StepBlock>
+                                                                                       </block>
+                                                                                    </BlockStep>
+                                                                                 </elseStep>
+                                                                              </IfStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </thenStep>
+                                                         <elseStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="handlerResult"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <InvokeAbstractOperationExpression name="Completion">
+                                                                                       <args>
+                                                                                          <InvokeAbstractOperationExpression name="HostCallJobCallback">
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <Variable name="handler"/>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                             <args>
+                                                                                                <UndefinedLiteral/>
+                                                                                             </args>
+                                                                                             <args>
+                                                                                                <ListExpression>
+                                                                                                   <entries>
+                                                                                                      <ReferenceExpression>
+                                                                                                         <ref>
+                                                                                                            <Variable name="argument"/>
+                                                                                                         </ref>
+                                                                                                      </ReferenceExpression>
+                                                                                                   </entries>
+                                                                                                </ListExpression>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </elseStep>
+                                                      </IfStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <IfStep elseStep="null">
+                                                         <cond>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="promiseCapability"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <UndefinedLiteral/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <AssertStep>
+                                                                                 <cond>
+                                                                                    <PredicateCondition negation="true">
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="handlerResult"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                       <op>
+                                                                                          <Abrupt/>
+                                                                                       </op>
+                                                                                    </PredicateCondition>
+                                                                                 </cond>
+                                                                              </AssertStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <ReturnStep>
+                                                                                 <expr>
+                                                                                    <EnumLiteral name="empty"/>
+                                                                                 </expr>
+                                                                              </ReturnStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </thenStep>
+                                                      </IfStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <AssertStep>
+                                                         <cond>
+                                                            <TypeCheckCondition negation="false">
+                                                               <expr>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="promiseCapability"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </expr>
+                                                               <ty>
+                                                                  <Type value="a Promise Capability Record"/>
+                                                               </ty>
+                                                            </TypeCheckCondition>
+                                                         </cond>
+                                                      </AssertStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <IfStep newLine="true" keyword="else" comma="true">
+                                                         <cond>
+                                                            <PredicateCondition negation="false">
+                                                               <expr>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="handlerResult"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </expr>
+                                                               <op>
+                                                                  <Abrupt/>
+                                                               </op>
+                                                            </PredicateCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <ReturnStep>
+                                                                                 <expr>
+                                                                                    <ReturnIfAbruptExpression check="true">
+                                                                                       <expr>
+                                                                                          <InvokeAbstractOperationExpression name="Call">
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="promiseCapability"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="Reject"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                             <args>
+                                                                                                <UndefinedLiteral/>
+                                                                                             </args>
+                                                                                             <args>
+                                                                                                <ListExpression>
+                                                                                                   <entries>
+                                                                                                      <ReferenceExpression>
+                                                                                                         <ref>
+                                                                                                            <PropertyReference>
+                                                                                                               <base>
+                                                                                                                  <Variable name="handlerResult"/>
+                                                                                                               </base>
+                                                                                                               <prop>
+                                                                                                                  <FieldProperty name="Value"/>
+                                                                                                               </prop>
+                                                                                                            </PropertyReference>
+                                                                                                         </ref>
+                                                                                                      </ReferenceExpression>
+                                                                                                   </entries>
+                                                                                                </ListExpression>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </expr>
+                                                                                    </ReturnIfAbruptExpression>
+                                                                                 </expr>
+                                                                              </ReturnStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </thenStep>
+                                                         <elseStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <ReturnStep>
+                                                                                 <expr>
+                                                                                    <ReturnIfAbruptExpression check="true">
+                                                                                       <expr>
+                                                                                          <InvokeAbstractOperationExpression name="Call">
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="promiseCapability"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="Resolve"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                             <args>
+                                                                                                <UndefinedLiteral/>
+                                                                                             </args>
+                                                                                             <args>
+                                                                                                <ListExpression>
+                                                                                                   <entries>
+                                                                                                      <ReferenceExpression>
+                                                                                                         <ref>
+                                                                                                            <PropertyReference>
+                                                                                                               <base>
+                                                                                                                  <Variable name="handlerResult"/>
+                                                                                                               </base>
+                                                                                                               <prop>
+                                                                                                                  <FieldProperty name="Value"/>
+                                                                                                               </prop>
+                                                                                                            </PropertyReference>
+                                                                                                         </ref>
+                                                                                                      </ReferenceExpression>
+                                                                                                   </entries>
+                                                                                                </ListExpression>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </expr>
+                                                                                    </ReturnIfAbruptExpression>
+                                                                                 </expr>
+                                                                              </ReturnStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </elseStep>
+                                                      </IfStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </body>
+                              </AbstractClosureExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="handlerRealm"/>
+                           </variable>
+                           <expr>
+                              <NullLiteral/>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="reaction"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Handler"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="empty"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="getHandlerRealmResult"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="Completion">
+                                                         <args>
+                                                            <InvokeAbstractOperationExpression name="GetFunctionRealm">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <PropertyReference>
+                                                                                 <base>
+                                                                                    <Variable name="reaction"/>
+                                                                                 </base>
+                                                                                 <prop>
+                                                                                    <FieldProperty name="Handler"/>
+                                                                                 </prop>
+                                                                              </PropertyReference>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="Callback"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="true">
+                                                   <cond>
+                                                      <PredicateCondition negation="false">
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="getHandlerRealmResult"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                         <op>
+                                                            <Normal/>
+                                                         </op>
+                                                      </PredicateCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <SetStep>
+                                                         <ref>
+                                                            <Variable name="handlerRealm"/>
+                                                         </ref>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="getHandlerRealmResult"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="Value"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </SetStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <SetStep>
+                                                         <ref>
+                                                            <Variable name="handlerRealm"/>
+                                                         </ref>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <CurrentRealmRecord/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </SetStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <NoteStep note="_handlerRealm_ is never *null* unless the handler is *undefined*. When the handler is a revoked Proxy and no ECMAScript code runs, _handlerRealm_ is used to create error objects."/>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <RecordExpression tname="Record">
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Job"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="job"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Realm"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="handlerRealm"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                              </RecordExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-control-abstraction-objects" title="Control Abstraction Objects" number="27" relativeNumber="27"/>
+   </sections>
+   <sections>
+      <Section id="sec-promise-objects" title="Promise Objects" number="27.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-promise-jobs" title="Promise Jobs" number="27.2.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-newpromisereactionjob" title="NewPromiseReactionJob ( reaction, argument )" number="27.2.2.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

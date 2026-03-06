@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Assert: IsPropertyReference(_V_) is *true*.           1. If IsSuperReference(_V_) is *true*, return _V_.[[ThisValue]]; otherwise return _V_.[[Base]].         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="GetThisValue" retTy="an ECMAScript language value" id="sec-getthisvalue" virtualPackage="6 ECMAScript Data Types and Values.2 ECMAScript Specification Types.5 The Reference Record Specification Type.7 GetThisValue ( V )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="V" ty="a Reference Record"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsPropertyReference">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="V"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="false" keyword="otherwise" comma="false">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsSuperReference">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="V"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="V"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="ThisValue"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                           <elseStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="V"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Base"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-data-types-and-values" title="ECMAScript Data Types and Values" number="6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-ecmascript-specification-types" title="ECMAScript Specification Types" number="6.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-reference-record-specification-type" title="The Reference Record Specification Type" number="6.2.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="sec-getthisvalue" title="GetThisValue ( V )" number="6.2.5.7" relativeNumber="7"/>
+   </sections>
+</Algorithm>

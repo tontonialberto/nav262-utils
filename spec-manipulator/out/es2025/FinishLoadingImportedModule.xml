@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If _result_ is a normal completion, then             1. If _referrer_.[[LoadedModules]] contains a LoadedModuleRequest Record _record_ such that ModuleRequestsEqual(_record_, _moduleRequest_) is *true*, then               1. Assert: _record_.[[Module]] and _result_.[[Value]] are the same Module Record.             1. Else,               1. Append the LoadedModuleRequest Record { [[Specifier]]: _moduleRequest_.[[Specifier]], [[Attributes]]: _moduleRequest_.[[Attributes]], [[Module]]: _result_.[[Value]] } to _referrer_.[[LoadedModules]].           1. If _payload_ is a GraphLoadingState Record, then             1. Perform ContinueModuleLoading(_payload_, _result_).           1. Else,             1. Perform ContinueDynamicImport(_payload_, _result_).           1. Return ~unused~.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="FinishLoadingImportedModule" retTy="~unused~" id="sec-FinishLoadingImportedModule" virtualPackage="16 ECMAScript Language: Scripts and Modules.2 Modules.1 Module Semantics.11 FinishLoadingImportedModule ( referrer, moduleRequest, payload, result )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="referrer" ty="a Realm Record, a Script Record, or a Cyclic Module Record"/>
+         </params>
+         <params>
+            <NormalParam name="moduleRequest" ty="a Module Request Record"/>
+         </params>
+         <params>
+            <NormalParam name="payload" ty="a Promise Capability Record or a Graph Loading State Record"/>
+         </params>
+         <params>
+            <NormalParam name="result" ty="either a normal completion containing a Module Record or a throw completion"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="result"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Normal/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="true">
+                                                   <cond>
+                                                      <ContainsSuchThatCondition negation="false">
+                                                         <list>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="referrer"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="LoadedModules"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </list>
+                                                         <target>
+                                                            <SuchThat tyOpt="a Loaded Module Request Record">
+                                                               <x>
+                                                                  <Variable name="record"/>
+                                                               </x>
+                                                               <cond>
+                                                                  <IsAreCondition negation="false">
+                                                                     <left>
+                                                                        <InvokeAbstractOperationExpression name="ModuleRequestsEqual">
+                                                                           <args>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="record"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </args>
+                                                                           <args>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="moduleRequest"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </args>
+                                                                        </InvokeAbstractOperationExpression>
+                                                                     </left>
+                                                                     <right>
+                                                                        <TrueLiteral/>
+                                                                     </right>
+                                                                  </IsAreCondition>
+                                                               </cond>
+                                                            </SuchThat>
+                                                         </target>
+                                                      </ContainsSuchThatCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AssertStep>
+                                                                           <cond>
+                                                                              <IsAreCondition negation="false">
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="record"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Module"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <right>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="result"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Value"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </right>
+                                                                              </IsAreCondition>
+                                                                           </cond>
+                                                                        </AssertStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AppendStep>
+                                                                           <elem>
+                                                                              <RecordExpression tname="LoadedModuleRequest Record">
+                                                                                 <fields>
+                                                                                    <RecordField>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Specifier"/>
+                                                                                       </field>
+                                                                                       <value>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <PropertyReference>
+                                                                                                   <base>
+                                                                                                      <Variable name="moduleRequest"/>
+                                                                                                   </base>
+                                                                                                   <prop>
+                                                                                                      <FieldProperty name="Specifier"/>
+                                                                                                   </prop>
+                                                                                                </PropertyReference>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </value>
+                                                                                    </RecordField>
+                                                                                 </fields>
+                                                                                 <fields>
+                                                                                    <RecordField>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Attributes"/>
+                                                                                       </field>
+                                                                                       <value>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <PropertyReference>
+                                                                                                   <base>
+                                                                                                      <Variable name="moduleRequest"/>
+                                                                                                   </base>
+                                                                                                   <prop>
+                                                                                                      <FieldProperty name="Attributes"/>
+                                                                                                   </prop>
+                                                                                                </PropertyReference>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </value>
+                                                                                    </RecordField>
+                                                                                 </fields>
+                                                                                 <fields>
+                                                                                    <RecordField>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Module"/>
+                                                                                       </field>
+                                                                                       <value>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <PropertyReference>
+                                                                                                   <base>
+                                                                                                      <Variable name="result"/>
+                                                                                                   </base>
+                                                                                                   <prop>
+                                                                                                      <FieldProperty name="Value"/>
+                                                                                                   </prop>
+                                                                                                </PropertyReference>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </value>
+                                                                                    </RecordField>
+                                                                                 </fields>
+                                                                              </RecordExpression>
+                                                                           </elem>
+                                                                           <ref>
+                                                                              <PropertyReference>
+                                                                                 <base>
+                                                                                    <Variable name="referrer"/>
+                                                                                 </base>
+                                                                                 <prop>
+                                                                                    <FieldProperty name="LoadedModules"/>
+                                                                                 </prop>
+                                                                              </PropertyReference>
+                                                                           </ref>
+                                                                        </AppendStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="payload"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a Graph Loading State Record"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="ContinueModuleLoading">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="payload"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="result"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="ContinueDynamicImport">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="payload"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="result"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <EnumLiteral name="unused"/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-language-scripts-and-modules" title="ECMAScript Language: Scripts and Modules" number="16" relativeNumber="16"/>
+   </sections>
+   <sections>
+      <Section id="sec-modules" title="Modules" number="16.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-module-semantics" title="Module Semantics" number="16.2.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-FinishLoadingImportedModule" title="FinishLoadingImportedModule ( referrer, moduleRequest, payload, result )" number="16.2.1.11" relativeNumber="11"/>
+   </sections>
+</Algorithm>

@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If IsConstructor(_C_) is *false*, throw a *TypeError* exception.           1. NOTE: _C_ is assumed to be a constructor function that supports the parameter conventions of the Promise constructor (see &lt;emu-xref href=&#34;#sec-promise-executor&#34;&gt;&lt;/emu-xref&gt;).           1. Let _resolvingFunctions_ be the Record { [[Resolve]]: *undefined*, [[Reject]]: *undefined* }.           1. Let _executorClosure_ be a new Abstract Closure with parameters (_resolve_, _reject_) that captures _resolvingFunctions_ and performs the following steps when called:             1. If _resolvingFunctions_.[[Resolve]] is not *undefined*, throw a *TypeError* exception.             1. If _resolvingFunctions_.[[Reject]] is not *undefined*, throw a *TypeError* exception.             1. Set _resolvingFunctions_.[[Resolve]] to _resolve_.             1. Set _resolvingFunctions_.[[Reject]] to _reject_.             1. Return *undefined*.           1. Let _executor_ be CreateBuiltinFunction(_executorClosure_, 2, *&#34;&#34;*, « »).           1. Let _promise_ be ? Construct(_C_, « _executor_ »).           1. If IsCallable(_resolvingFunctions_.[[Resolve]]) is *false*, throw a *TypeError* exception.           1. If IsCallable(_resolvingFunctions_.[[Reject]]) is *false*, throw a *TypeError* exception.           1. Return the PromiseCapability Record { [[Promise]]: _promise_, [[Resolve]]: _resolvingFunctions_.[[Resolve]], [[Reject]]: _resolvingFunctions_.[[Reject]] }.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="NewPromiseCapability" retTy="either a normal completion containing a Promise Capability Record or a throw completion" id="sec-newpromisecapability" virtualPackage="27 Control Abstraction Objects.2 Promise Objects.1 Promise Abstract Operations.5 NewPromiseCapability ( C )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="C" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsConstructor">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="C"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="_C_ is assumed to be a constructor function that supports the parameter conventions of the Promise constructor (see &lt;emu-xref href=&#34;#sec-promise-executor&#34;&gt;&lt;/emu-xref&gt;)."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="resolvingFunctions"/>
+                           </variable>
+                           <expr>
+                              <RecordExpression tname="Record">
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Resolve"/>
+                                       </field>
+                                       <value>
+                                          <UndefinedLiteral/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Reject"/>
+                                       </field>
+                                       <value>
+                                          <UndefinedLiteral/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                              </RecordExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="executorClosure"/>
+                           </variable>
+                           <expr>
+                              <AbstractClosureExpression>
+                                 <params>
+                                    <Variable name="resolve"/>
+                                 </params>
+                                 <params>
+                                    <Variable name="reject"/>
+                                 </params>
+                                 <captured>
+                                    <Variable name="resolvingFunctions"/>
+                                 </captured>
+                                 <body>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <IfStep elseStep="null">
+                                                         <cond>
+                                                            <IsAreCondition negation="true">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <Variable name="resolvingFunctions"/>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="Resolve"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <UndefinedLiteral/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <ThrowStep name="TypeError"/>
+                                                         </thenStep>
+                                                      </IfStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <IfStep elseStep="null">
+                                                         <cond>
+                                                            <IsAreCondition negation="true">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <Variable name="resolvingFunctions"/>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="Reject"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <UndefinedLiteral/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <ThrowStep name="TypeError"/>
+                                                         </thenStep>
+                                                      </IfStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <SetStep>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="resolvingFunctions"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <FieldProperty name="Resolve"/>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="resolve"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </SetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <SetStep>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="resolvingFunctions"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <FieldProperty name="Reject"/>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="reject"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </SetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <UndefinedLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </body>
+                              </AbstractClosureExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="executor"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="CreateBuiltinFunction">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="executorClosure"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <DecimalMathValueLiteral n="2"/>
+                                 </args>
+                                 <args>
+                                    <StringLiteral s=""/>
+                                 </args>
+                                 <args>
+                                    <ListExpression>
+                                       <entries/>
+                                    </ListExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="promise"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="Construct">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="C"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ListExpression>
+                                             <entries>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="executor"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </entries>
+                                          </ListExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsCallable">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="resolvingFunctions"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="Resolve"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsCallable">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="resolvingFunctions"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="Reject"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <RecordExpression tname="PromiseCapability Record">
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Promise"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="promise"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Resolve"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="resolvingFunctions"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="Resolve"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Reject"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="resolvingFunctions"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="Reject"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                              </RecordExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-control-abstraction-objects" title="Control Abstraction Objects" number="27" relativeNumber="27"/>
+   </sections>
+   <sections>
+      <Section id="sec-promise-objects" title="Promise Objects" number="27.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-promise-abstract-operations" title="Promise Abstract Operations" number="27.2.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-newpromisecapability" title="NewPromiseCapability ( C )" number="27.2.1.5" relativeNumber="5"/>
+   </sections>
+</Algorithm>

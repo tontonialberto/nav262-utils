@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. If _argumentsList_ is not present, set _argumentsList_ to a new empty List.         1. If IsCallable(_F_) is *false*, throw a *TypeError* exception.         1. Return ? &lt;emu-meta effects=&#34;user-code&#34;&gt;_F_.[[Call]]&lt;/emu-meta&gt;(_V_, _argumentsList_).       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="Call" retTy="either a normal completion containing an ECMAScript language value or a throw completion" id="sec-call" virtualPackage="7 Abstract Operations.3 Operations on Objects.13 Call ( F, V [ , argumentsList ] )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="F" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="V" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <OptionalParam name="argumentsList" ty="a List of ECMAScript language values"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="argumentsList"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Present/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <SetStep>
+                                 <ref>
+                                    <Variable name="argumentsList"/>
+                                 </ref>
+                                 <expr>
+                                    <ListExpression>
+                                       <entries/>
+                                    </ListExpression>
+                                 </expr>
+                              </SetStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsCallable">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="F"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeMethodExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="F"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Call"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="V"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="argumentsList"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeMethodExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-abstract-operations" title="Abstract Operations" number="7" relativeNumber="7"/>
+   </sections>
+   <sections>
+      <Section id="sec-operations-on-objects" title="Operations on Objects" number="7.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-call" title="Call ( F, V [ , argumentsList ] )" number="7.3.13" relativeNumber="13"/>
+   </sections>
+</Algorithm>

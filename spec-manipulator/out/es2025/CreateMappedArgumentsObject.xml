@@ -1,0 +1,1109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Assert: _formals_ does not contain a rest parameter, any binding patterns, or any initializers. It may contain duplicate identifiers.           1. Let _len_ be the number of elements in _argumentsList_.           1. Let _obj_ be MakeBasicObject(« [[Prototype]], [[Extensible]], [[ParameterMap]] »).           1. Set _obj_.[[GetOwnProperty]] as specified in &lt;emu-xref href=&#34;#sec-arguments-exotic-objects-getownproperty-p&#34;&gt;&lt;/emu-xref&gt;.           1. Set _obj_.[[DefineOwnProperty]] as specified in &lt;emu-xref href=&#34;#sec-arguments-exotic-objects-defineownproperty-p-desc&#34;&gt;&lt;/emu-xref&gt;.           1. Set _obj_.[[Get]] as specified in &lt;emu-xref href=&#34;#sec-arguments-exotic-objects-get-p-receiver&#34;&gt;&lt;/emu-xref&gt;.           1. Set _obj_.[[Set]] as specified in &lt;emu-xref href=&#34;#sec-arguments-exotic-objects-set-p-v-receiver&#34;&gt;&lt;/emu-xref&gt;.           1. Set _obj_.[[Delete]] as specified in &lt;emu-xref href=&#34;#sec-arguments-exotic-objects-delete-p&#34;&gt;&lt;/emu-xref&gt;.           1. Set _obj_.[[Prototype]] to %Object.prototype%.           1. Let _map_ be OrdinaryObjectCreate(*null*).           1. Set _obj_.[[ParameterMap]] to _map_.           1. Let _parameterNames_ be the BoundNames of _formals_.           1. Let _numberOfParameters_ be the number of elements in _parameterNames_.           1. Let _index_ be 0.           1. Repeat, while _index_ &lt; _len_,             1. Let _val_ be _argumentsList_[_index_].             1. Perform ! CreateDataPropertyOrThrow(_obj_, ! ToString(𝔽(_index_)), _val_).             1. Set _index_ to _index_ + 1.           1. Perform ! DefinePropertyOrThrow(_obj_, *&#34;length&#34;*, PropertyDescriptor { [[Value]]: 𝔽(_len_), [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *true* }).           1. Let _mappedNames_ be a new empty List.           1. Set _index_ to _numberOfParameters_ - 1.           1. Repeat, while _index_ ≥ 0,             1. Let _name_ be _parameterNames_[_index_].             1. If _mappedNames_ does not contain _name_, then               1. Append _name_ to _mappedNames_.               1. If _index_ &lt; _len_, then                 1. Let _g_ be MakeArgGetter(_name_, _env_).                 1. Let _p_ be MakeArgSetter(_name_, _env_).                 1. Perform ! _map_.[[DefineOwnProperty]](! ToString(𝔽(_index_)), PropertyDescriptor { [[Set]]: _p_, [[Get]]: _g_, [[Enumerable]]: *false*, [[Configurable]]: *true* }).             1. Set _index_ to _index_ - 1.           1. Perform ! DefinePropertyOrThrow(_obj_, %Symbol.iterator%, PropertyDescriptor { [[Value]]: %Array.prototype.values%, [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *true* }).           1. Perform ! DefinePropertyOrThrow(_obj_, *&#34;callee&#34;*, PropertyDescriptor { [[Value]]: _func_, [[Writable]]: *true*, [[Enumerable]]: *false*, [[Configurable]]: *true* }).           1. Return _obj_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="CreateMappedArgumentsObject" retTy="an Arguments Exotic Object" id="sec-createmappedargumentsobject" virtualPackage="10 Ordinary and Exotic Objects Behaviours.4 Built-in Exotic Object Internal Methods and Slots.4 Arguments Exotic Objects.7 CreateMappedArgumentsObject ( func, formals, argumentsList, env )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="func" ty="an Object"/>
+         </params>
+         <params>
+            <NormalParam name="formals" ty="a Parse Node"/>
+         </params>
+         <params>
+            <NormalParam name="argumentsList" ty="a List of ECMAScript language values"/>
+         </params>
+         <params>
+            <NormalParam name="env" ty="an Environment Record"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_formals_ does not contain a rest parameter, any binding patterns, or any initializers. It may contain duplicate identifiers" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="len"/>
+                           </variable>
+                           <expr>
+                              <NumberOfExpression>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="argumentsList"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </NumberOfExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="obj"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="MakeBasicObject">
+                                 <args>
+                                    <ListExpression>
+                                       <entries>
+                                          <FieldLiteral name="Prototype"/>
+                                       </entries>
+                                       <entries>
+                                          <FieldLiteral name="Extensible"/>
+                                       </entries>
+                                       <entries>
+                                          <FieldLiteral name="ParameterMap"/>
+                                       </entries>
+                                    </ListExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetAsStep verb="specified" id="sec-arguments-exotic-objects-getownproperty-p">
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="GetOwnProperty"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                        </SetAsStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetAsStep verb="specified" id="sec-arguments-exotic-objects-defineownproperty-p-desc">
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="DefineOwnProperty"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                        </SetAsStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetAsStep verb="specified" id="sec-arguments-exotic-objects-get-p-receiver">
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Get"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                        </SetAsStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetAsStep verb="specified" id="sec-arguments-exotic-objects-set-p-v-receiver">
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Set"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                        </SetAsStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetAsStep verb="specified" id="sec-arguments-exotic-objects-delete-p">
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Delete"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                        </SetAsStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Prototype"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <IntrinsicExpression>
+                                 <intr>
+                                    <Intrinsic base="Object">
+                                       <props>prototype</props>
+                                    </Intrinsic>
+                                 </intr>
+                              </IntrinsicExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="map"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="OrdinaryObjectCreate">
+                                 <args>
+                                    <NullLiteral/>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="ParameterMap"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="map"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="parameterNames"/>
+                           </variable>
+                           <expr>
+                              <InvokeSyntaxDirectedOperationExpression name="BoundNames">
+                                 <base>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="formals"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </base>
+                                 <args/>
+                              </InvokeSyntaxDirectedOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="numberOfParameters"/>
+                           </variable>
+                           <expr>
+                              <NumberOfExpression>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="parameterNames"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </NumberOfExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="index"/>
+                           </variable>
+                           <expr>
+                              <DecimalMathValueLiteral n="0"/>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RepeatWhileStep>
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="index"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <LessThan/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="len"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="val"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="argumentsList"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <IndexProperty>
+                                                                     <index>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="index"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </index>
+                                                                  </IndexProperty>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="false">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="CreateDataPropertyOrThrow">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="obj"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReturnIfAbruptExpression check="false">
+                                                                     <expr>
+                                                                        <InvokeAbstractOperationExpression name="ToString">
+                                                                           <args>
+                                                                              <ConversionExpression>
+                                                                                 <op>
+                                                                                    <ToNumber/>
+                                                                                 </op>
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="index"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                              </ConversionExpression>
+                                                                           </args>
+                                                                        </InvokeAbstractOperationExpression>
+                                                                     </expr>
+                                                                  </ReturnIfAbruptExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="val"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="index"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <BinaryExpression>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="index"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Add/>
+                                                         </op>
+                                                         <right>
+                                                            <DecimalMathValueLiteral n="1"/>
+                                                         </right>
+                                                      </BinaryExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </RepeatWhileStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="DefinePropertyOrThrow">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="obj"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <StringLiteral s="length"/>
+                                       </args>
+                                       <args>
+                                          <RecordExpression tname="PropertyDescriptor">
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Value"/>
+                                                   </field>
+                                                   <value>
+                                                      <ConversionExpression>
+                                                         <op>
+                                                            <ToNumber/>
+                                                         </op>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="len"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </ConversionExpression>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Writable"/>
+                                                   </field>
+                                                   <value>
+                                                      <TrueLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Enumerable"/>
+                                                   </field>
+                                                   <value>
+                                                      <FalseLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Configurable"/>
+                                                   </field>
+                                                   <value>
+                                                      <TrueLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                          </RecordExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="mappedNames"/>
+                           </variable>
+                           <expr>
+                              <ListExpression>
+                                 <entries/>
+                              </ListExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <Variable name="index"/>
+                           </ref>
+                           <expr>
+                              <BinaryExpression>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="numberOfParameters"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Sub/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="1"/>
+                                 </right>
+                              </BinaryExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RepeatWhileStep>
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="index"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <GreaterThanEqual/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="name"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="parameterNames"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <IndexProperty>
+                                                                     <index>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="index"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </index>
+                                                                  </IndexProperty>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <ContainsExprCondition negation="true">
+                                                         <list>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="mappedNames"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </list>
+                                                         <target>
+                                                            <Expr>
+                                                               <expr>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="name"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </expr>
+                                                            </Expr>
+                                                         </target>
+                                                      </ContainsExprCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AppendStep>
+                                                                           <elem>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="name"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </elem>
+                                                                           <ref>
+                                                                              <Variable name="mappedNames"/>
+                                                                           </ref>
+                                                                        </AppendStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep elseStep="null">
+                                                                           <cond>
+                                                                              <BinaryCondition>
+                                                                                 <left>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="index"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </left>
+                                                                                 <op>
+                                                                                    <LessThan/>
+                                                                                 </op>
+                                                                                 <right>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="len"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </right>
+                                                                              </BinaryCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <LetStep>
+                                                                                                   <variable>
+                                                                                                      <Variable name="g"/>
+                                                                                                   </variable>
+                                                                                                   <expr>
+                                                                                                      <InvokeAbstractOperationExpression name="MakeArgGetter">
+                                                                                                         <args>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="name"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </args>
+                                                                                                         <args>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="env"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </args>
+                                                                                                      </InvokeAbstractOperationExpression>
+                                                                                                   </expr>
+                                                                                                </LetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <LetStep>
+                                                                                                   <variable>
+                                                                                                      <Variable name="p"/>
+                                                                                                   </variable>
+                                                                                                   <expr>
+                                                                                                      <InvokeAbstractOperationExpression name="MakeArgSetter">
+                                                                                                         <args>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="name"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </args>
+                                                                                                         <args>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <Variable name="env"/>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </args>
+                                                                                                      </InvokeAbstractOperationExpression>
+                                                                                                   </expr>
+                                                                                                </LetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <PerformStep>
+                                                                                                   <expr>
+                                                                                                      <ReturnIfAbruptExpression check="false">
+                                                                                                         <expr>
+                                                                                                            <InvokeMethodExpression>
+                                                                                                               <ref>
+                                                                                                                  <PropertyReference>
+                                                                                                                     <base>
+                                                                                                                        <Variable name="map"/>
+                                                                                                                     </base>
+                                                                                                                     <prop>
+                                                                                                                        <FieldProperty name="DefineOwnProperty"/>
+                                                                                                                     </prop>
+                                                                                                                  </PropertyReference>
+                                                                                                               </ref>
+                                                                                                               <args>
+                                                                                                                  <ReturnIfAbruptExpression check="false">
+                                                                                                                     <expr>
+                                                                                                                        <InvokeAbstractOperationExpression name="ToString">
+                                                                                                                           <args>
+                                                                                                                              <ConversionExpression>
+                                                                                                                                 <op>
+                                                                                                                                    <ToNumber/>
+                                                                                                                                 </op>
+                                                                                                                                 <expr>
+                                                                                                                                    <ReferenceExpression>
+                                                                                                                                       <ref>
+                                                                                                                                          <Variable name="index"/>
+                                                                                                                                       </ref>
+                                                                                                                                    </ReferenceExpression>
+                                                                                                                                 </expr>
+                                                                                                                              </ConversionExpression>
+                                                                                                                           </args>
+                                                                                                                        </InvokeAbstractOperationExpression>
+                                                                                                                     </expr>
+                                                                                                                  </ReturnIfAbruptExpression>
+                                                                                                               </args>
+                                                                                                               <args>
+                                                                                                                  <RecordExpression tname="PropertyDescriptor">
+                                                                                                                     <fields>
+                                                                                                                        <RecordField>
+                                                                                                                           <field>
+                                                                                                                              <FieldLiteral name="Set"/>
+                                                                                                                           </field>
+                                                                                                                           <value>
+                                                                                                                              <ReferenceExpression>
+                                                                                                                                 <ref>
+                                                                                                                                    <Variable name="p"/>
+                                                                                                                                 </ref>
+                                                                                                                              </ReferenceExpression>
+                                                                                                                           </value>
+                                                                                                                        </RecordField>
+                                                                                                                     </fields>
+                                                                                                                     <fields>
+                                                                                                                        <RecordField>
+                                                                                                                           <field>
+                                                                                                                              <FieldLiteral name="Get"/>
+                                                                                                                           </field>
+                                                                                                                           <value>
+                                                                                                                              <ReferenceExpression>
+                                                                                                                                 <ref>
+                                                                                                                                    <Variable name="g"/>
+                                                                                                                                 </ref>
+                                                                                                                              </ReferenceExpression>
+                                                                                                                           </value>
+                                                                                                                        </RecordField>
+                                                                                                                     </fields>
+                                                                                                                     <fields>
+                                                                                                                        <RecordField>
+                                                                                                                           <field>
+                                                                                                                              <FieldLiteral name="Enumerable"/>
+                                                                                                                           </field>
+                                                                                                                           <value>
+                                                                                                                              <FalseLiteral/>
+                                                                                                                           </value>
+                                                                                                                        </RecordField>
+                                                                                                                     </fields>
+                                                                                                                     <fields>
+                                                                                                                        <RecordField>
+                                                                                                                           <field>
+                                                                                                                              <FieldLiteral name="Configurable"/>
+                                                                                                                           </field>
+                                                                                                                           <value>
+                                                                                                                              <TrueLiteral/>
+                                                                                                                           </value>
+                                                                                                                        </RecordField>
+                                                                                                                     </fields>
+                                                                                                                  </RecordExpression>
+                                                                                                               </args>
+                                                                                                            </InvokeMethodExpression>
+                                                                                                         </expr>
+                                                                                                      </ReturnIfAbruptExpression>
+                                                                                                   </expr>
+                                                                                                </PerformStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </thenStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="index"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <BinaryExpression>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="index"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Sub/>
+                                                         </op>
+                                                         <right>
+                                                            <DecimalMathValueLiteral n="1"/>
+                                                         </right>
+                                                      </BinaryExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </RepeatWhileStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="DefinePropertyOrThrow">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="obj"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <SymbolLiteral sym="iterator"/>
+                                       </args>
+                                       <args>
+                                          <RecordExpression tname="PropertyDescriptor">
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Value"/>
+                                                   </field>
+                                                   <value>
+                                                      <IntrinsicExpression>
+                                                         <intr>
+                                                            <Intrinsic base="Array">
+                                                               <props>prototype</props>
+                                                               <props>values</props>
+                                                            </Intrinsic>
+                                                         </intr>
+                                                      </IntrinsicExpression>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Writable"/>
+                                                   </field>
+                                                   <value>
+                                                      <TrueLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Enumerable"/>
+                                                   </field>
+                                                   <value>
+                                                      <FalseLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Configurable"/>
+                                                   </field>
+                                                   <value>
+                                                      <TrueLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                          </RecordExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="DefinePropertyOrThrow">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="obj"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <StringLiteral s="callee"/>
+                                       </args>
+                                       <args>
+                                          <RecordExpression tname="PropertyDescriptor">
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Value"/>
+                                                   </field>
+                                                   <value>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="func"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Writable"/>
+                                                   </field>
+                                                   <value>
+                                                      <TrueLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Enumerable"/>
+                                                   </field>
+                                                   <value>
+                                                      <FalseLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Configurable"/>
+                                                   </field>
+                                                   <value>
+                                                      <TrueLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                          </RecordExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="obj"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ordinary-and-exotic-objects-behaviours" title="Ordinary and Exotic Objects Behaviours" number="10" relativeNumber="10"/>
+   </sections>
+   <sections>
+      <Section id="sec-built-in-exotic-object-internal-methods-and-slots" title="Built-in Exotic Object Internal Methods and Slots" number="10.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-arguments-exotic-objects" title="Arguments Exotic Objects" number="10.4.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-createmappedargumentsobject" title="CreateMappedArgumentsObject ( func, formals, argumentsList, env )" number="10.4.4.7" relativeNumber="7"/>
+   </sections>
+</Algorithm>

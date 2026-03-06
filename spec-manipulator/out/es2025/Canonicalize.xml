@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. If HasEitherUnicodeFlag(_rer_) is *true* and _rer_.[[IgnoreCase]] is *true*, then               1. If the file &lt;a href=&#34;https://unicode.org/Public/UCD/latest/ucd/CaseFolding.txt&#34;&gt;&lt;code&gt;CaseFolding.txt&lt;/code&gt;&lt;/a&gt; of the Unicode Character Database provides a simple or common case folding mapping for _ch_, return the result of applying that mapping to _ch_.               1. Return _ch_.             1. If _rer_.[[IgnoreCase]] is *false*, return _ch_.             1. Assert: _ch_ is a UTF-16 code unit.             1. Let _cp_ be the code point whose numeric value is the numeric value of _ch_.             1. Let _u_ be toUppercase(« _cp_ »), according to the Unicode Default Case Conversion algorithm.             1. Let _uStr_ be CodePointsToString(_u_).             1. If the length of _uStr_ ≠ 1, return _ch_.             1. Let _cu_ be _uStr_'s single code unit element.             1. If the numeric value of _ch_ ≥ 128 and the numeric value of _cu_ &lt; 128, return _ch_.             1. Return _cu_.           ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="Canonicalize" retTy="a character" id="sec-runtime-semantics-canonicalize-ch" virtualPackage="22 Text Processing.2 RegExp (Regular Expression) Objects.2 Pattern Semantics.7 Runtime Semantics: CompileAtom.3 Canonicalize ( rer, ch )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="rer" ty="a Reg Exp Record"/>
+         </params>
+         <params>
+            <NormalParam name="ch" ty="a character"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <InvokeAbstractOperationExpression name="HasEitherUnicodeFlag">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="rer"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </left>
+                                       <right>
+                                          <TrueLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="rer"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="IgnoreCase"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <TrueLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="If the file &lt;a href=&#34;https://unicode.org/Public/UCD/latest/ucd/CaseFolding.txt&#34;&gt;&lt;code&gt;CaseFolding.txt&lt;/code&gt;&lt;/a&gt; of the Unicode Character Database provides a simple or common case folding mapping for _ch_, return the result of applying that mapping to _ch_." block="null"/>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="ch"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="rer"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="IgnoreCase"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="ch"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_ch_ is a UTF-16 code unit" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _cp_ be the code point whose numeric value is the numeric value of _ch_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _u_ be toUppercase(« _cp_ »), according to the Unicode Default Case Conversion algorithm." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="uStr"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="CodePointsToString">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="u"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <LengthExpression>
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="uStr"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </LengthExpression>
+                                 </left>
+                                 <op>
+                                    <NEq/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="1"/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="ch"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _cu_ be _uStr_'s single code unit element." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ConversionExpression>
+                                             <op>
+                                                <ToMath/>
+                                             </op>
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="ch"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                          </ConversionExpression>
+                                       </left>
+                                       <op>
+                                          <GreaterThanEqual/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="128"/>
+                                       </right>
+                                    </BinaryCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ConversionExpression>
+                                             <op>
+                                                <ToMath/>
+                                             </op>
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="cu"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                          </ConversionExpression>
+                                       </left>
+                                       <op>
+                                          <LessThan/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="128"/>
+                                       </right>
+                                    </BinaryCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="ch"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="cu"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-text-processing" title="Text Processing" number="22" relativeNumber="22"/>
+   </sections>
+   <sections>
+      <Section id="sec-regexp-regular-expression-objects" title="RegExp (Regular Expression) Objects" number="22.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-pattern-semantics" title="Pattern Semantics" number="22.2.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-compileatom" title="Runtime Semantics: CompileAtom" number="22.2.2.7" relativeNumber="7"/>
+   </sections>
+   <sections>
+      <Section id="sec-runtime-semantics-canonicalize-ch" title="Canonicalize ( rer, ch )" number="22.2.2.7.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

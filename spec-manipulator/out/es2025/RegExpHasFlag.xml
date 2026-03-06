@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. If _R_ is not an Object, throw a *TypeError* exception.             1. If _R_ does not have an [[OriginalFlags]] internal slot, then               1. If SameValue(_R_, %RegExp.prototype%) is *true*, return *undefined*.               1. Otherwise, throw a *TypeError* exception.             1. Let _flags_ be _R_.[[OriginalFlags]].             1. If _flags_ contains _codeUnit_, return *true*.             1. Return *false*.           ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="RegExpHasFlag" retTy="either a normal completion containing either a Boolean or *undefined*, or a throw completion" id="sec-regexphasflag" virtualPackage="22 Text Processing.2 RegExp (Regular Expression) Objects.6 Properties of the RegExp Prototype Object.4 get RegExp.prototype.flags.1 RegExpHasFlag ( R, codeUnit )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="R" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="codeUnit" ty="a code unit"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="R"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="an Object"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <HasFieldCondition negation="true">
+                                 <ref>
+                                    <Variable name="R"/>
+                                 </ref>
+                                 <field>
+                                    <FieldLiteral name="OriginalFlags"/>
+                                 </field>
+                              </HasFieldCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="otherwise" comma="true">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <InvokeAbstractOperationExpression name="SameValue">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="R"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <IntrinsicExpression>
+                                                                     <intr>
+                                                                        <Intrinsic base="RegExp">
+                                                                           <props>prototype</props>
+                                                                        </Intrinsic>
+                                                                     </intr>
+                                                                  </IntrinsicExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </left>
+                                                         <right>
+                                                            <TrueLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <UndefinedLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <ThrowStep name="TypeError"/>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="flags"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="R"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="OriginalFlags"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <ContainsExprCondition negation="false">
+                                 <list>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="flags"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </list>
+                                 <target>
+                                    <Expr>
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="codeUnit"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </Expr>
+                                 </target>
+                              </ContainsExprCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <TrueLiteral/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <FalseLiteral/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-text-processing" title="Text Processing" number="22" relativeNumber="22"/>
+   </sections>
+   <sections>
+      <Section id="sec-regexp-regular-expression-objects" title="RegExp (Regular Expression) Objects" number="22.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-properties-of-the-regexp-prototype-object" title="Properties of the RegExp Prototype Object" number="22.2.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-get-regexp.prototype.flags" title="get RegExp.prototype.flags" number="22.2.6.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-regexphasflag" title="RegExpHasFlag ( R, codeUnit )" number="22.2.6.4.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

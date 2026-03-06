@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If _resumptionValue_ is not a return completion, return ? _resumptionValue_.           1. Let _awaited_ be Completion(Await(_resumptionValue_.[[Value]])).           1. If _awaited_ is a throw completion, return ? _awaited_.           1. Assert: _awaited_ is a normal completion.           1. Return ReturnCompletion(_awaited_.[[Value]]).         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="AsyncGeneratorUnwrapYieldResumption" retTy="either a normal completion containing an ECMAScript language value or an abrupt completion" id="sec-asyncgeneratorunwrapyieldresumption" virtualPackage="27 Control Abstraction Objects.6 AsyncGenerator Objects.3 AsyncGenerator Abstract Operations.7 AsyncGeneratorUnwrapYieldResumption ( resumptionValue )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="resumptionValue" ty="completion record"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="resumptionValue"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Return/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="resumptionValue"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="awaited"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="Completion">
+                                 <args>
+                                    <InvokeAbstractOperationExpression name="Await">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="resumptionValue"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="Value"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="awaited"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Throw/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="awaited"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="awaited"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Normal/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="ReturnCompletion">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="awaited"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Value"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-control-abstraction-objects" title="Control Abstraction Objects" number="27" relativeNumber="27"/>
+   </sections>
+   <sections>
+      <Section id="sec-asyncgenerator-objects" title="AsyncGenerator Objects" number="27.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-asyncgenerator-abstract-operations" title="AsyncGenerator Abstract Operations" number="27.6.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-asyncgeneratorunwrapyieldresumption" title="AsyncGeneratorUnwrapYieldResumption ( resumptionValue )" number="27.6.3.7" relativeNumber="7"/>
+   </sections>
+</Algorithm>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. Let _number_ be ? ToNumber(_argument_).         1. If _number_ is one of *NaN*, *+0*&lt;sub&gt;𝔽&lt;/sub&gt;, or *-0*&lt;sub&gt;𝔽&lt;/sub&gt;, return 0.         1. If _number_ is *+∞*&lt;sub&gt;𝔽&lt;/sub&gt;, return +∞.         1. If _number_ is *-∞*&lt;sub&gt;𝔽&lt;/sub&gt;, return -∞.         1. Return truncate(ℝ(_number_)).       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ToIntegerOrInfinity" retTy="either a normal completion containing a math value or a throw completion" id="sec-tointegerorinfinity" virtualPackage="7 Abstract Operations.1 Type Conversion.5 ToIntegerOrInfinity ( argument )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="argument" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="number"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToNumber">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="argument"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="number"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </right>
+                                 <right>
+                                    <NumberLiteral value="0" isNegative="false"/>
+                                 </right>
+                                 <right>
+                                    <NumberLiteral value="0" isNegative="true"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="number"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <PositiveInfinityNumberLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <PositiveInfinityMathValueLiteral/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="number"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <NegativeInfinityNumberLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NegativeInfinityMathValueLiteral/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <MathFuncExpression>
+                                 <op>
+                                    <Truncate/>
+                                 </op>
+                                 <args>
+                                    <ConversionExpression>
+                                       <op>
+                                          <ToMath/>
+                                       </op>
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="number"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </ConversionExpression>
+                                 </args>
+                              </MathFuncExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-abstract-operations" title="Abstract Operations" number="7" relativeNumber="7"/>
+   </sections>
+   <sections>
+      <Section id="sec-type-conversion" title="Type Conversion" number="7.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-tointegerorinfinity" title="ToIntegerOrInfinity ( argument )" number="7.1.5" relativeNumber="5"/>
+   </sections>
+</Algorithm>

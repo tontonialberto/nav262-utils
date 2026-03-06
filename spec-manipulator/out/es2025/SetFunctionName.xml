@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. Assert: _F_ is an extensible object that does not have a *&#34;name&#34;* own property.         1. If _name_ is a Symbol, then           1. Let _description_ be _name_'s [[Description]] value.           1. If _description_ is *undefined*, set _name_ to the empty String.           1. Else, set _name_ to the string-concatenation of *&#34;[&#34;*, _description_, and *&#34;]&#34;*.         1. Else if _name_ is a Private Name, then           1. Set _name_ to _name_.[[Description]].         1. If _F_ has an [[InitialName]] internal slot, then           1. Set _F_.[[InitialName]] to _name_.         1. If _prefix_ is present, then           1. Set _name_ to the string-concatenation of _prefix_, the code unit 0x0020 (SPACE), and _name_.           1. If _F_ has an [[InitialName]] internal slot, then             1. Optionally, set _F_.[[InitialName]] to _name_.         1. Perform ! DefinePropertyOrThrow(_F_, *&#34;name&#34;*, PropertyDescriptor { [[Value]]: _name_, [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }).         1. Return ~unused~.       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="SetFunctionName" retTy="~unused~" id="sec-setfunctionname" virtualPackage="10 Ordinary and Exotic Objects Behaviours.2 ECMAScript Function Objects.9 SetFunctionName ( F, name [ , prefix ] )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="F" ty="a function object"/>
+         </params>
+         <params>
+            <NormalParam name="name" ty="a Private Name, a Symbol, or a String"/>
+         </params>
+         <params>
+            <OptionalParam name="prefix" ty="a String"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_F_ is an extensible object that does not have a *&#34;name&#34;* own property" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="false">
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="name"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a Symbol"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="description"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="name"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <FieldProperty name="Description"/>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="true">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="description"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <UndefinedLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <SetStep>
+                                                         <ref>
+                                                            <Variable name="name"/>
+                                                         </ref>
+                                                         <expr>
+                                                            <StringLiteral s=""/>
+                                                         </expr>
+                                                      </SetStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <SetStep>
+                                                         <ref>
+                                                            <Variable name="name"/>
+                                                         </ref>
+                                                         <expr>
+                                                            <StringConcatExpression>
+                                                               <exprs>
+                                                                  <StringLiteral s="["/>
+                                                               </exprs>
+                                                               <exprs>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="description"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </exprs>
+                                                               <exprs>
+                                                                  <StringLiteral s="]"/>
+                                                               </exprs>
+                                                            </StringConcatExpression>
+                                                         </expr>
+                                                      </SetStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <IfStep elseStep="null">
+                                 <cond>
+                                    <TypeCheckCondition negation="false">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="name"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                       <ty>
+                                          <Type value="a Private Name"/>
+                                       </ty>
+                                    </TypeCheckCondition>
+                                 </cond>
+                                 <thenStep>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <SetStep>
+                                                         <ref>
+                                                            <Variable name="name"/>
+                                                         </ref>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="name"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="Description"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </SetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </thenStep>
+                              </IfStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <HasFieldCondition negation="false">
+                                 <ref>
+                                    <Variable name="F"/>
+                                 </ref>
+                                 <field>
+                                    <FieldLiteral name="InitialName"/>
+                                 </field>
+                              </HasFieldCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <PropertyReference>
+                                                         <base>
+                                                            <Variable name="F"/>
+                                                         </base>
+                                                         <prop>
+                                                            <FieldProperty name="InitialName"/>
+                                                         </prop>
+                                                      </PropertyReference>
+                                                   </ref>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="name"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="prefix"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Present/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="name"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <StringConcatExpression>
+                                                         <exprs>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="prefix"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </exprs>
+                                                         <exprs>
+                                                            <HexLiteral hex="32" name="SPACE"/>
+                                                         </exprs>
+                                                         <exprs>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="name"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </exprs>
+                                                      </StringConcatExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <HasFieldCondition negation="false">
+                                                         <ref>
+                                                            <Variable name="F"/>
+                                                         </ref>
+                                                         <field>
+                                                            <FieldLiteral name="InitialName"/>
+                                                         </field>
+                                                      </HasFieldCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Optionally, set _F_.[[InitialName]] to _name_." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="DefinePropertyOrThrow">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="F"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <StringLiteral s="name"/>
+                                       </args>
+                                       <args>
+                                          <RecordExpression tname="PropertyDescriptor">
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Value"/>
+                                                   </field>
+                                                   <value>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="name"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Writable"/>
+                                                   </field>
+                                                   <value>
+                                                      <FalseLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Enumerable"/>
+                                                   </field>
+                                                   <value>
+                                                      <FalseLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                             <fields>
+                                                <RecordField>
+                                                   <field>
+                                                      <FieldLiteral name="Configurable"/>
+                                                   </field>
+                                                   <value>
+                                                      <TrueLiteral/>
+                                                   </value>
+                                                </RecordField>
+                                             </fields>
+                                          </RecordExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <EnumLiteral name="unused"/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ordinary-and-exotic-objects-behaviours" title="Ordinary and Exotic Objects Behaviours" number="10" relativeNumber="10"/>
+   </sections>
+   <sections>
+      <Section id="sec-ecmascript-function-objects" title="ECMAScript Function Objects" number="10.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-setfunctionname" title="SetFunctionName ( F, name [ , prefix ] )" number="10.2.9" relativeNumber="9"/>
+   </sections>
+</Algorithm>

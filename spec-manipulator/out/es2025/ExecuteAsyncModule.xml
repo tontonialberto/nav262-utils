@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="                 1. Assert: _module_.[[Status]] is either ~evaluating~ or ~evaluating-async~.                 1. Assert: _module_.[[HasTLA]] is *true*.                 1. Let _capability_ be ! NewPromiseCapability(%Promise%).                 1. Let _fulfilledClosure_ be a new Abstract Closure with no parameters that captures _module_ and performs the following steps when called:                   1. Perform AsyncModuleExecutionFulfilled(_module_).                   1. Return *undefined*.                 1. Let _onFulfilled_ be CreateBuiltinFunction(_fulfilledClosure_, 0, *&#34;&#34;*, « »).                 1. Let _rejectedClosure_ be a new Abstract Closure with parameters (_error_) that captures _module_ and performs the following steps when called:                   1. Perform AsyncModuleExecutionRejected(_module_, _error_).                   1. Return *undefined*.                 1. Let _onRejected_ be CreateBuiltinFunction(_rejectedClosure_, 0, *&#34;&#34;*, « »).                 1. Perform PerformPromiseThen(_capability_.[[Promise]], _onFulfilled_, _onRejected_).                 1. Perform ! &lt;emu-meta effects=&#34;user-code&#34;&gt;_module_.ExecuteModule&lt;/emu-meta&gt;(_capability_).                 1. Return ~unused~.               ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ExecuteAsyncModule" retTy="~unused~" id="sec-execute-async-module" virtualPackage="16 ECMAScript Language: Scripts and Modules.2 Modules.1 Module Semantics.6 Cyclic Module Records.1 Implementation of Module Record Abstract Methods.3 Evaluate ( ).2 ExecuteAsyncModule ( module )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="module" ty="a Cyclic Module Record"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Status"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="evaluating"/>
+                                 </right>
+                                 <right>
+                                    <EnumLiteral name="evaluating-async"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="HasTLA"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="capability"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="NewPromiseCapability">
+                                       <args>
+                                          <IntrinsicExpression>
+                                             <intr>
+                                                <Intrinsic base="Promise">
+                                                   <props/>
+                                                </Intrinsic>
+                                             </intr>
+                                          </IntrinsicExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="fulfilledClosure"/>
+                           </variable>
+                           <expr>
+                              <AbstractClosureExpression>
+                                 <params/>
+                                 <captured>
+                                    <Variable name="module"/>
+                                 </captured>
+                                 <body>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <PerformStep>
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="AsyncModuleExecutionFulfilled">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="module"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </PerformStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <UndefinedLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </body>
+                              </AbstractClosureExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="onFulfilled"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="CreateBuiltinFunction">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="fulfilledClosure"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </args>
+                                 <args>
+                                    <StringLiteral s=""/>
+                                 </args>
+                                 <args>
+                                    <ListExpression>
+                                       <entries/>
+                                    </ListExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="rejectedClosure"/>
+                           </variable>
+                           <expr>
+                              <AbstractClosureExpression>
+                                 <params>
+                                    <Variable name="error"/>
+                                 </params>
+                                 <captured>
+                                    <Variable name="module"/>
+                                 </captured>
+                                 <body>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <PerformStep>
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="AsyncModuleExecutionRejected">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="module"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="error"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </PerformStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <UndefinedLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </body>
+                              </AbstractClosureExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="onRejected"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="CreateBuiltinFunction">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="rejectedClosure"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </args>
+                                 <args>
+                                    <StringLiteral s=""/>
+                                 </args>
+                                 <args>
+                                    <ListExpression>
+                                       <entries/>
+                                    </ListExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="PerformPromiseThen">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="capability"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Promise"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="onFulfilled"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="onRejected"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeMethodExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="module"/>
+                                             </base>
+                                             <prop>
+                                                <ComponentProperty name="ExecuteModule"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="capability"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeMethodExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <EnumLiteral name="unused"/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-language-scripts-and-modules" title="ECMAScript Language: Scripts and Modules" number="16" relativeNumber="16"/>
+   </sections>
+   <sections>
+      <Section id="sec-modules" title="Modules" number="16.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-module-semantics" title="Module Semantics" number="16.2.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-cyclic-module-records" title="Cyclic Module Records" number="16.2.1.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-cyclic-module-record-module-record-methods" title="Implementation of Module Record Abstract Methods" number="16.2.1.6.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-moduleevaluation" title="Evaluate ( )" number="16.2.1.6.1.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-execute-async-module" title="ExecuteAsyncModule ( module )" number="16.2.1.6.1.3.2" relativeNumber="2"/>
+   </sections>
+</Algorithm>

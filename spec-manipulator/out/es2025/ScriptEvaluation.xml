@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. Let _globalEnv_ be _scriptRecord_.[[Realm]].[[GlobalEnv]].         1. Let _scriptContext_ be a new ECMAScript code execution context.         1. Set the Function of _scriptContext_ to *null*.         1. Set the Realm of _scriptContext_ to _scriptRecord_.[[Realm]].         1. Set the ScriptOrModule of _scriptContext_ to _scriptRecord_.         1. Set the VariableEnvironment of _scriptContext_ to _globalEnv_.         1. Set the LexicalEnvironment of _scriptContext_ to _globalEnv_.         1. Set the PrivateEnvironment of _scriptContext_ to *null*.         1. Suspend the running execution context.         1. Push _scriptContext_ onto the execution context stack; _scriptContext_ is now the running execution context.         1. Let _script_ be _scriptRecord_.[[ECMAScriptCode]].         1. Let _result_ be Completion(GlobalDeclarationInstantiation(_script_, _globalEnv_)).         1. If _result_ is a normal completion, then           1. Set _result_ to Completion(Evaluation of _script_).           1. If _result_ is a normal completion and _result_.[[Value]] is ~empty~, then             1. Set _result_ to NormalCompletion(*undefined*).         1. Suspend _scriptContext_ and remove it from the execution context stack.         1. Assert: The execution context stack is not empty.         1. Resume the context that is now on the top of the execution context stack as the running execution context.         1. Return ? _result_.       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ScriptEvaluation" retTy="either a normal completion containing an ECMAScript language value or an abrupt completion" id="sec-runtime-semantics-scriptevaluation" virtualPackage="16 ECMAScript Language: Scripts and Modules.1 Scripts.6 ScriptEvaluation ( scriptRecord )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="scriptRecord" ty="a Script Record"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="globalEnv"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="scriptRecord"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Realm"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="GlobalEnv"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="scriptContext"/>
+                           </variable>
+                           <expr>
+                              <RecordExpression tname="ExecutionContext">
+                                 <fields/>
+                              </RecordExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="scriptContext"/>
+                                 </base>
+                                 <prop>
+                                    <ComponentProperty name="Function"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <NullLiteral/>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="scriptContext"/>
+                                 </base>
+                                 <prop>
+                                    <ComponentProperty name="Realm"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="scriptRecord"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Realm"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="scriptContext"/>
+                                 </base>
+                                 <prop>
+                                    <ComponentProperty name="ScriptOrModule"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="scriptRecord"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="scriptContext"/>
+                                 </base>
+                                 <prop>
+                                    <ComponentProperty name="VariableEnvironment"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="globalEnv"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="scriptContext"/>
+                                 </base>
+                                 <prop>
+                                    <ComponentProperty name="LexicalEnvironment"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="globalEnv"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="scriptContext"/>
+                                 </base>
+                                 <prop>
+                                    <ComponentProperty name="PrivateEnvironment"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <NullLiteral/>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SuspendStep variable="null" remove="false"/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PushContextStep>
+                           <ref>
+                              <Variable name="scriptContext"/>
+                           </ref>
+                        </PushContextStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="script"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="scriptRecord"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ECMAScriptCode"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="result"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="Completion">
+                                 <args>
+                                    <InvokeAbstractOperationExpression name="GlobalDeclarationInstantiation">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="script"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="globalEnv"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="result"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Normal/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="result"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="Completion">
+                                                         <args>
+                                                            <InvokeSyntaxDirectedOperationExpression name="Evaluation">
+                                                               <base>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="script"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </base>
+                                                               <args/>
+                                                            </InvokeSyntaxDirectedOperationExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <CompoundCondition>
+                                                         <left>
+                                                            <PredicateCondition negation="false">
+                                                               <expr>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="result"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </expr>
+                                                               <op>
+                                                                  <Normal/>
+                                                               </op>
+                                                            </PredicateCondition>
+                                                         </left>
+                                                         <op>
+                                                            <And/>
+                                                         </op>
+                                                         <right>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <Variable name="result"/>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="Value"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <EnumLiteral name="empty"/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </right>
+                                                      </CompoundCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="result"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <InvokeAbstractOperationExpression name="NormalCompletion">
+                                                                                 <args>
+                                                                                    <UndefinedLiteral/>
+                                                                                 </args>
+                                                                              </InvokeAbstractOperationExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SuspendStep remove="true">
+                           <variable>
+                              <Variable name="scriptContext"/>
+                           </variable>
+                        </SuspendStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="The execution context stack is not empty" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ResumeTopContextStep/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="result"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-language-scripts-and-modules" title="ECMAScript Language: Scripts and Modules" number="16" relativeNumber="16"/>
+   </sections>
+   <sections>
+      <Section id="sec-scripts" title="Scripts" number="16.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-runtime-semantics-scriptevaluation" title="ScriptEvaluation ( scriptRecord )" number="16.1.6" relativeNumber="6"/>
+   </sections>
+</Algorithm>

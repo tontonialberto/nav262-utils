@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _n_ be ? ToNumber(_x_).           1. If _n_ is not finite or _n_ is either *+0*&lt;sub&gt;𝔽&lt;/sub&gt; or *-0*&lt;sub&gt;𝔽&lt;/sub&gt;, return _n_.           1. If _n_ &lt; *1*&lt;sub&gt;𝔽&lt;/sub&gt; and _n_ &gt; *+0*&lt;sub&gt;𝔽&lt;/sub&gt;, return *+0*&lt;sub&gt;𝔽&lt;/sub&gt;.           1. If _n_ is an integral Number, return _n_.           1. Return the greatest (closest to +∞) integral Number value that is not greater than _n_.         ">
+   <head>
+      <BuiltinHead name="Math.floor" retTy="unknown" id="sec-math.floor" virtualPackage="21 Numbers and Dates.3 The Math Object.2 Function Properties of the Math Object.16 Math.floor ( x )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="x" ty="unknown"/>
+         </params>
+      </BuiltinHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="n"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToNumber">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="x"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <PredicateCondition negation="true">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="n"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                       <op>
+                                          <Finite/>
+                                       </op>
+                                    </PredicateCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="n"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <NumberLiteral value="0" isNegative="false"/>
+                                       </right>
+                                       <right>
+                                          <NumberLiteral value="0" isNegative="true"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="n"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="n"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <LessThan/>
+                                       </op>
+                                       <right>
+                                          <NumberLiteral value="1" isNegative="false"/>
+                                       </right>
+                                    </BinaryCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="n"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <GreaterThan/>
+                                       </op>
+                                       <right>
+                                          <NumberLiteral value="0" isNegative="false"/>
+                                       </right>
+                                    </BinaryCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="0" isNegative="false"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="n"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a Number"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="n"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Return the greatest (closest to +∞) integral Number value that is not greater than _n_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-numbers-and-dates" title="Numbers and Dates" number="21" relativeNumber="21"/>
+   </sections>
+   <sections>
+      <Section id="sec-math-object" title="The Math Object" number="21.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-function-properties-of-the-math-object" title="Function Properties of the Math Object" number="21.3.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-math.floor" title="Math.floor ( x )" number="21.3.2.16" relativeNumber="16"/>
+   </sections>
+</Algorithm>

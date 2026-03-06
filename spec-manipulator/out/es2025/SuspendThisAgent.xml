@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Assert: The surrounding agent is in the critical section for _WL_.           1. Assert: _WL_.[[Waiters]] contains _waiterRecord_.           1. Let _thisAgent_ be AgentSignifier().           1. Assert: _waiterRecord_.[[AgentSignifier]] is _thisAgent_.           1. Assert: _waiterRecord_.[[PromiseCapability]] is ~blocking~.           1. Assert: AgentCanSuspend() is *true*.           1. Perform LeaveCriticalSection(_WL_) and suspend the surrounding agent until the time is _waiterRecord_.[[TimeoutTime]], performing the combined operation in such a way that a notification that arrives after the critical section is exited but before the suspension takes effect is not lost. The surrounding agent can only wake from suspension due to a timeout or due to another agent calling NotifyWaiter with arguments _WL_ and _thisAgent_ (i.e. via a call to `Atomics.notify`).           1. Perform EnterCriticalSection(_WL_).           1. Return ~unused~.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="SuspendThisAgent" retTy="~unused~" id="sec-suspendthisagent" virtualPackage="25 Structured Data.4 The Atomics Object.3 Abstract Operations for Atomics.11 SuspendThisAgent ( WL, waiterRecord )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="WL" ty="a Waiter List Record"/>
+         </params>
+         <params>
+            <NormalParam name="waiterRecord" ty="a Waiter Record"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="The surrounding agent is in the critical section for _WL_" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ContainsExprCondition negation="false">
+                                 <list>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="WL"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Waiters"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </list>
+                                 <target>
+                                    <Expr>
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="waiterRecord"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </Expr>
+                                 </target>
+                              </ContainsExprCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="thisAgent"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="AgentSignifier">
+                                 <args/>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="waiterRecord"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="AgentSignifier"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="thisAgent"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="waiterRecord"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="PromiseCapability"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="blocking"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="AgentCanSuspend">
+                                       <args/>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Perform LeaveCriticalSection(_WL_) and suspend the surrounding agent until the time is _waiterRecord_.[[TimeoutTime]], performing the combined operation in such a way that a notification that arrives after the critical section is exited but before the suspension takes effect is not lost. The surrounding agent can only wake from suspension due to a timeout or due to another agent calling NotifyWaiter with arguments _WL_ and _thisAgent_ (i.e. via a call to `Atomics.notify`)." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="EnterCriticalSection">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="WL"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <EnumLiteral name="unused"/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-structured-data" title="Structured Data" number="25" relativeNumber="25"/>
+   </sections>
+   <sections>
+      <Section id="sec-atomics-object" title="The Atomics Object" number="25.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-abstract-operations-for-atomics" title="Abstract Operations for Atomics" number="25.4.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-suspendthisagent" title="SuspendThisAgent ( WL, waiterRecord )" number="25.4.3.11" relativeNumber="11"/>
+   </sections>
+</Algorithm>

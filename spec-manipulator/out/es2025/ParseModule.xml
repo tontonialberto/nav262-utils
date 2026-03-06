@@ -1,0 +1,961 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. Let _body_ be ParseText(_sourceText_, |Module|).             1. If _body_ is a List of errors, return _body_.             1. Let _requestedModules_ be the ModuleRequests of _body_.             1. Let _importEntries_ be the ImportEntries of _body_.             1. Let _importedBoundNames_ be ImportedLocalNames(_importEntries_).             1. Let _indirectExportEntries_ be a new empty List.             1. Let _localExportEntries_ be a new empty List.             1. Let _starExportEntries_ be a new empty List.             1. Let _exportEntries_ be the ExportEntries of _body_.             1. For each ExportEntry Record _ee_ of _exportEntries_, do               1. If _ee_.[[ModuleRequest]] is *null*, then                 1. If _importedBoundNames_ does not contain _ee_.[[LocalName]], then                   1. Append _ee_ to _localExportEntries_.                 1. Else,                   1. Let _ie_ be the element of _importEntries_ whose [[LocalName]] is _ee_.[[LocalName]].                   1. If _ie_.[[ImportName]] is ~namespace-object~, then                     1. NOTE: This is a re-export of an imported module namespace object.                     1. Append _ee_ to _localExportEntries_.                   1. Else,                     1. NOTE: This is a re-export of a single name.                     1. Append the ExportEntry Record { [[ModuleRequest]]: _ie_.[[ModuleRequest]], [[ImportName]]: _ie_.[[ImportName]], [[LocalName]]: *null*, [[ExportName]]: _ee_.[[ExportName]] } to _indirectExportEntries_.               1. Else if _ee_.[[ImportName]] is ~all-but-default~, then                 1. Assert: _ee_.[[ExportName]] is *null*.                 1. Append _ee_ to _starExportEntries_.               1. Else,                 1. Append _ee_ to _indirectExportEntries_.             1. Let _async_ be _body_ Contains `await`.             1. Return Source Text Module Record { [[Realm]]: _realm_, [[Environment]]: ~empty~, [[Namespace]]: ~empty~, [[CycleRoot]]: ~empty~, [[HasTLA]]: _async_, [[AsyncEvaluationOrder]]: ~unset~, [[TopLevelCapability]]: ~empty~, [[AsyncParentModules]]: « », [[PendingAsyncDependencies]]: ~empty~, [[Status]]: ~new~, [[EvaluationError]]: ~empty~, [[HostDefined]]: _hostDefined_, [[ECMAScriptCode]]: _body_, [[Context]]: ~empty~, [[ImportMeta]]: ~empty~, [[RequestedModules]]: _requestedModules_, [[LoadedModules]]: « », [[ImportEntries]]: _importEntries_, [[LocalExportEntries]]: _localExportEntries_, [[IndirectExportEntries]]: _indirectExportEntries_, [[StarExportEntries]]: _starExportEntries_, [[DFSIndex]]: ~empty~, [[DFSAncestorIndex]]: ~empty~ }.           ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ParseModule" retTy="a Source Text Module Record or a non-empty List of *SyntaxError* objects" id="sec-parsemodule" virtualPackage="16 ECMAScript Language: Scripts and Modules.2 Modules.1 Module Semantics.7 Source Text Module Records.1 ParseModule ( sourceText, realm, hostDefined )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="sourceText" ty="ECMAScript source text"/>
+         </params>
+         <params>
+            <NormalParam name="realm" ty="a Realm Record"/>
+         </params>
+         <params>
+            <NormalParam name="hostDefined" ty="anything"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="body"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="ParseText">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="sourceText"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <NonterminalLiteral ordinal="null" name="Module">
+                                       <flags/>
+                                    </NonterminalLiteral>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="body"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a List of Errors"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="body"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="requestedModules"/>
+                           </variable>
+                           <expr>
+                              <InvokeSyntaxDirectedOperationExpression name="ModuleRequests">
+                                 <base>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="body"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </base>
+                                 <args/>
+                              </InvokeSyntaxDirectedOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="importEntries"/>
+                           </variable>
+                           <expr>
+                              <InvokeSyntaxDirectedOperationExpression name="ImportEntries">
+                                 <base>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="body"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </base>
+                                 <args/>
+                              </InvokeSyntaxDirectedOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="importedBoundNames"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="ImportedLocalNames">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="importEntries"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="indirectExportEntries"/>
+                           </variable>
+                           <expr>
+                              <ListExpression>
+                                 <entries/>
+                              </ListExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="localExportEntries"/>
+                           </variable>
+                           <expr>
+                              <ListExpression>
+                                 <entries/>
+                              </ListExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="starExportEntries"/>
+                           </variable>
+                           <expr>
+                              <ListExpression>
+                                 <entries/>
+                              </ListExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="exportEntries"/>
+                           </variable>
+                           <expr>
+                              <InvokeSyntaxDirectedOperationExpression name="ExportEntries">
+                                 <base>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="body"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </base>
+                                 <args/>
+                              </InvokeSyntaxDirectedOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ForEachStep ty="an Export Entry Record" forward="true">
+                           <variable>
+                              <Variable name="ee"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="exportEntries"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="false">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="ee"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <FieldProperty name="ModuleRequest"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <NullLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep newLine="true" keyword="else" comma="true">
+                                                                           <cond>
+                                                                              <ContainsExprCondition negation="true">
+                                                                                 <list>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="importedBoundNames"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </list>
+                                                                                 <target>
+                                                                                    <Expr>
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <PropertyReference>
+                                                                                                   <base>
+                                                                                                      <Variable name="ee"/>
+                                                                                                   </base>
+                                                                                                   <prop>
+                                                                                                      <FieldProperty name="LocalName"/>
+                                                                                                   </prop>
+                                                                                                </PropertyReference>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                    </Expr>
+                                                                                 </target>
+                                                                              </ContainsExprCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <AppendStep>
+                                                                                                   <elem>
+                                                                                                      <ReferenceExpression>
+                                                                                                         <ref>
+                                                                                                            <Variable name="ee"/>
+                                                                                                         </ref>
+                                                                                                      </ReferenceExpression>
+                                                                                                   </elem>
+                                                                                                   <ref>
+                                                                                                      <Variable name="localExportEntries"/>
+                                                                                                   </ref>
+                                                                                                </AppendStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </thenStep>
+                                                                           <elseStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <YetStep>
+                                                                                                   <expr>
+                                                                                                      <YetExpression str="Let _ie_ be the element of _importEntries_ whose [[LocalName]] is _ee_.[[LocalName]]." block="null"/>
+                                                                                                   </expr>
+                                                                                                </YetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <IfStep newLine="true" keyword="else" comma="true">
+                                                                                                   <cond>
+                                                                                                      <IsAreCondition negation="false">
+                                                                                                         <left>
+                                                                                                            <ReferenceExpression>
+                                                                                                               <ref>
+                                                                                                                  <PropertyReference>
+                                                                                                                     <base>
+                                                                                                                        <Variable name="ie"/>
+                                                                                                                     </base>
+                                                                                                                     <prop>
+                                                                                                                        <FieldProperty name="ImportName"/>
+                                                                                                                     </prop>
+                                                                                                                  </PropertyReference>
+                                                                                                               </ref>
+                                                                                                            </ReferenceExpression>
+                                                                                                         </left>
+                                                                                                         <right>
+                                                                                                            <EnumLiteral name="namespace-object"/>
+                                                                                                         </right>
+                                                                                                      </IsAreCondition>
+                                                                                                   </cond>
+                                                                                                   <thenStep>
+                                                                                                      <BlockStep>
+                                                                                                         <block>
+                                                                                                            <StepBlock>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <NoteStep note="This is a re-export of an imported module namespace object."/>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <AppendStep>
+                                                                                                                           <elem>
+                                                                                                                              <ReferenceExpression>
+                                                                                                                                 <ref>
+                                                                                                                                    <Variable name="ee"/>
+                                                                                                                                 </ref>
+                                                                                                                              </ReferenceExpression>
+                                                                                                                           </elem>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="localExportEntries"/>
+                                                                                                                           </ref>
+                                                                                                                        </AppendStep>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                            </StepBlock>
+                                                                                                         </block>
+                                                                                                      </BlockStep>
+                                                                                                   </thenStep>
+                                                                                                   <elseStep>
+                                                                                                      <BlockStep>
+                                                                                                         <block>
+                                                                                                            <StepBlock>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <NoteStep note="This is a re-export of a single name."/>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                               <steps>
+                                                                                                                  <SubStep directive="null">
+                                                                                                                     <step>
+                                                                                                                        <AppendStep>
+                                                                                                                           <elem>
+                                                                                                                              <RecordExpression tname="ExportEntry Record">
+                                                                                                                                 <fields>
+                                                                                                                                    <RecordField>
+                                                                                                                                       <field>
+                                                                                                                                          <FieldLiteral name="ModuleRequest"/>
+                                                                                                                                       </field>
+                                                                                                                                       <value>
+                                                                                                                                          <ReferenceExpression>
+                                                                                                                                             <ref>
+                                                                                                                                                <PropertyReference>
+                                                                                                                                                   <base>
+                                                                                                                                                      <Variable name="ie"/>
+                                                                                                                                                   </base>
+                                                                                                                                                   <prop>
+                                                                                                                                                      <FieldProperty name="ModuleRequest"/>
+                                                                                                                                                   </prop>
+                                                                                                                                                </PropertyReference>
+                                                                                                                                             </ref>
+                                                                                                                                          </ReferenceExpression>
+                                                                                                                                       </value>
+                                                                                                                                    </RecordField>
+                                                                                                                                 </fields>
+                                                                                                                                 <fields>
+                                                                                                                                    <RecordField>
+                                                                                                                                       <field>
+                                                                                                                                          <FieldLiteral name="ImportName"/>
+                                                                                                                                       </field>
+                                                                                                                                       <value>
+                                                                                                                                          <ReferenceExpression>
+                                                                                                                                             <ref>
+                                                                                                                                                <PropertyReference>
+                                                                                                                                                   <base>
+                                                                                                                                                      <Variable name="ie"/>
+                                                                                                                                                   </base>
+                                                                                                                                                   <prop>
+                                                                                                                                                      <FieldProperty name="ImportName"/>
+                                                                                                                                                   </prop>
+                                                                                                                                                </PropertyReference>
+                                                                                                                                             </ref>
+                                                                                                                                          </ReferenceExpression>
+                                                                                                                                       </value>
+                                                                                                                                    </RecordField>
+                                                                                                                                 </fields>
+                                                                                                                                 <fields>
+                                                                                                                                    <RecordField>
+                                                                                                                                       <field>
+                                                                                                                                          <FieldLiteral name="LocalName"/>
+                                                                                                                                       </field>
+                                                                                                                                       <value>
+                                                                                                                                          <NullLiteral/>
+                                                                                                                                       </value>
+                                                                                                                                    </RecordField>
+                                                                                                                                 </fields>
+                                                                                                                                 <fields>
+                                                                                                                                    <RecordField>
+                                                                                                                                       <field>
+                                                                                                                                          <FieldLiteral name="ExportName"/>
+                                                                                                                                       </field>
+                                                                                                                                       <value>
+                                                                                                                                          <ReferenceExpression>
+                                                                                                                                             <ref>
+                                                                                                                                                <PropertyReference>
+                                                                                                                                                   <base>
+                                                                                                                                                      <Variable name="ee"/>
+                                                                                                                                                   </base>
+                                                                                                                                                   <prop>
+                                                                                                                                                      <FieldProperty name="ExportName"/>
+                                                                                                                                                   </prop>
+                                                                                                                                                </PropertyReference>
+                                                                                                                                             </ref>
+                                                                                                                                          </ReferenceExpression>
+                                                                                                                                       </value>
+                                                                                                                                    </RecordField>
+                                                                                                                                 </fields>
+                                                                                                                              </RecordExpression>
+                                                                                                                           </elem>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="indirectExportEntries"/>
+                                                                                                                           </ref>
+                                                                                                                        </AppendStep>
+                                                                                                                     </step>
+                                                                                                                  </SubStep>
+                                                                                                               </steps>
+                                                                                                            </StepBlock>
+                                                                                                         </block>
+                                                                                                      </BlockStep>
+                                                                                                   </elseStep>
+                                                                                                </IfStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </elseStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <IfStep newLine="true" keyword="else" comma="true">
+                                                         <cond>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <Variable name="ee"/>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="ImportName"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <EnumLiteral name="all-but-default"/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <AssertStep>
+                                                                                 <cond>
+                                                                                    <IsAreCondition negation="false">
+                                                                                       <left>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <PropertyReference>
+                                                                                                   <base>
+                                                                                                      <Variable name="ee"/>
+                                                                                                   </base>
+                                                                                                   <prop>
+                                                                                                      <FieldProperty name="ExportName"/>
+                                                                                                   </prop>
+                                                                                                </PropertyReference>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </left>
+                                                                                       <right>
+                                                                                          <NullLiteral/>
+                                                                                       </right>
+                                                                                    </IsAreCondition>
+                                                                                 </cond>
+                                                                              </AssertStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <AppendStep>
+                                                                                 <elem>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="ee"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </elem>
+                                                                                 <ref>
+                                                                                    <Variable name="starExportEntries"/>
+                                                                                 </ref>
+                                                                              </AppendStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </thenStep>
+                                                         <elseStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <AppendStep>
+                                                                                 <elem>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="ee"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </elem>
+                                                                                 <ref>
+                                                                                    <Variable name="indirectExportEntries"/>
+                                                                                 </ref>
+                                                                              </AppendStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </elseStep>
+                                                      </IfStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </ForEachStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="async"/>
+                           </variable>
+                           <expr>
+                              <InvokeSyntaxDirectedOperationExpression name="Contains">
+                                 <base>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="body"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </base>
+                                 <args>
+                                    <CodeLiteral code="await"/>
+                                 </args>
+                              </InvokeSyntaxDirectedOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <RecordExpression tname="Source Text Module Record">
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Realm"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="realm"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Environment"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="empty"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Namespace"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="empty"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="CycleRoot"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="empty"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="HasTLA"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="async"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="AsyncEvaluationOrder"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="unset"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="TopLevelCapability"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="empty"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="AsyncParentModules"/>
+                                       </field>
+                                       <value>
+                                          <ListExpression>
+                                             <entries/>
+                                          </ListExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="PendingAsyncDependencies"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="empty"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Status"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="new"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="EvaluationError"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="empty"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="HostDefined"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="hostDefined"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="ECMAScriptCode"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="body"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Context"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="empty"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="ImportMeta"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="empty"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="RequestedModules"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="requestedModules"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="LoadedModules"/>
+                                       </field>
+                                       <value>
+                                          <ListExpression>
+                                             <entries/>
+                                          </ListExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="ImportEntries"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="importEntries"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="LocalExportEntries"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="localExportEntries"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="IndirectExportEntries"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="indirectExportEntries"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="StarExportEntries"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="starExportEntries"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="DFSIndex"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="empty"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="DFSAncestorIndex"/>
+                                       </field>
+                                       <value>
+                                          <EnumLiteral name="empty"/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                              </RecordExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-language-scripts-and-modules" title="ECMAScript Language: Scripts and Modules" number="16" relativeNumber="16"/>
+   </sections>
+   <sections>
+      <Section id="sec-modules" title="Modules" number="16.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-module-semantics" title="Module Semantics" number="16.2.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-source-text-module-records" title="Source Text Module Records" number="16.2.1.7" relativeNumber="7"/>
+   </sections>
+   <sections>
+      <Section id="sec-parsemodule" title="ParseModule ( sourceText, realm, hostDefined )" number="16.2.1.7.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

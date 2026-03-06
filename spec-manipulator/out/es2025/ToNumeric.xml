@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. Let _primValue_ be ? ToPrimitive(_value_, ~number~).         1. If _primValue_ is a BigInt, return _primValue_.         1. Return ? &lt;emu-meta suppress-effects=&#34;user-code&#34;&gt;ToNumber(_primValue_)&lt;/emu-meta&gt;.       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ToNumeric" retTy="either a normal completion containing either a Number or a BigInt, or a throw completion" id="sec-tonumeric" virtualPackage="7 Abstract Operations.1 Type Conversion.3 ToNumeric ( value )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="value" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="primValue"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToPrimitive">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="value"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <EnumLiteral name="number"/>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="primValue"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a BigInt"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="primValue"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToNumber">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="primValue"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-abstract-operations" title="Abstract Operations" number="7" relativeNumber="7"/>
+   </sections>
+   <sections>
+      <Section id="sec-type-conversion" title="Type Conversion" number="7.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-tonumeric" title="ToNumeric ( value )" number="7.1.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

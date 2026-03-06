@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Assert: _x_ is a Number and _y_ is a Number, or _x_ is a BigInt and _y_ is a BigInt.           1. If _comparator_ is not *undefined*, then             1. Let _v_ be ? ToNumber(? Call(_comparator_, *undefined*, « _x_, _y_ »)).             1. If _v_ is *NaN*, return *+0*&lt;sub&gt;𝔽&lt;/sub&gt;.             1. Return _v_.           1. If _x_ and _y_ are both *NaN*, return *+0*&lt;sub&gt;𝔽&lt;/sub&gt;.           1. If _x_ is *NaN*, return *1*&lt;sub&gt;𝔽&lt;/sub&gt;.           1. If _y_ is *NaN*, return *-1*&lt;sub&gt;𝔽&lt;/sub&gt;.           1. If _x_ &lt; _y_, return *-1*&lt;sub&gt;𝔽&lt;/sub&gt;.           1. If _x_ &gt; _y_, return *1*&lt;sub&gt;𝔽&lt;/sub&gt;.           1. If _x_ is *-0*&lt;sub&gt;𝔽&lt;/sub&gt; and _y_ is *+0*&lt;sub&gt;𝔽&lt;/sub&gt;, return *-1*&lt;sub&gt;𝔽&lt;/sub&gt;.           1. If _x_ is *+0*&lt;sub&gt;𝔽&lt;/sub&gt; and _y_ is *-0*&lt;sub&gt;𝔽&lt;/sub&gt;, return *1*&lt;sub&gt;𝔽&lt;/sub&gt;.           1. Return *+0*&lt;sub&gt;𝔽&lt;/sub&gt;.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="CompareTypedArrayElements" retTy="either a normal completion containing a Number or an abrupt completion" id="sec-comparetypedarrayelements" virtualPackage="23 Indexed Collections.2 TypedArray Objects.4 Abstract Operations for TypedArray Objects.7 CompareTypedArrayElements ( x, y, comparator )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="x" ty="a Number or a BigInt"/>
+         </params>
+         <params>
+            <NormalParam name="y" ty="a Number or a BigInt"/>
+         </params>
+         <params>
+            <NormalParam name="comparator" ty="a function object or *undefined*"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <CompoundCondition>
+                                       <left>
+                                          <TypeCheckCondition negation="false">
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="x"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                             <ty>
+                                                <Type value="a Number"/>
+                                             </ty>
+                                          </TypeCheckCondition>
+                                       </left>
+                                       <op>
+                                          <And/>
+                                       </op>
+                                       <right>
+                                          <TypeCheckCondition negation="false">
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="y"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                             <ty>
+                                                <Type value="a Number"/>
+                                             </ty>
+                                          </TypeCheckCondition>
+                                       </right>
+                                    </CompoundCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <CompoundCondition>
+                                       <left>
+                                          <TypeCheckCondition negation="false">
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="x"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                             <ty>
+                                                <Type value="a BigInt"/>
+                                             </ty>
+                                          </TypeCheckCondition>
+                                       </left>
+                                       <op>
+                                          <And/>
+                                       </op>
+                                       <right>
+                                          <TypeCheckCondition negation="false">
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="y"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                             <ty>
+                                                <Type value="a BigInt"/>
+                                             </ty>
+                                          </TypeCheckCondition>
+                                       </right>
+                                    </CompoundCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="comparator"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="v"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="ToNumber">
+                                                               <args>
+                                                                  <ReturnIfAbruptExpression check="true">
+                                                                     <expr>
+                                                                        <InvokeAbstractOperationExpression name="Call">
+                                                                           <args>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="comparator"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </args>
+                                                                           <args>
+                                                                              <UndefinedLiteral/>
+                                                                           </args>
+                                                                           <args>
+                                                                              <ListExpression>
+                                                                                 <entries>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="x"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </entries>
+                                                                                 <entries>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="y"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </entries>
+                                                                              </ListExpression>
+                                                                           </args>
+                                                                        </InvokeAbstractOperationExpression>
+                                                                     </expr>
+                                                                  </ReturnIfAbruptExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="v"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <NumberLiteral value="null" isNegative="false"/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <NumberLiteral value="0" isNegative="false"/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="v"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="x"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="y"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="0" isNegative="false"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="x"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="1" isNegative="false"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="y"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="1" isNegative="true"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="x"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <LessThan/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="y"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="1" isNegative="true"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="x"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <GreaterThan/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="y"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="1" isNegative="false"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="x"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <NumberLiteral value="0" isNegative="true"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="y"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <NumberLiteral value="0" isNegative="false"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="1" isNegative="true"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="x"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <NumberLiteral value="0" isNegative="false"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="y"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <NumberLiteral value="0" isNegative="true"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="1" isNegative="false"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <NumberLiteral value="0" isNegative="false"/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-indexed-collections" title="Indexed Collections" number="23" relativeNumber="23"/>
+   </sections>
+   <sections>
+      <Section id="sec-typedarray-objects" title="TypedArray Objects" number="23.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-abstract-operations-for-typedarray-objects" title="Abstract Operations for TypedArray Objects" number="23.2.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-comparetypedarrayelements" title="CompareTypedArrayElements ( x, y, comparator )" number="23.2.4.7" relativeNumber="7"/>
+   </sections>
+</Algorithm>

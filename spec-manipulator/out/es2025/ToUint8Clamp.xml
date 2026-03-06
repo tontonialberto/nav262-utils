@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. Let _number_ be ? ToNumber(_argument_).         1. If _number_ is *NaN*, return *+0*&lt;sub&gt;𝔽&lt;/sub&gt;.         1. Let _mv_ be the extended mathematical value of _number_.         1. Let _clamped_ be the result of clamping _mv_ between 0 and 255.         1. Let _f_ be floor(_clamped_).         1. If _clamped_ &lt; _f_ + 0.5, return 𝔽(_f_).         1. If _clamped_ &gt; _f_ + 0.5, return 𝔽(_f_ + 1).         1. If _f_ is even, return 𝔽(_f_). Otherwise, return 𝔽(_f_ + 1).       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ToUint8Clamp" retTy="either a normal completion containing a Number or a throw completion" id="sec-touint8clamp" virtualPackage="7 Abstract Operations.1 Type Conversion.12 ToUint8Clamp ( argument )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="argument" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="number"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToNumber">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="argument"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="number"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="0" isNegative="false"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _mv_ be the extended mathematical value of _number_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="clamped"/>
+                           </variable>
+                           <expr>
+                              <ClampExpression>
+                                 <target>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="mv"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </target>
+                                 <lower>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </lower>
+                                 <upper>
+                                    <DecimalMathValueLiteral n="255"/>
+                                 </upper>
+                              </ClampExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="f"/>
+                           </variable>
+                           <expr>
+                              <MathFuncExpression>
+                                 <op>
+                                    <Floor/>
+                                 </op>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="clamped"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </MathFuncExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="clamped"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <LessThan/>
+                                 </op>
+                                 <right>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="f"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Add/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="0.5"/>
+                                       </right>
+                                    </BinaryExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ConversionExpression>
+                                       <op>
+                                          <ToNumber/>
+                                       </op>
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="f"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </ConversionExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="clamped"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <GreaterThan/>
+                                 </op>
+                                 <right>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="f"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Add/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="0.5"/>
+                                       </right>
+                                    </BinaryExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ConversionExpression>
+                                       <op>
+                                          <ToNumber/>
+                                       </op>
+                                       <expr>
+                                          <BinaryExpression>
+                                             <left>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="f"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </left>
+                                             <op>
+                                                <Add/>
+                                             </op>
+                                             <right>
+                                                <DecimalMathValueLiteral n="1"/>
+                                             </right>
+                                          </BinaryExpression>
+                                       </expr>
+                                    </ConversionExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="If _f_ is even, return 𝔽(_f_). Otherwise, return 𝔽(_f_ + 1)." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-abstract-operations" title="Abstract Operations" number="7" relativeNumber="7"/>
+   </sections>
+   <sections>
+      <Section id="sec-type-conversion" title="Type Conversion" number="7.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-touint8clamp" title="ToUint8Clamp ( argument )" number="7.1.12" relativeNumber="12"/>
+   </sections>
+</Algorithm>

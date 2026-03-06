@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. Let _lNum_ be ! ToInt32(_x_).             1. Let _rNum_ be ! ToInt32(_y_).             1. Let _lBits_ be the 32-bit two's complement bit string representing ℝ(_lNum_).             1. Let _rBits_ be the 32-bit two's complement bit string representing ℝ(_rNum_).             1. If _op_ is `&amp;`, then               1. Let _result_ be the result of applying the bitwise AND operation to _lBits_ and _rBits_.             1. Else if _op_ is `^`, then               1. Let _result_ be the result of applying the bitwise exclusive OR (XOR) operation to _lBits_ and _rBits_.             1. Else,               1. Assert: _op_ is `|`.               1. Let _result_ be the result of applying the bitwise inclusive OR operation to _lBits_ and _rBits_.             1. Return the Number value for the integer represented by the 32-bit two's complement bit string _result_.           ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="NumberBitwiseOp" retTy="a Number" id="sec-numberbitwiseop" virtualPackage="6 ECMAScript Data Types and Values.1 ECMAScript Language Types.6 Numeric Types.1 The Number Type.16 NumberBitwiseOp ( op, x, y )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="op" ty="`&amp;`, `^`, or `|`"/>
+         </params>
+         <params>
+            <NormalParam name="x" ty="a Number"/>
+         </params>
+         <params>
+            <NormalParam name="y" ty="a Number"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="lNum"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToInt32">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="x"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="rNum"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToInt32">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="y"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="lBits"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToMath/>
+                                 </op>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="lNum"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="rBits"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToMath/>
+                                 </op>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="rNum"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="false">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="op"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <CodeLiteral code="&amp;"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="result"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <BitwiseExpression>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="lBits"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <BAnd/>
+                                                         </op>
+                                                         <right>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="rBits"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </right>
+                                                      </BitwiseExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <IfStep newLine="true" keyword="else" comma="true">
+                                 <cond>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="op"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <CodeLiteral code="^"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </cond>
+                                 <thenStep>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="result"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <BitwiseExpression>
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="lBits"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <op>
+                                                                  <BXOr/>
+                                                               </op>
+                                                               <right>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="rBits"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </right>
+                                                            </BitwiseExpression>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </thenStep>
+                                 <elseStep>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <AssertStep>
+                                                         <cond>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="op"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <CodeLiteral code="|"/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </cond>
+                                                      </AssertStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="result"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <BitwiseExpression>
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="lBits"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <op>
+                                                                  <BOr/>
+                                                               </op>
+                                                               <right>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="rBits"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </right>
+                                                            </BitwiseExpression>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </elseStep>
+                              </IfStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Return the Number value for the integer represented by the 32-bit two's complement bit string _result_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-data-types-and-values" title="ECMAScript Data Types and Values" number="6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-ecmascript-language-types" title="ECMAScript Language Types" number="6.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-numeric-types" title="Numeric Types" number="6.1.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-ecmascript-language-types-number-type" title="The Number Type" number="6.1.6.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-numberbitwiseop" title="NumberBitwiseOp ( op, x, y )" number="6.1.6.1.16" relativeNumber="16"/>
+   </sections>
+</Algorithm>

@@ -1,0 +1,594 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. Let _inputString_ be ? ToString(_string_).         1. Let _S_ be ! TrimString(_inputString_, ~start~).         1. Let _sign_ be 1.         1. If _S_ is not empty and the first code unit of _S_ is the code unit 0x002D (HYPHEN-MINUS), set _sign_ to -1.         1. If _S_ is not empty and the first code unit of _S_ is either the code unit 0x002B (PLUS SIGN) or the code unit 0x002D (HYPHEN-MINUS), set _S_ to the substring of _S_ from index 1.         1. Let _R_ be ℝ(? ToInt32(_radix_)).         1. Let _stripPrefix_ be *true*.         1. If _R_ ≠ 0, then           1. If _R_ &lt; 2 or _R_ &gt; 36, return *NaN*.           1. If _R_ ≠ 16, set _stripPrefix_ to *false*.         1. Else,           1. Set _R_ to 10.         1. If _stripPrefix_ is *true*, then           1. If the length of _S_ is at least 2 and the first two code units of _S_ are either *&#34;0x&#34;* or *&#34;0X&#34;*, then             1. Set _S_ to the substring of _S_ from index 2.             1. Set _R_ to 16.         1. If _S_ contains a code unit that is not a radix-_R_ digit, let _end_ be the index within _S_ of the first such code unit; otherwise, let _end_ be the length of _S_.         1. Let _Z_ be the substring of _S_ from 0 to _end_.         1. If _Z_ is empty, return *NaN*.         1. Let _mathInt_ be the integer value that is represented by _Z_ in radix-_R_ notation, using the letters &lt;b&gt;A&lt;/b&gt; through &lt;b&gt;Z&lt;/b&gt; and &lt;b&gt;a&lt;/b&gt; through &lt;b&gt;z&lt;/b&gt; for digits with values 10 through 35. (However, if _R_ = 10 and _Z_ contains more than 20 significant digits, every significant digit after the 20th may be replaced by a 0 digit, at the option of the implementation; and if _R_ is not one of 2, 4, 8, 10, 16, or 32, then _mathInt_ may be an implementation-approximated integer representing the integer value denoted by _Z_ in radix-_R_ notation.)         1. If _mathInt_ = 0, then           1. If _sign_ = -1, return *-0*&lt;sub&gt;𝔽&lt;/sub&gt;.           1. Return *+0*&lt;sub&gt;𝔽&lt;/sub&gt;.         1. Return 𝔽(_sign_ × _mathInt_).       ">
+   <head>
+      <BuiltinHead name="parseInt" retTy="unknown" id="sec-parseint-string-radix" virtualPackage="19 The Global Object.2 Function Properties of the Global Object.5 parseInt ( string, radix )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="string" ty="unknown"/>
+         </params>
+         <params>
+            <NormalParam name="radix" ty="unknown"/>
+         </params>
+      </BuiltinHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="inputString"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToString">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="string"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="S"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="TrimString">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="inputString"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <EnumLiteral name="start"/>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="sign"/>
+                           </variable>
+                           <expr>
+                              <DecimalMathValueLiteral n="1"/>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="If _S_ is not empty and the first code unit of _S_ is the code unit 0x002D (HYPHEN-MINUS), set _sign_ to -1." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="If _S_ is not empty and the first code unit of _S_ is either the code unit 0x002B (PLUS SIGN) or the code unit 0x002D (HYPHEN-MINUS), set _S_ to the substring of _S_ from index 1." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="R"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToMath/>
+                                 </op>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToInt32">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="radix"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="stripPrefix"/>
+                           </variable>
+                           <expr>
+                              <TrueLiteral/>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="R"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <NEq/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <CompoundCondition>
+                                                         <left>
+                                                            <BinaryCondition>
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="R"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <op>
+                                                                  <LessThan/>
+                                                               </op>
+                                                               <right>
+                                                                  <DecimalMathValueLiteral n="2"/>
+                                                               </right>
+                                                            </BinaryCondition>
+                                                         </left>
+                                                         <op>
+                                                            <Or/>
+                                                         </op>
+                                                         <right>
+                                                            <BinaryCondition>
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="R"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <op>
+                                                                  <GreaterThan/>
+                                                               </op>
+                                                               <right>
+                                                                  <DecimalMathValueLiteral n="36"/>
+                                                               </right>
+                                                            </BinaryCondition>
+                                                         </right>
+                                                      </CompoundCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <NumberLiteral value="null" isNegative="false"/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <BinaryCondition>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="R"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <NEq/>
+                                                         </op>
+                                                         <right>
+                                                            <DecimalMathValueLiteral n="16"/>
+                                                         </right>
+                                                      </BinaryCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <SetStep>
+                                                         <ref>
+                                                            <Variable name="stripPrefix"/>
+                                                         </ref>
+                                                         <expr>
+                                                            <FalseLiteral/>
+                                                         </expr>
+                                                      </SetStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="R"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <DecimalMathValueLiteral n="10"/>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="stripPrefix"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <ExpressionCondition>
+                                                         <expr>
+                                                            <YetExpression str="the length of _S_ is at least 2 and the first two code units of _S_ are either *&#34;0x&#34;* or *&#34;0X&#34;*" block="null"/>
+                                                         </expr>
+                                                      </ExpressionCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Set _S_ to the substring of _S_ from index 2." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <Variable name="R"/>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <DecimalMathValueLiteral n="16"/>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="If _S_ contains a code unit that is not a radix-_R_ digit, let _end_ be the index within _S_ of the first such code unit; otherwise, let _end_ be the length of _S_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="Z"/>
+                           </variable>
+                           <expr>
+                              <SubstringExpression>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="S"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <from>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </from>
+                                 <to>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="end"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </to>
+                              </SubstringExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="Z"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Empty/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _mathInt_ be the integer value that is represented by _Z_ in radix-_R_ notation, using the letters &lt;b&gt;A&lt;/b&gt; through &lt;b&gt;Z&lt;/b&gt; and &lt;b&gt;a&lt;/b&gt; through &lt;b&gt;z&lt;/b&gt; for digits with values 10 through 35. (However, if _R_ = 10 and _Z_ contains more than 20 significant digits, every significant digit after the 20th may be replaced by a 0 digit, at the option of the implementation; and if _R_ is not one of 2, 4, 8, 10, 16, or 32, then _mathInt_ may be an implementation-approximated integer representing the integer value denoted by _Z_ in radix-_R_ notation.)" block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="mathInt"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Eq/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <BinaryCondition>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="sign"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Eq/>
+                                                         </op>
+                                                         <right>
+                                                            <UnaryExpression>
+                                                               <op>
+                                                                  <Neg/>
+                                                               </op>
+                                                               <expr>
+                                                                  <DecimalMathValueLiteral n="1"/>
+                                                               </expr>
+                                                            </UnaryExpression>
+                                                         </right>
+                                                      </BinaryCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <NumberLiteral value="0" isNegative="true"/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <NumberLiteral value="0" isNegative="false"/>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToNumber/>
+                                 </op>
+                                 <expr>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="sign"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Mul/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="mathInt"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-global-object" title="The Global Object" number="19" relativeNumber="19"/>
+   </sections>
+   <sections>
+      <Section id="sec-function-properties-of-the-global-object" title="Function Properties of the Global Object" number="19.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-parseint-string-radix" title="parseInt ( string, radix )" number="19.2.5" relativeNumber="5"/>
+   </sections>
+</Algorithm>

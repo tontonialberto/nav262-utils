@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _keys_ be a new empty List.           1. For each own property key _P_ of _O_ such that _P_ is an array index, in ascending numeric index order, do             1. Append _P_ to _keys_.           1. For each own property key _P_ of _O_ such that _P_ is a String and _P_ is not an array index, in ascending chronological order of property creation, do             1. Append _P_ to _keys_.           1. For each own property key _P_ of _O_ such that _P_ is a Symbol, in ascending chronological order of property creation, do             1. Append _P_ to _keys_.           1. Return _keys_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="OrdinaryOwnPropertyKeys" retTy="a List of either Symbols or Strings" id="sec-ordinaryownpropertykeys" virtualPackage="10 Ordinary and Exotic Objects Behaviours.1 Ordinary Object Internal Methods and Internal Slots.11 [[OwnPropertyKeys]] ( ).1 OrdinaryOwnPropertyKeys ( O )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="O" ty="an Object"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="keys"/>
+                           </variable>
+                           <expr>
+                              <ListExpression>
+                                 <entries/>
+                              </ListExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ForEachOwnPropertyKeyStep ascending="true">
+                           <key>
+                              <Variable name="P"/>
+                           </key>
+                           <obj>
+                              <Variable name="O"/>
+                           </obj>
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="P"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <ArrayIndex/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <order>
+                              <NumericIndexOrder/>
+                           </order>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <AppendStep>
+                                                   <elem>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="P"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </elem>
+                                                   <ref>
+                                                      <Variable name="keys"/>
+                                                   </ref>
+                                                </AppendStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </ForEachOwnPropertyKeyStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ForEachOwnPropertyKeyStep ascending="true">
+                           <key>
+                              <Variable name="P"/>
+                           </key>
+                           <obj>
+                              <Variable name="O"/>
+                           </obj>
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <TypeCheckCondition negation="false">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="P"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                       <ty>
+                                          <Type value="a String"/>
+                                       </ty>
+                                    </TypeCheckCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <PredicateCondition negation="true">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="P"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                       <op>
+                                          <ArrayIndex/>
+                                       </op>
+                                    </PredicateCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <order>
+                              <ChronologicalOrder/>
+                           </order>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <AppendStep>
+                                                   <elem>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="P"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </elem>
+                                                   <ref>
+                                                      <Variable name="keys"/>
+                                                   </ref>
+                                                </AppendStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </ForEachOwnPropertyKeyStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ForEachOwnPropertyKeyStep ascending="true">
+                           <key>
+                              <Variable name="P"/>
+                           </key>
+                           <obj>
+                              <Variable name="O"/>
+                           </obj>
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="P"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a Symbol"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <order>
+                              <ChronologicalOrder/>
+                           </order>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <AppendStep>
+                                                   <elem>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="P"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </elem>
+                                                   <ref>
+                                                      <Variable name="keys"/>
+                                                   </ref>
+                                                </AppendStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </ForEachOwnPropertyKeyStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="keys"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ordinary-and-exotic-objects-behaviours" title="Ordinary and Exotic Objects Behaviours" number="10" relativeNumber="10"/>
+   </sections>
+   <sections>
+      <Section id="sec-ordinary-object-internal-methods-and-internal-slots" title="Ordinary Object Internal Methods and Internal Slots" number="10.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-ordinary-object-internal-methods-and-internal-slots-ownpropertykeys" title="[[OwnPropertyKeys]] ( )" number="10.1.11" relativeNumber="11"/>
+   </sections>
+   <sections>
+      <Section id="sec-ordinaryownpropertykeys" title="OrdinaryOwnPropertyKeys ( O )" number="10.1.11.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

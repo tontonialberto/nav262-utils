@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. If _target_ is not an Object, throw a *TypeError* exception.         1. If _handler_ is not an Object, throw a *TypeError* exception.         1. Let _P_ be MakeBasicObject(« [[ProxyHandler]], [[ProxyTarget]] »).         1. Set _P_'s essential internal methods, except for [[Call]] and [[Construct]], to the definitions specified in &lt;emu-xref href=&#34;#sec-proxy-object-internal-methods-and-internal-slots&#34;&gt;&lt;/emu-xref&gt;.         1. If IsCallable(_target_) is *true*, then           1. Set _P_.[[Call]] as specified in &lt;emu-xref href=&#34;#sec-proxy-object-internal-methods-and-internal-slots-call-thisargument-argumentslist&#34;&gt;&lt;/emu-xref&gt;.           1. If IsConstructor(_target_) is *true*, then             1. Set _P_.[[Construct]] as specified in &lt;emu-xref href=&#34;#sec-proxy-object-internal-methods-and-internal-slots-construct-argumentslist-newtarget&#34;&gt;&lt;/emu-xref&gt;.         1. Set _P_.[[ProxyTarget]] to _target_.         1. Set _P_.[[ProxyHandler]] to _handler_.         1. Return _P_.       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ProxyCreate" retTy="either a normal completion containing a Proxy Exotic Object or a throw completion" id="sec-proxycreate" virtualPackage="10 Ordinary and Exotic Objects Behaviours.5 Proxy Object Internal Methods and Internal Slots.15 ProxyCreate ( target, handler )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="target" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="handler" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="target"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="an Object"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="handler"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="an Object"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="P"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="MakeBasicObject">
+                                 <args>
+                                    <ListExpression>
+                                       <entries>
+                                          <FieldLiteral name="ProxyHandler"/>
+                                       </entries>
+                                       <entries>
+                                          <FieldLiteral name="ProxyTarget"/>
+                                       </entries>
+                                    </ListExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Set _P_'s essential internal methods, except for [[Call]] and [[Construct]], to the definitions specified in &lt;emu-xref href=&#34;#sec-proxy-object-internal-methods-and-internal-slots&#34;&gt;&lt;/emu-xref&gt;." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsCallable">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="target"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetAsStep verb="specified" id="sec-proxy-object-internal-methods-and-internal-slots-call-thisargument-argumentslist">
+                                                   <ref>
+                                                      <PropertyReference>
+                                                         <base>
+                                                            <Variable name="P"/>
+                                                         </base>
+                                                         <prop>
+                                                            <FieldProperty name="Call"/>
+                                                         </prop>
+                                                      </PropertyReference>
+                                                   </ref>
+                                                </SetAsStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <InvokeAbstractOperationExpression name="IsConstructor">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="target"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </left>
+                                                         <right>
+                                                            <TrueLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetAsStep verb="specified" id="sec-proxy-object-internal-methods-and-internal-slots-construct-argumentslist-newtarget">
+                                                                           <ref>
+                                                                              <PropertyReference>
+                                                                                 <base>
+                                                                                    <Variable name="P"/>
+                                                                                 </base>
+                                                                                 <prop>
+                                                                                    <FieldProperty name="Construct"/>
+                                                                                 </prop>
+                                                                              </PropertyReference>
+                                                                           </ref>
+                                                                        </SetAsStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="P"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="ProxyTarget"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="target"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="P"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="ProxyHandler"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="handler"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="P"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ordinary-and-exotic-objects-behaviours" title="Ordinary and Exotic Objects Behaviours" number="10" relativeNumber="10"/>
+   </sections>
+   <sections>
+      <Section id="sec-proxy-object-internal-methods-and-internal-slots" title="Proxy Object Internal Methods and Internal Slots" number="10.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="sec-proxycreate" title="ProxyCreate ( target, handler )" number="10.5.15" relativeNumber="15"/>
+   </sections>
+</Algorithm>

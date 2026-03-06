@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Assert: If _completionRecord_ is either a return completion or a throw completion, then _completionRecord_.[[Value]] is not ~empty~.           1. If _completionRecord_.[[Value]] is not ~empty~, return ? _completionRecord_.           1. Return Completion Record { [[Type]]: _completionRecord_.[[Type]], [[Value]]: _value_, [[Target]]: _completionRecord_.[[Target]] }.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="UpdateEmpty" retTy="completion record" id="sec-updateempty" virtualPackage="6 ECMAScript Data Types and Values.2 ECMAScript Specification Types.4 The Completion Record Specification Type.4 UpdateEmpty ( completionRecord, value )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="completionRecord" ty="completion record"/>
+         </params>
+         <params>
+            <NormalParam name="value" ty="any value except a Completion Record"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <TypeCheckCondition negation="false">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="completionRecord"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                       <ty>
+                                          <Type value="a return completion"/>
+                                       </ty>
+                                       <ty>
+                                          <Type value="a throw completion"/>
+                                       </ty>
+                                    </TypeCheckCondition>
+                                 </left>
+                                 <op>
+                                    <Imply/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="true">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="completionRecord"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="Value"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <EnumLiteral name="empty"/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="completionRecord"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Value"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="empty"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="completionRecord"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <RecordExpression tname="Completion Record">
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Type"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="completionRecord"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="Type"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Value"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="value"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Target"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <PropertyReference>
+                                                   <base>
+                                                      <Variable name="completionRecord"/>
+                                                   </base>
+                                                   <prop>
+                                                      <FieldProperty name="Target"/>
+                                                   </prop>
+                                                </PropertyReference>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                              </RecordExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-data-types-and-values" title="ECMAScript Data Types and Values" number="6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-ecmascript-specification-types" title="ECMAScript Specification Types" number="6.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-completion-record-specification-type" title="The Completion Record Specification Type" number="6.2.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-updateempty" title="UpdateEmpty ( completionRecord, value )" number="6.2.4.4" relativeNumber="4"/>
+   </sections>
+</Algorithm>

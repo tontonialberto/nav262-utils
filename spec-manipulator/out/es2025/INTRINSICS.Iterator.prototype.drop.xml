@@ -1,0 +1,782 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _O_ be the *this* value.           1. If _O_ is not an Object, throw a *TypeError* exception.           1. Let _iterated_ be the Iterator Record { [[Iterator]]: _O_, [[NextMethod]]: *undefined*, [[Done]]: *false* }.           1. Let _numLimit_ be Completion(ToNumber(_limit_)).           1. IfAbruptCloseIterator(_numLimit_, _iterated_).           1. If _numLimit_ is *NaN*, then             1. Let _error_ be ThrowCompletion(a newly created *RangeError* object).             1. Return ? IteratorClose(_iterated_, _error_).           1. Let _integerLimit_ be ! ToIntegerOrInfinity(_numLimit_).           1. If _integerLimit_ &lt; 0, then             1. Let _error_ be ThrowCompletion(a newly created *RangeError* object).             1. Return ? IteratorClose(_iterated_, _error_).           1. Set _iterated_ to ? GetIteratorDirect(_O_).           1. Let _closure_ be a new Abstract Closure with no parameters that captures _iterated_ and _integerLimit_ and performs the following steps when called:             1. Let _remaining_ be _integerLimit_.             1. Repeat, while _remaining_ &gt; 0,               1. If _remaining_ ≠ +∞, then                 1. Set _remaining_ to _remaining_ - 1.               1. Let _next_ be ? IteratorStep(_iterated_).               1. If _next_ is ~done~, return ReturnCompletion(*undefined*).             1. Repeat,               1. Let _value_ be ? IteratorStepValue(_iterated_).               1. If _value_ is ~done~, return ReturnCompletion(*undefined*).               1. Let _completion_ be Completion(Yield(_value_)).               1. IfAbruptCloseIterator(_completion_, _iterated_).           1. Let _result_ be CreateIteratorFromClosure(_closure_, *&#34;Iterator Helper&#34;*, %IteratorHelperPrototype%, « [[UnderlyingIterator]] »).           1. Set _result_.[[UnderlyingIterator]] to _iterated_.           1. Return _result_.         ">
+   <head>
+      <BuiltinHead name="Iterator.prototype.drop" retTy="unknown" id="sec-iterator.prototype.drop" virtualPackage="27 Control Abstraction Objects.1 Iteration.4 The %Iterator.prototype% Object.2 Iterator.prototype.drop ( limit )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="limit" ty="unknown"/>
+         </params>
+      </BuiltinHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="O"/>
+                           </variable>
+                           <expr>
+                              <ThisLiteral/>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="O"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="an Object"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="iterated"/>
+                           </variable>
+                           <expr>
+                              <RecordExpression tname="Iterator Record">
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Iterator"/>
+                                       </field>
+                                       <value>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="O"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="NextMethod"/>
+                                       </field>
+                                       <value>
+                                          <UndefinedLiteral/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                                 <fields>
+                                    <RecordField>
+                                       <field>
+                                          <FieldLiteral name="Done"/>
+                                       </field>
+                                       <value>
+                                          <FalseLiteral/>
+                                       </value>
+                                    </RecordField>
+                                 </fields>
+                              </RecordExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="numLimit"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="Completion">
+                                 <args>
+                                    <InvokeAbstractOperationExpression name="ToNumber">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="limit"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <InvokeShorthandStep name="IfAbruptCloseIterator">
+                           <args>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="numLimit"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </args>
+                           <args>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="iterated"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </args>
+                        </InvokeShorthandStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="numLimit"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="error"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="ThrowCompletion">
+                                                         <args>
+                                                            <ErrorObjectLiteral name="RangeError"/>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="IteratorClose">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="iterated"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="error"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="integerLimit"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="false">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToIntegerOrInfinity">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="numLimit"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="integerLimit"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <LessThan/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="error"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="ThrowCompletion">
+                                                         <args>
+                                                            <ErrorObjectLiteral name="RangeError"/>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="IteratorClose">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="iterated"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="error"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <Variable name="iterated"/>
+                           </ref>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="GetIteratorDirect">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="O"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="closure"/>
+                           </variable>
+                           <expr>
+                              <AbstractClosureExpression>
+                                 <params/>
+                                 <captured>
+                                    <Variable name="iterated"/>
+                                 </captured>
+                                 <captured>
+                                    <Variable name="integerLimit"/>
+                                 </captured>
+                                 <body>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="remaining"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="integerLimit"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <RepeatWhileStep>
+                                                         <cond>
+                                                            <BinaryCondition>
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="remaining"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <op>
+                                                                  <GreaterThan/>
+                                                               </op>
+                                                               <right>
+                                                                  <DecimalMathValueLiteral n="0"/>
+                                                               </right>
+                                                            </BinaryCondition>
+                                                         </cond>
+                                                         <body>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <IfStep elseStep="null">
+                                                                                 <cond>
+                                                                                    <BinaryCondition>
+                                                                                       <left>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="remaining"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </left>
+                                                                                       <op>
+                                                                                          <NEq/>
+                                                                                       </op>
+                                                                                       <right>
+                                                                                          <PositiveInfinityMathValueLiteral/>
+                                                                                       </right>
+                                                                                    </BinaryCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <BlockStep>
+                                                                                       <block>
+                                                                                          <StepBlock>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <SetStep>
+                                                                                                         <ref>
+                                                                                                            <Variable name="remaining"/>
+                                                                                                         </ref>
+                                                                                                         <expr>
+                                                                                                            <BinaryExpression>
+                                                                                                               <left>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="remaining"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </left>
+                                                                                                               <op>
+                                                                                                                  <Sub/>
+                                                                                                               </op>
+                                                                                                               <right>
+                                                                                                                  <DecimalMathValueLiteral n="1"/>
+                                                                                                               </right>
+                                                                                                            </BinaryExpression>
+                                                                                                         </expr>
+                                                                                                      </SetStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                          </StepBlock>
+                                                                                       </block>
+                                                                                    </BlockStep>
+                                                                                 </thenStep>
+                                                                              </IfStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="next"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <ReturnIfAbruptExpression check="true">
+                                                                                       <expr>
+                                                                                          <InvokeAbstractOperationExpression name="IteratorStep">
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <Variable name="iterated"/>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </expr>
+                                                                                    </ReturnIfAbruptExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <IfStep elseStep="null">
+                                                                                 <cond>
+                                                                                    <IsAreCondition negation="false">
+                                                                                       <left>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="next"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </left>
+                                                                                       <right>
+                                                                                          <EnumLiteral name="done"/>
+                                                                                       </right>
+                                                                                    </IsAreCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <ReturnStep>
+                                                                                       <expr>
+                                                                                          <InvokeAbstractOperationExpression name="ReturnCompletion">
+                                                                                             <args>
+                                                                                                <UndefinedLiteral/>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </expr>
+                                                                                    </ReturnStep>
+                                                                                 </thenStep>
+                                                                              </IfStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </body>
+                                                      </RepeatWhileStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <RepeatNoCondStep>
+                                                         <body>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="value"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <ReturnIfAbruptExpression check="true">
+                                                                                       <expr>
+                                                                                          <InvokeAbstractOperationExpression name="IteratorStepValue">
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <Variable name="iterated"/>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </expr>
+                                                                                    </ReturnIfAbruptExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <IfStep elseStep="null">
+                                                                                 <cond>
+                                                                                    <IsAreCondition negation="false">
+                                                                                       <left>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="value"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </left>
+                                                                                       <right>
+                                                                                          <EnumLiteral name="done"/>
+                                                                                       </right>
+                                                                                    </IsAreCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <ReturnStep>
+                                                                                       <expr>
+                                                                                          <InvokeAbstractOperationExpression name="ReturnCompletion">
+                                                                                             <args>
+                                                                                                <UndefinedLiteral/>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </expr>
+                                                                                    </ReturnStep>
+                                                                                 </thenStep>
+                                                                              </IfStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="completion"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <InvokeAbstractOperationExpression name="Completion">
+                                                                                       <args>
+                                                                                          <InvokeAbstractOperationExpression name="Yield">
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <Variable name="value"/>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <InvokeShorthandStep name="IfAbruptCloseIterator">
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="completion"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                                 <args>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="iterated"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </args>
+                                                                              </InvokeShorthandStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </body>
+                                                      </RepeatNoCondStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </body>
+                              </AbstractClosureExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="result"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="CreateIteratorFromClosure">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="closure"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <StringLiteral s="Iterator Helper"/>
+                                 </args>
+                                 <args>
+                                    <IntrinsicExpression>
+                                       <intr>
+                                          <Intrinsic base="IteratorHelperPrototype">
+                                             <props/>
+                                          </Intrinsic>
+                                       </intr>
+                                    </IntrinsicExpression>
+                                 </args>
+                                 <args>
+                                    <ListExpression>
+                                       <entries>
+                                          <FieldLiteral name="UnderlyingIterator"/>
+                                       </entries>
+                                    </ListExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="result"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="UnderlyingIterator"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="iterated"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="result"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-control-abstraction-objects" title="Control Abstraction Objects" number="27" relativeNumber="27"/>
+   </sections>
+   <sections>
+      <Section id="sec-iteration" title="Iteration" number="27.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-%iterator.prototype%-object" title="The %Iterator.prototype% Object" number="27.1.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-iterator.prototype.drop" title="Iterator.prototype.drop ( limit )" number="27.1.4.2" relativeNumber="2"/>
+   </sections>
+</Algorithm>

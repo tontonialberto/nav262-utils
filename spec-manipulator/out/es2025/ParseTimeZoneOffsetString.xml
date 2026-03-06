@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. Let _parseResult_ be ParseText(_offsetString_, |UTCOffset|).             1. Assert: _parseResult_ is not a List of errors.             1. Assert: _parseResult_ contains a |ASCIISign| Parse Node.             1. Let _parsedSign_ be the source text matched by the |ASCIISign| Parse Node contained within _parseResult_.             1. If _parsedSign_ is the single code point U+002D (HYPHEN-MINUS), then               1. Let _sign_ be -1.             1. Else,               1. Let _sign_ be 1.             1. NOTE: Applications of StringToNumber below do not lose precision, since each of the parsed values is guaranteed to be a sufficiently short string of decimal digits.             1. Assert: _parseResult_ contains an |Hour| Parse Node.             1. Let _parsedHours_ be the source text matched by the |Hour| Parse Node contained within _parseResult_.             1. Let _hours_ be ℝ(StringToNumber(CodePointsToString(_parsedHours_))).             1. If _parseResult_ does not contain a |MinuteSecond| Parse Node, then               1. Let _minutes_ be 0.             1. Else,               1. Let _parsedMinutes_ be the source text matched by the first |MinuteSecond| Parse Node contained within _parseResult_.               1. Let _minutes_ be ℝ(StringToNumber(CodePointsToString(_parsedMinutes_))).             1. If _parseResult_ does not contain two |MinuteSecond| Parse Nodes, then               1. Let _seconds_ be 0.             1. Else,               1. Let _parsedSeconds_ be the source text matched by the second |MinuteSecond| Parse Node contained within _parseResult_.               1. Let _seconds_ be ℝ(StringToNumber(CodePointsToString(_parsedSeconds_))).             1. If _parseResult_ does not contain a |TemporalDecimalFraction| Parse Node, then               1. Let _nanoseconds_ be 0.             1. Else,               1. Let _parsedFraction_ be the source text matched by the |TemporalDecimalFraction| Parse Node contained within _parseResult_.               1. Let _fraction_ be the string-concatenation of CodePointsToString(_parsedFraction_) and *&#34;000000000&#34;*.               1. Let _nanosecondsString_ be the substring of _fraction_ from 1 to 10.               1. Let _nanoseconds_ be ℝ(StringToNumber(_nanosecondsString_)).             1. Return _sign_ × (((_hours_ × 60 + _minutes_) × 60 + _seconds_) × 10&lt;sup&gt;9&lt;/sup&gt; + _nanoseconds_).           ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ParseTimeZoneOffsetString" retTy="a math value" id="sec-parsetimezoneoffsetstring" virtualPackage="21 Numbers and Dates.4 Date Objects.1 Overview of Date Objects and Definitions of Abstract Operations.33 Time Zone Offset String Format.2 ParseTimeZoneOffsetString ( offsetString )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="offsetString" ty="a String"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="parseResult"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="ParseText">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="offsetString"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <NonterminalLiteral ordinal="null" name="UTCOffset">
+                                       <flags/>
+                                    </NonterminalLiteral>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <TypeCheckCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="parseResult"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a List of Errors"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_parseResult_ contains a |ASCIISign| Parse Node" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _parsedSign_ be the source text matched by the |ASCIISign| Parse Node contained within _parseResult_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_parsedSign_ is the single code point U+002D (HYPHEN-MINUS)" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="sign"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <UnaryExpression>
+                                                         <op>
+                                                            <Neg/>
+                                                         </op>
+                                                         <expr>
+                                                            <DecimalMathValueLiteral n="1"/>
+                                                         </expr>
+                                                      </UnaryExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="sign"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <DecimalMathValueLiteral n="1"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="Applications of StringToNumber below do not lose precision, since each of the parsed values is guaranteed to be a sufficiently short string of decimal digits."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_parseResult_ contains an |Hour| Parse Node" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _parsedHours_ be the source text matched by the |Hour| Parse Node contained within _parseResult_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="hours"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToMath/>
+                                 </op>
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="StringToNumber">
+                                       <args>
+                                          <InvokeAbstractOperationExpression name="CodePointsToString">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="parsedHours"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_parseResult_ does not contain a |MinuteSecond| Parse Node" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="minutes"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <DecimalMathValueLiteral n="0"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Let _parsedMinutes_ be the source text matched by the first |MinuteSecond| Parse Node contained within _parseResult_." block="null"/>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="minutes"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ConversionExpression>
+                                                         <op>
+                                                            <ToMath/>
+                                                         </op>
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="StringToNumber">
+                                                               <args>
+                                                                  <InvokeAbstractOperationExpression name="CodePointsToString">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="parsedMinutes"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeAbstractOperationExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ConversionExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_parseResult_ does not contain two |MinuteSecond| Parse Nodes" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="seconds"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <DecimalMathValueLiteral n="0"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Let _parsedSeconds_ be the source text matched by the second |MinuteSecond| Parse Node contained within _parseResult_." block="null"/>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="seconds"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ConversionExpression>
+                                                         <op>
+                                                            <ToMath/>
+                                                         </op>
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="StringToNumber">
+                                                               <args>
+                                                                  <InvokeAbstractOperationExpression name="CodePointsToString">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="parsedSeconds"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeAbstractOperationExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ConversionExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_parseResult_ does not contain a |TemporalDecimalFraction| Parse Node" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="nanoseconds"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <DecimalMathValueLiteral n="0"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Let _parsedFraction_ be the source text matched by the |TemporalDecimalFraction| Parse Node contained within _parseResult_." block="null"/>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="fraction"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <StringConcatExpression>
+                                                         <exprs>
+                                                            <InvokeAbstractOperationExpression name="CodePointsToString">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="parsedFraction"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </exprs>
+                                                         <exprs>
+                                                            <StringLiteral s="000000000"/>
+                                                         </exprs>
+                                                      </StringConcatExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="nanosecondsString"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <SubstringExpression>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="fraction"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                         <from>
+                                                            <DecimalMathValueLiteral n="1"/>
+                                                         </from>
+                                                         <to>
+                                                            <DecimalMathValueLiteral n="10"/>
+                                                         </to>
+                                                      </SubstringExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="nanoseconds"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ConversionExpression>
+                                                         <op>
+                                                            <ToMath/>
+                                                         </op>
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="StringToNumber">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="nanosecondsString"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ConversionExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <BinaryExpression>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="sign"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Mul/>
+                                 </op>
+                                 <right>
+                                    <BinaryExpression>
+                                       <left>
+                                          <BinaryExpression>
+                                             <left>
+                                                <BinaryExpression>
+                                                   <left>
+                                                      <BinaryExpression>
+                                                         <left>
+                                                            <BinaryExpression>
+                                                               <left>
+                                                                  <BinaryExpression>
+                                                                     <left>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="hours"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </left>
+                                                                     <op>
+                                                                        <Mul/>
+                                                                     </op>
+                                                                     <right>
+                                                                        <DecimalMathValueLiteral n="60"/>
+                                                                     </right>
+                                                                  </BinaryExpression>
+                                                               </left>
+                                                               <op>
+                                                                  <Add/>
+                                                               </op>
+                                                               <right>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="minutes"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </right>
+                                                            </BinaryExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Mul/>
+                                                         </op>
+                                                         <right>
+                                                            <DecimalMathValueLiteral n="60"/>
+                                                         </right>
+                                                      </BinaryExpression>
+                                                   </left>
+                                                   <op>
+                                                      <Add/>
+                                                   </op>
+                                                   <right>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="seconds"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </right>
+                                                </BinaryExpression>
+                                             </left>
+                                             <op>
+                                                <Mul/>
+                                             </op>
+                                             <right>
+                                                <ExponentiationExpression>
+                                                   <base>
+                                                      <DecimalMathValueLiteral n="10"/>
+                                                   </base>
+                                                   <power>
+                                                      <DecimalMathValueLiteral n="9"/>
+                                                   </power>
+                                                </ExponentiationExpression>
+                                             </right>
+                                          </BinaryExpression>
+                                       </left>
+                                       <op>
+                                          <Add/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="nanoseconds"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryExpression>
+                                 </right>
+                              </BinaryExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-numbers-and-dates" title="Numbers and Dates" number="21" relativeNumber="21"/>
+   </sections>
+   <sections>
+      <Section id="sec-date-objects" title="Date Objects" number="21.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-overview-of-date-objects-and-definitions-of-abstract-operations" title="Overview of Date Objects and Definitions of Abstract Operations" number="21.4.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-time-zone-offset-strings" title="Time Zone Offset String Format" number="21.4.1.33" relativeNumber="33"/>
+   </sections>
+   <sections>
+      <Section id="sec-parsetimezoneoffsetstring" title="ParseTimeZoneOffsetString ( offsetString )" number="21.4.1.33.2" relativeNumber="2"/>
+   </sections>
+</Algorithm>

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Assert: IsDetachedBuffer(_arrayBuffer_) is *false*.           1. Assert: There are sufficient bytes in _arrayBuffer_ starting at _byteIndex_ to represent a value of _type_.           1. Let _block_ be _arrayBuffer_.[[ArrayBufferData]].           1. Let _elementSize_ be the Element Size value specified in &lt;emu-xref href=&#34;#table-the-typedarray-constructors&#34;&gt;&lt;/emu-xref&gt; for Element Type _type_.           1. If IsSharedArrayBuffer(_arrayBuffer_) is *true*, then             1. Assert: _block_ is a Shared Data Block.             1. Let _rawValue_ be GetRawBytesFromSharedBlock(_block_, _byteIndex_, _type_, _isTypedArray_, _order_).           1. Else,             1. Let _rawValue_ be a List whose elements are bytes from _block_ at indices in the interval from _byteIndex_ (inclusive) to _byteIndex_ + _elementSize_ (exclusive).           1. Assert: The number of elements in _rawValue_ is _elementSize_.           1. If _isLittleEndian_ is not present, set _isLittleEndian_ to the value of the [[LittleEndian]] field of the surrounding agent's Agent Record.           1. Return RawBytesToNumeric(_type_, _rawValue_, _isLittleEndian_).         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="GetValueFromBuffer" retTy="a Number or a BigInt" id="sec-getvaluefrombuffer" virtualPackage="25 Structured Data.1 ArrayBuffer Objects.3 Abstract Operations For ArrayBuffer Objects.16 GetValueFromBuffer ( arrayBuffer, byteIndex, type, isTypedArray, order [ , isLittleEndian ] )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="arrayBuffer" ty="a Shared Array Buffer or an Array Buffer"/>
+         </params>
+         <params>
+            <NormalParam name="byteIndex" ty="a math value"/>
+         </params>
+         <params>
+            <NormalParam name="type" ty="a TypedArray element type"/>
+         </params>
+         <params>
+            <NormalParam name="isTypedArray" ty="a Boolean"/>
+         </params>
+         <params>
+            <NormalParam name="order" ty="~seq-cst~ or ~unordered~"/>
+         </params>
+         <params>
+            <OptionalParam name="isLittleEndian" ty="a Boolean"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsDetachedBuffer">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="arrayBuffer"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="There are sufficient bytes in _arrayBuffer_ starting at _byteIndex_ to represent a value of _type_" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="block"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="arrayBuffer"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ArrayBufferData"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _elementSize_ be the Element Size value specified in &lt;emu-xref href=&#34;#table-the-typedarray-constructors&#34;&gt;&lt;/emu-xref&gt; for Element Type _type_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsSharedArrayBuffer">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="arrayBuffer"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <AssertStep>
+                                                   <cond>
+                                                      <TypeCheckCondition negation="false">
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="block"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                         <ty>
+                                                            <Type value="a Shared Data Block"/>
+                                                         </ty>
+                                                      </TypeCheckCondition>
+                                                   </cond>
+                                                </AssertStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="rawValue"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="GetRawBytesFromSharedBlock">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="block"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="byteIndex"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="type"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="isTypedArray"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="order"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Let _rawValue_ be a List whose elements are bytes from _block_ at indices in the interval from _byteIndex_ (inclusive) to _byteIndex_ + _elementSize_ (exclusive)." block="null"/>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <NumberOfExpression>
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="rawValue"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                    </NumberOfExpression>
+                                 </left>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="elementSize"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="isLittleEndian"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Present/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <YetStep>
+                                 <expr>
+                                    <YetExpression str="set _isLittleEndian_ to the value of the [[LittleEndian]] field of the surrounding agent's Agent Record." block="null"/>
+                                 </expr>
+                              </YetStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="RawBytesToNumeric">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="type"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="rawValue"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="isLittleEndian"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-structured-data" title="Structured Data" number="25" relativeNumber="25"/>
+   </sections>
+   <sections>
+      <Section id="sec-arraybuffer-objects" title="ArrayBuffer Objects" number="25.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-abstract-operations-for-arraybuffer-objects" title="Abstract Operations For ArrayBuffer Objects" number="25.1.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-getvaluefrombuffer" title="GetValueFromBuffer ( arrayBuffer, byteIndex, type, isTypedArray, order [ , isLittleEndian ] )" number="25.1.3.16" relativeNumber="16"/>
+   </sections>
+</Algorithm>

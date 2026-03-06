@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Assert: The value of _generator_.[[GeneratorState]] is ~suspended-start~.           1. Let _genContext_ be the running execution context.           1. Set the Generator component of _genContext_ to _generator_.           1. Let _closure_ be a new Abstract Closure with no parameters that captures _generatorBody_ and performs the following steps when called:             1. Let _acGenContext_ be the running execution context.             1. Let _acGenerator_ be the Generator component of _acGenContext_.             1. If _generatorBody_ is a Parse Node, then               1. Let _result_ be Completion(Evaluation of _generatorBody_).             1. Else,               1. Assert: _generatorBody_ is an Abstract Closure with no parameters.               1. Let _result_ be _generatorBody_().             1. Assert: If we return here, the generator either threw an exception or performed either an implicit or explicit return.             1. Remove _acGenContext_ from the execution context stack and restore the execution context that is at the top of the execution context stack as the running execution context.             1. Set _acGenerator_.[[GeneratorState]] to ~completed~.             1. NOTE: Once a generator enters the ~completed~ state it never leaves it and its associated execution context is never resumed. Any execution state associated with _acGenerator_ can be discarded at this point.             1. If _result_ is a normal completion, then               1. Let _resultValue_ be *undefined*.             1. Else if _result_ is a return completion, then               1. Let _resultValue_ be _result_.[[Value]].             1. Else,               1. Assert: _result_ is a throw completion.               1. Return ? _result_.             1. Return CreateIteratorResultObject(_resultValue_, *true*).           1. Set the code evaluation state of _genContext_ such that when evaluation is resumed for that execution context, _closure_ will be called with no arguments.           1. Set _generator_.[[GeneratorContext]] to _genContext_.           1. Return ~unused~.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="GeneratorStart" retTy="~unused~" id="sec-generatorstart" virtualPackage="27 Control Abstraction Objects.5 Generator Objects.3 Generator Abstract Operations.1 GeneratorStart ( generator, generatorBody )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="generator" ty="a Generator"/>
+         </params>
+         <params>
+            <NormalParam name="generatorBody" ty="an abstract closure or a |FunctionBody| Parse Node"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="generator"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="GeneratorState"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="suspended-start"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="genContext"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <RunningExecutionContext/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="genContext"/>
+                                 </base>
+                                 <prop>
+                                    <ComponentProperty name="Generator"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="generator"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="closure"/>
+                           </variable>
+                           <expr>
+                              <AbstractClosureExpression>
+                                 <params/>
+                                 <captured>
+                                    <Variable name="generatorBody"/>
+                                 </captured>
+                                 <body>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="acGenContext"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <RunningExecutionContext/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <LetStep>
+                                                         <variable>
+                                                            <Variable name="acGenerator"/>
+                                                         </variable>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <PropertyReference>
+                                                                     <base>
+                                                                        <Variable name="acGenContext"/>
+                                                                     </base>
+                                                                     <prop>
+                                                                        <ComponentProperty name="Generator"/>
+                                                                     </prop>
+                                                                  </PropertyReference>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </LetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <IfStep newLine="true" keyword="else" comma="true">
+                                                         <cond>
+                                                            <TypeCheckCondition negation="false">
+                                                               <expr>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="generatorBody"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </expr>
+                                                               <ty>
+                                                                  <Type value="a Parse Node"/>
+                                                               </ty>
+                                                            </TypeCheckCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="result"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <InvokeAbstractOperationExpression name="Completion">
+                                                                                       <args>
+                                                                                          <InvokeSyntaxDirectedOperationExpression name="Evaluation">
+                                                                                             <base>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <Variable name="generatorBody"/>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </base>
+                                                                                             <args/>
+                                                                                          </InvokeSyntaxDirectedOperationExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </thenStep>
+                                                         <elseStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <AssertStep>
+                                                                                 <cond>
+                                                                                    <TypeCheckCondition negation="false">
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="generatorBody"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                       <ty>
+                                                                                          <Type value="an abstract closure"/>
+                                                                                       </ty>
+                                                                                    </TypeCheckCondition>
+                                                                                 </cond>
+                                                                              </AssertStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="result"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <InvokeAbstractClosureExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="generatorBody"/>
+                                                                                       </ref>
+                                                                                       <args/>
+                                                                                    </InvokeAbstractClosureExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </elseStep>
+                                                      </IfStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <AssertStep>
+                                                         <cond>
+                                                            <ExpressionCondition>
+                                                               <expr>
+                                                                  <YetExpression str="If we return here, the generator either threw an exception or performed either an implicit or explicit return" block="null"/>
+                                                               </expr>
+                                                            </ExpressionCondition>
+                                                         </cond>
+                                                      </AssertStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <RemoveContextStep>
+                                                         <context>
+                                                            <Variable name="acGenContext"/>
+                                                         </context>
+                                                         <restoreTarget>
+                                                            <StackTop/>
+                                                         </restoreTarget>
+                                                      </RemoveContextStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <SetStep>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="acGenerator"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <FieldProperty name="GeneratorState"/>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                         <expr>
+                                                            <EnumLiteral name="completed"/>
+                                                         </expr>
+                                                      </SetStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <NoteStep note="Once a generator enters the ~completed~ state it never leaves it and its associated execution context is never resumed. Any execution state associated with _acGenerator_ can be discarded at this point."/>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <IfStep newLine="true" keyword="else" comma="false">
+                                                         <cond>
+                                                            <PredicateCondition negation="false">
+                                                               <expr>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="result"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </expr>
+                                                               <op>
+                                                                  <Normal/>
+                                                               </op>
+                                                            </PredicateCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="resultValue"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <UndefinedLiteral/>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </thenStep>
+                                                         <elseStep>
+                                                            <IfStep newLine="true" keyword="else" comma="true">
+                                                               <cond>
+                                                                  <PredicateCondition negation="false">
+                                                                     <expr>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="result"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </expr>
+                                                                     <op>
+                                                                        <Return/>
+                                                                     </op>
+                                                                  </PredicateCondition>
+                                                               </cond>
+                                                               <thenStep>
+                                                                  <BlockStep>
+                                                                     <block>
+                                                                        <StepBlock>
+                                                                           <steps>
+                                                                              <SubStep directive="null">
+                                                                                 <step>
+                                                                                    <LetStep>
+                                                                                       <variable>
+                                                                                          <Variable name="resultValue"/>
+                                                                                       </variable>
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <PropertyReference>
+                                                                                                   <base>
+                                                                                                      <Variable name="result"/>
+                                                                                                   </base>
+                                                                                                   <prop>
+                                                                                                      <FieldProperty name="Value"/>
+                                                                                                   </prop>
+                                                                                                </PropertyReference>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                    </LetStep>
+                                                                                 </step>
+                                                                              </SubStep>
+                                                                           </steps>
+                                                                        </StepBlock>
+                                                                     </block>
+                                                                  </BlockStep>
+                                                               </thenStep>
+                                                               <elseStep>
+                                                                  <BlockStep>
+                                                                     <block>
+                                                                        <StepBlock>
+                                                                           <steps>
+                                                                              <SubStep directive="null">
+                                                                                 <step>
+                                                                                    <AssertStep>
+                                                                                       <cond>
+                                                                                          <PredicateCondition negation="false">
+                                                                                             <expr>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <Variable name="result"/>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </expr>
+                                                                                             <op>
+                                                                                                <Throw/>
+                                                                                             </op>
+                                                                                          </PredicateCondition>
+                                                                                       </cond>
+                                                                                    </AssertStep>
+                                                                                 </step>
+                                                                              </SubStep>
+                                                                           </steps>
+                                                                           <steps>
+                                                                              <SubStep directive="null">
+                                                                                 <step>
+                                                                                    <ReturnStep>
+                                                                                       <expr>
+                                                                                          <ReturnIfAbruptExpression check="true">
+                                                                                             <expr>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <Variable name="result"/>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </expr>
+                                                                                          </ReturnIfAbruptExpression>
+                                                                                       </expr>
+                                                                                    </ReturnStep>
+                                                                                 </step>
+                                                                              </SubStep>
+                                                                           </steps>
+                                                                        </StepBlock>
+                                                                     </block>
+                                                                  </BlockStep>
+                                                               </elseStep>
+                                                            </IfStep>
+                                                         </elseStep>
+                                                      </IfStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="CreateIteratorResultObject">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="resultValue"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <TrueLiteral/>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </body>
+                              </AbstractClosureExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetEvaluationStateStep>
+                           <context>
+                              <Variable name="genContext"/>
+                           </context>
+                           <func>
+                              <Variable name="closure"/>
+                           </func>
+                           <args/>
+                        </SetEvaluationStateStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="generator"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="GeneratorContext"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="genContext"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <EnumLiteral name="unused"/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-control-abstraction-objects" title="Control Abstraction Objects" number="27" relativeNumber="27"/>
+   </sections>
+   <sections>
+      <Section id="sec-generator-objects" title="Generator Objects" number="27.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="sec-generator-abstract-operations" title="Generator Abstract Operations" number="27.5.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-generatorstart" title="GeneratorStart ( generator, generatorBody )" number="27.5.3.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

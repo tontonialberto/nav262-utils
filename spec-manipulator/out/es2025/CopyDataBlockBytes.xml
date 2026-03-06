@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Assert: _fromBlock_ and _toBlock_ are distinct values.           1. Let _fromSize_ be the number of bytes in _fromBlock_.           1. Assert: _fromIndex_ + _count_ ≤ _fromSize_.           1. Let _toSize_ be the number of bytes in _toBlock_.           1. Assert: _toIndex_ + _count_ ≤ _toSize_.           1. Repeat, while _count_ &gt; 0,             1. If _fromBlock_ is a Shared Data Block, then               1. Let _execution_ be the [[CandidateExecution]] field of the surrounding agent's Agent Record.               1. Let _eventsRecord_ be the Agent Events Record of _execution_.[[EventsRecords]] whose [[AgentSignifier]] is AgentSignifier().               1. Let _bytes_ be a List whose sole element is a nondeterministically chosen byte value.               1. NOTE: In implementations, _bytes_ is the result of a non-atomic read instruction on the underlying hardware. The nondeterminism is a semantic prescription of the memory model to describe observable behaviour of hardware with weak consistency.               1. Let _readEvent_ be ReadSharedMemory { [[Order]]: ~unordered~, [[NoTear]]: *true*, [[Block]]: _fromBlock_, [[ByteIndex]]: _fromIndex_, [[ElementSize]]: 1 }.               1. Append _readEvent_ to _eventsRecord_.[[EventList]].               1. Append Chosen Value Record { [[Event]]: _readEvent_, [[ChosenValue]]: _bytes_ } to _execution_.[[ChosenValues]].               1. If _toBlock_ is a Shared Data Block, then                 1. Append WriteSharedMemory { [[Order]]: ~unordered~, [[NoTear]]: *true*, [[Block]]: _toBlock_, [[ByteIndex]]: _toIndex_, [[ElementSize]]: 1, [[Payload]]: _bytes_ } to _eventsRecord_.[[EventList]].               1. Else,                 1. Set _toBlock_[_toIndex_] to _bytes_[0].             1. Else,               1. Assert: _toBlock_ is not a Shared Data Block.               1. Set _toBlock_[_toIndex_] to _fromBlock_[_fromIndex_].             1. Set _toIndex_ to _toIndex_ + 1.             1. Set _fromIndex_ to _fromIndex_ + 1.             1. Set _count_ to _count_ - 1.           1. Return ~unused~.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="CopyDataBlockBytes" retTy="~unused~" id="sec-copydatablockbytes" virtualPackage="6 ECMAScript Data Types and Values.2 ECMAScript Specification Types.9 Data Blocks.3 CopyDataBlockBytes ( toBlock, toIndex, fromBlock, fromIndex, count )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="toBlock" ty="a Shared Data Block or a Data Block"/>
+         </params>
+         <params>
+            <NormalParam name="toIndex" ty="a math value"/>
+         </params>
+         <params>
+            <NormalParam name="fromBlock" ty="a Shared Data Block or a Data Block"/>
+         </params>
+         <params>
+            <NormalParam name="fromIndex" ty="a math value"/>
+         </params>
+         <params>
+            <NormalParam name="count" ty="a math value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <ExpressionCondition>
+                                 <expr>
+                                    <YetExpression str="_fromBlock_ and _toBlock_ are distinct values" block="null"/>
+                                 </expr>
+                              </ExpressionCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _fromSize_ be the number of bytes in _fromBlock_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="fromIndex"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Add/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="count"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryExpression>
+                                 </left>
+                                 <op>
+                                    <LessThanEqual/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="fromSize"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _toSize_ be the number of bytes in _toBlock_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="toIndex"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Add/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="count"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryExpression>
+                                 </left>
+                                 <op>
+                                    <LessThanEqual/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="toSize"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <RepeatWhileStep>
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="count"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <GreaterThan/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <body>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="true">
+                                                   <cond>
+                                                      <TypeCheckCondition negation="false">
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="fromBlock"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                         <ty>
+                                                            <Type value="a Shared Data Block"/>
+                                                         </ty>
+                                                      </TypeCheckCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Let _execution_ be the [[CandidateExecution]] field of the surrounding agent's Agent Record." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Let _eventsRecord_ be the Agent Events Record of _execution_.[[EventsRecords]] whose [[AgentSignifier]] is AgentSignifier()." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Let _bytes_ be a List whose sole element is a nondeterministically chosen byte value." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <NoteStep note="In implementations, _bytes_ is the result of a non-atomic read instruction on the underlying hardware. The nondeterminism is a semantic prescription of the memory model to describe observable behaviour of hardware with weak consistency."/>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="readEvent"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <RecordExpression tname="ReadSharedMemory">
+                                                                                 <fields>
+                                                                                    <RecordField>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Order"/>
+                                                                                       </field>
+                                                                                       <value>
+                                                                                          <EnumLiteral name="unordered"/>
+                                                                                       </value>
+                                                                                    </RecordField>
+                                                                                 </fields>
+                                                                                 <fields>
+                                                                                    <RecordField>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="NoTear"/>
+                                                                                       </field>
+                                                                                       <value>
+                                                                                          <TrueLiteral/>
+                                                                                       </value>
+                                                                                    </RecordField>
+                                                                                 </fields>
+                                                                                 <fields>
+                                                                                    <RecordField>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Block"/>
+                                                                                       </field>
+                                                                                       <value>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="fromBlock"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </value>
+                                                                                    </RecordField>
+                                                                                 </fields>
+                                                                                 <fields>
+                                                                                    <RecordField>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="ByteIndex"/>
+                                                                                       </field>
+                                                                                       <value>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="fromIndex"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </value>
+                                                                                    </RecordField>
+                                                                                 </fields>
+                                                                                 <fields>
+                                                                                    <RecordField>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="ElementSize"/>
+                                                                                       </field>
+                                                                                       <value>
+                                                                                          <DecimalMathValueLiteral n="1"/>
+                                                                                       </value>
+                                                                                    </RecordField>
+                                                                                 </fields>
+                                                                              </RecordExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AppendStep>
+                                                                           <elem>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="readEvent"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </elem>
+                                                                           <ref>
+                                                                              <PropertyReference>
+                                                                                 <base>
+                                                                                    <Variable name="eventsRecord"/>
+                                                                                 </base>
+                                                                                 <prop>
+                                                                                    <FieldProperty name="EventList"/>
+                                                                                 </prop>
+                                                                              </PropertyReference>
+                                                                           </ref>
+                                                                        </AppendStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AppendStep>
+                                                                           <elem>
+                                                                              <RecordExpression tname="Chosen Value Record">
+                                                                                 <fields>
+                                                                                    <RecordField>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Event"/>
+                                                                                       </field>
+                                                                                       <value>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="readEvent"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </value>
+                                                                                    </RecordField>
+                                                                                 </fields>
+                                                                                 <fields>
+                                                                                    <RecordField>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="ChosenValue"/>
+                                                                                       </field>
+                                                                                       <value>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="bytes"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </value>
+                                                                                    </RecordField>
+                                                                                 </fields>
+                                                                              </RecordExpression>
+                                                                           </elem>
+                                                                           <ref>
+                                                                              <PropertyReference>
+                                                                                 <base>
+                                                                                    <Variable name="execution"/>
+                                                                                 </base>
+                                                                                 <prop>
+                                                                                    <FieldProperty name="ChosenValues"/>
+                                                                                 </prop>
+                                                                              </PropertyReference>
+                                                                           </ref>
+                                                                        </AppendStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep newLine="true" keyword="else" comma="true">
+                                                                           <cond>
+                                                                              <TypeCheckCondition negation="false">
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="toBlock"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                                 <ty>
+                                                                                    <Type value="a Shared Data Block"/>
+                                                                                 </ty>
+                                                                              </TypeCheckCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <AppendStep>
+                                                                                                   <elem>
+                                                                                                      <RecordExpression tname="WriteSharedMemory">
+                                                                                                         <fields>
+                                                                                                            <RecordField>
+                                                                                                               <field>
+                                                                                                                  <FieldLiteral name="Order"/>
+                                                                                                               </field>
+                                                                                                               <value>
+                                                                                                                  <EnumLiteral name="unordered"/>
+                                                                                                               </value>
+                                                                                                            </RecordField>
+                                                                                                         </fields>
+                                                                                                         <fields>
+                                                                                                            <RecordField>
+                                                                                                               <field>
+                                                                                                                  <FieldLiteral name="NoTear"/>
+                                                                                                               </field>
+                                                                                                               <value>
+                                                                                                                  <TrueLiteral/>
+                                                                                                               </value>
+                                                                                                            </RecordField>
+                                                                                                         </fields>
+                                                                                                         <fields>
+                                                                                                            <RecordField>
+                                                                                                               <field>
+                                                                                                                  <FieldLiteral name="Block"/>
+                                                                                                               </field>
+                                                                                                               <value>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="toBlock"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </value>
+                                                                                                            </RecordField>
+                                                                                                         </fields>
+                                                                                                         <fields>
+                                                                                                            <RecordField>
+                                                                                                               <field>
+                                                                                                                  <FieldLiteral name="ByteIndex"/>
+                                                                                                               </field>
+                                                                                                               <value>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="toIndex"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </value>
+                                                                                                            </RecordField>
+                                                                                                         </fields>
+                                                                                                         <fields>
+                                                                                                            <RecordField>
+                                                                                                               <field>
+                                                                                                                  <FieldLiteral name="ElementSize"/>
+                                                                                                               </field>
+                                                                                                               <value>
+                                                                                                                  <DecimalMathValueLiteral n="1"/>
+                                                                                                               </value>
+                                                                                                            </RecordField>
+                                                                                                         </fields>
+                                                                                                         <fields>
+                                                                                                            <RecordField>
+                                                                                                               <field>
+                                                                                                                  <FieldLiteral name="Payload"/>
+                                                                                                               </field>
+                                                                                                               <value>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="bytes"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </value>
+                                                                                                            </RecordField>
+                                                                                                         </fields>
+                                                                                                      </RecordExpression>
+                                                                                                   </elem>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="eventsRecord"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="EventList"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                </AppendStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </thenStep>
+                                                                           <elseStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <SetStep>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="toBlock"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <IndexProperty>
+                                                                                                               <index>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="toIndex"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </index>
+                                                                                                            </IndexProperty>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                   <expr>
+                                                                                                      <ReferenceExpression>
+                                                                                                         <ref>
+                                                                                                            <PropertyReference>
+                                                                                                               <base>
+                                                                                                                  <Variable name="bytes"/>
+                                                                                                               </base>
+                                                                                                               <prop>
+                                                                                                                  <IndexProperty>
+                                                                                                                     <index>
+                                                                                                                        <DecimalMathValueLiteral n="0"/>
+                                                                                                                     </index>
+                                                                                                                  </IndexProperty>
+                                                                                                               </prop>
+                                                                                                            </PropertyReference>
+                                                                                                         </ref>
+                                                                                                      </ReferenceExpression>
+                                                                                                   </expr>
+                                                                                                </SetStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </elseStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AssertStep>
+                                                                           <cond>
+                                                                              <TypeCheckCondition negation="true">
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="toBlock"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                                 <ty>
+                                                                                    <Type value="a Shared Data Block"/>
+                                                                                 </ty>
+                                                                              </TypeCheckCondition>
+                                                                           </cond>
+                                                                        </AssertStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <SetStep>
+                                                                           <ref>
+                                                                              <PropertyReference>
+                                                                                 <base>
+                                                                                    <Variable name="toBlock"/>
+                                                                                 </base>
+                                                                                 <prop>
+                                                                                    <IndexProperty>
+                                                                                       <index>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="toIndex"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </index>
+                                                                                    </IndexProperty>
+                                                                                 </prop>
+                                                                              </PropertyReference>
+                                                                           </ref>
+                                                                           <expr>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <PropertyReference>
+                                                                                       <base>
+                                                                                          <Variable name="fromBlock"/>
+                                                                                       </base>
+                                                                                       <prop>
+                                                                                          <IndexProperty>
+                                                                                             <index>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <Variable name="fromIndex"/>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </index>
+                                                                                          </IndexProperty>
+                                                                                       </prop>
+                                                                                    </PropertyReference>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </expr>
+                                                                        </SetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="toIndex"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <BinaryExpression>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="toIndex"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Add/>
+                                                         </op>
+                                                         <right>
+                                                            <DecimalMathValueLiteral n="1"/>
+                                                         </right>
+                                                      </BinaryExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="fromIndex"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <BinaryExpression>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="fromIndex"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Add/>
+                                                         </op>
+                                                         <right>
+                                                            <DecimalMathValueLiteral n="1"/>
+                                                         </right>
+                                                      </BinaryExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="count"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <BinaryExpression>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="count"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <Sub/>
+                                                         </op>
+                                                         <right>
+                                                            <DecimalMathValueLiteral n="1"/>
+                                                         </right>
+                                                      </BinaryExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </body>
+                        </RepeatWhileStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <EnumLiteral name="unused"/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-data-types-and-values" title="ECMAScript Data Types and Values" number="6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-ecmascript-specification-types" title="ECMAScript Specification Types" number="6.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-data-blocks" title="Data Blocks" number="6.2.9" relativeNumber="9"/>
+   </sections>
+   <sections>
+      <Section id="sec-copydatablockbytes" title="CopyDataBlockBytes ( toBlock, toIndex, fromBlock, fromIndex, count )" number="6.2.9.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

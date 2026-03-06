@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. If _x_ is *NaN*, return *&#34;NaN&#34;*.             1. If _x_ is either *+0*&lt;sub&gt;𝔽&lt;/sub&gt; or *-0*&lt;sub&gt;𝔽&lt;/sub&gt;, return *&#34;0&#34;*.             1. If _x_ &lt; *-0*&lt;sub&gt;𝔽&lt;/sub&gt;, return the string-concatenation of *&#34;-&#34;* and Number::toString(-_x_, _radix_).             1. If _x_ is *+∞*&lt;sub&gt;𝔽&lt;/sub&gt;, return *&#34;Infinity&#34;*.             1. [id=&#34;step-number-tostring-intermediate-values&#34;] Let _n_, _k_, and _s_ be integers such that _k_ ≥ 1, _radix_&lt;sup&gt;_k_ - 1&lt;/sup&gt; ≤ _s_ &lt; _radix_&lt;sup&gt;_k_&lt;/sup&gt;, 𝔽(_s_ × _radix_&lt;sup&gt;_n_ - _k_&lt;/sup&gt;) is _x_, and _k_ is as small as possible. Note that _k_ is the number of digits in the representation of _s_ using radix _radix_, that _s_ is not divisible by _radix_, and that the least significant digit of _s_ is not necessarily uniquely determined by these criteria.             1. If _radix_ ≠ 10 or _n_ is in the inclusive interval from -5 to 21, then               1. If _n_ ≥ _k_, then                 1. Return the string-concatenation of:                   * the code units of the _k_ digits of the representation of _s_ using radix _radix_                   * _n_ - _k_ occurrences of the code unit 0x0030 (DIGIT ZERO)               1. Else if _n_ &gt; 0, then                 1. Return the string-concatenation of:                   * the code units of the most significant _n_ digits of the representation of _s_ using radix _radix_                   * the code unit 0x002E (FULL STOP)                   * the code units of the remaining _k_ - _n_ digits of the representation of _s_ using radix _radix_               1. Else,                 1. Assert: _n_ ≤ 0.                 1. Return the string-concatenation of:                   * the code unit 0x0030 (DIGIT ZERO)                   * the code unit 0x002E (FULL STOP)                   * -_n_ occurrences of the code unit 0x0030 (DIGIT ZERO)                   * the code units of the _k_ digits of the representation of _s_ using radix _radix_             1. NOTE: In this case, the input will be represented using scientific E notation, such as `1.2e+3`.             1. Assert: _radix_ is 10.             1. If _n_ &lt; 0, then               1. Let _exponentSign_ be the code unit 0x002D (HYPHEN-MINUS).             1. Else,               1. Let _exponentSign_ be the code unit 0x002B (PLUS SIGN).             1. If _k_ = 1, then               1. Return the string-concatenation of:                 * the code unit of the single digit of _s_                 * the code unit 0x0065 (LATIN SMALL LETTER E)                 * _exponentSign_                 * the code units of the decimal representation of abs(_n_ - 1)             1. Return the string-concatenation of:               * the code unit of the most significant digit of the decimal representation of _s_               * the code unit 0x002E (FULL STOP)               * the code units of the remaining _k_ - 1 digits of the decimal representation of _s_               * the code unit 0x0065 (LATIN SMALL LETTER E)               * _exponentSign_               * the code units of the decimal representation of abs(_n_ - 1)           ">
+   <head>
+      <NumericMethodHead baseTy="a Number" name="Number::toString" retTy="a String" id="sec-numeric-types-number-tostring" virtualPackage="6 ECMAScript Data Types and Values.1 ECMAScript Language Types.6 Numeric Types.1 The Number Type.20 Number::toString ( x, radix )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="x" ty="a Number"/>
+         </params>
+         <params>
+            <NormalParam name="radix" ty="an integer in the inclusive interval from 2 to 36"/>
+         </params>
+      </NumericMethodHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="x"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <StringLiteral s="NaN"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="x"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <NumberLiteral value="0" isNegative="false"/>
+                                 </right>
+                                 <right>
+                                    <NumberLiteral value="0" isNegative="true"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <StringLiteral s="0"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="x"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <LessThan/>
+                                 </op>
+                                 <right>
+                                    <NumberLiteral value="0" isNegative="true"/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <StringConcatExpression>
+                                       <exprs>
+                                          <StringLiteral s="-"/>
+                                       </exprs>
+                                       <exprs>
+                                          <InvokeNumericMethodExpression name="Number::toString">
+                                             <args>
+                                                <UnaryExpression>
+                                                   <op>
+                                                      <Neg/>
+                                                   </op>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="x"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </UnaryExpression>
+                                             </args>
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="radix"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeNumericMethodExpression>
+                                       </exprs>
+                                    </StringConcatExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="x"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <PositiveInfinityNumberLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <StringLiteral s="Infinity"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep>
+                     <directive>
+                        <Directive name="id">
+                           <values>step-number-tostring-intermediate-values</values>
+                        </Directive>
+                     </directive>
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _n_, _k_, and _s_ be integers such that _k_ ≥ 1, _radix_&lt;sup&gt;_k_ - 1&lt;/sup&gt; ≤ _s_ &lt; _radix_&lt;sup&gt;_k_&lt;/sup&gt;, 𝔽(_s_ × _radix_&lt;sup&gt;_n_ - _k_&lt;/sup&gt;) is _x_, and _k_ is as small as possible. Note that _k_ is the number of digits in the representation of _s_ using radix _radix_, that _s_ is not divisible by _radix_, and that the least significant digit of _s_ is not necessarily uniquely determined by these criteria." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <BinaryCondition>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="radix"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <NEq/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="10"/>
+                                       </right>
+                                    </BinaryCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <InclusiveIntervalCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="n"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <from>
+                                          <UnaryExpression>
+                                             <op>
+                                                <Neg/>
+                                             </op>
+                                             <expr>
+                                                <DecimalMathValueLiteral n="5"/>
+                                             </expr>
+                                          </UnaryExpression>
+                                       </from>
+                                       <to>
+                                          <DecimalMathValueLiteral n="21"/>
+                                       </to>
+                                    </InclusiveIntervalCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="false">
+                                                   <cond>
+                                                      <BinaryCondition>
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="n"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <op>
+                                                            <GreaterThanEqual/>
+                                                         </op>
+                                                         <right>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="k"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </right>
+                                                      </BinaryCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Return the string-concatenation of:">
+                                                                                 <block>
+                                                                                    <ExprBlock>
+                                                                                       <exprs>
+                                                                                          <YetExpression str="the code units of the _k_ digits of the representation of _s_ using radix _radix_" block="null"/>
+                                                                                       </exprs>
+                                                                                       <exprs>
+                                                                                          <YetExpression str="_n_ - _k_ occurrences of the code unit 0x0030 (DIGIT ZERO)" block="null"/>
+                                                                                       </exprs>
+                                                                                    </ExprBlock>
+                                                                                 </block>
+                                                                              </YetExpression>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <IfStep newLine="true" keyword="else" comma="true">
+                                                         <cond>
+                                                            <BinaryCondition>
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="n"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <op>
+                                                                  <GreaterThan/>
+                                                               </op>
+                                                               <right>
+                                                                  <DecimalMathValueLiteral n="0"/>
+                                                               </right>
+                                                            </BinaryCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <YetStep>
+                                                                                 <expr>
+                                                                                    <YetExpression str="Return the string-concatenation of:">
+                                                                                       <block>
+                                                                                          <ExprBlock>
+                                                                                             <exprs>
+                                                                                                <YetExpression str="the code units of the most significant _n_ digits of the representation of _s_ using radix _radix_" block="null"/>
+                                                                                             </exprs>
+                                                                                             <exprs>
+                                                                                                <HexLiteral hex="46" name="FULL STOP"/>
+                                                                                             </exprs>
+                                                                                             <exprs>
+                                                                                                <YetExpression str="the code units of the remaining _k_ - _n_ digits of the representation of _s_ using radix _radix_" block="null"/>
+                                                                                             </exprs>
+                                                                                          </ExprBlock>
+                                                                                       </block>
+                                                                                    </YetExpression>
+                                                                                 </expr>
+                                                                              </YetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </thenStep>
+                                                         <elseStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <AssertStep>
+                                                                                 <cond>
+                                                                                    <BinaryCondition>
+                                                                                       <left>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="n"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </left>
+                                                                                       <op>
+                                                                                          <LessThanEqual/>
+                                                                                       </op>
+                                                                                       <right>
+                                                                                          <DecimalMathValueLiteral n="0"/>
+                                                                                       </right>
+                                                                                    </BinaryCondition>
+                                                                                 </cond>
+                                                                              </AssertStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <YetStep>
+                                                                                 <expr>
+                                                                                    <YetExpression str="Return the string-concatenation of:">
+                                                                                       <block>
+                                                                                          <ExprBlock>
+                                                                                             <exprs>
+                                                                                                <HexLiteral hex="48" name="DIGIT ZERO"/>
+                                                                                             </exprs>
+                                                                                             <exprs>
+                                                                                                <HexLiteral hex="46" name="FULL STOP"/>
+                                                                                             </exprs>
+                                                                                             <exprs>
+                                                                                                <YetExpression str="-_n_ occurrences of the code unit 0x0030 (DIGIT ZERO)" block="null"/>
+                                                                                             </exprs>
+                                                                                             <exprs>
+                                                                                                <YetExpression str="the code units of the _k_ digits of the representation of _s_ using radix _radix_" block="null"/>
+                                                                                             </exprs>
+                                                                                          </ExprBlock>
+                                                                                       </block>
+                                                                                    </YetExpression>
+                                                                                 </expr>
+                                                                              </YetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </elseStep>
+                                                      </IfStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="In this case, the input will be represented using scientific E notation, such as `1.2e+3`."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="radix"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <DecimalMathValueLiteral n="10"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="n"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <LessThan/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="exponentSign"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <HexLiteral hex="45" name="HYPHEN-MINUS"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="exponentSign"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <HexLiteral hex="43" name="PLUS SIGN"/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="k"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Eq/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="1"/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Return the string-concatenation of:">
+                                                         <block>
+                                                            <ExprBlock>
+                                                               <exprs>
+                                                                  <YetExpression str="the code unit of the single digit of _s_" block="null"/>
+                                                               </exprs>
+                                                               <exprs>
+                                                                  <HexLiteral hex="101" name="LATIN SMALL LETTER E"/>
+                                                               </exprs>
+                                                               <exprs>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="exponentSign"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </exprs>
+                                                               <exprs>
+                                                                  <YetExpression str="the code units of the decimal representation of abs(_n_ - 1)" block="null"/>
+                                                               </exprs>
+                                                            </ExprBlock>
+                                                         </block>
+                                                      </YetExpression>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Return the string-concatenation of:">
+                                 <block>
+                                    <ExprBlock>
+                                       <exprs>
+                                          <YetExpression str="the code unit of the most significant digit of the decimal representation of _s_" block="null"/>
+                                       </exprs>
+                                       <exprs>
+                                          <HexLiteral hex="46" name="FULL STOP"/>
+                                       </exprs>
+                                       <exprs>
+                                          <YetExpression str="the code units of the remaining _k_ - 1 digits of the decimal representation of _s_" block="null"/>
+                                       </exprs>
+                                       <exprs>
+                                          <HexLiteral hex="101" name="LATIN SMALL LETTER E"/>
+                                       </exprs>
+                                       <exprs>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="exponentSign"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </exprs>
+                                       <exprs>
+                                          <YetExpression str="the code units of the decimal representation of abs(_n_ - 1)" block="null"/>
+                                       </exprs>
+                                    </ExprBlock>
+                                 </block>
+                              </YetExpression>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-data-types-and-values" title="ECMAScript Data Types and Values" number="6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-ecmascript-language-types" title="ECMAScript Language Types" number="6.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-numeric-types" title="Numeric Types" number="6.1.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-ecmascript-language-types-number-type" title="The Number Type" number="6.1.6.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-numeric-types-number-tostring" title="Number::toString ( x, radix )" number="6.1.6.1.20" relativeNumber="20"/>
+   </sections>
+</Algorithm>

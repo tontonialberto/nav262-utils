@@ -1,0 +1,1239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Assert: _P_ is a property key.           1. If _current_ is *undefined*, then             1. If _extensible_ is *false*, return *false*.             1. If _O_ is *undefined*, return *true*.             1. If IsAccessorDescriptor(_Desc_) is *true*, then               1. Create an own accessor property named _P_ of object _O_ whose [[Get]], [[Set]], [[Enumerable]], and [[Configurable]] attributes are set to the value of the corresponding field in _Desc_ if _Desc_ has that field, or to the attribute's &lt;emu-xref href=&#34;#table-object-property-attributes&#34;&gt;default value&lt;/emu-xref&gt; otherwise.             1. Else,               1. Create an own data property named _P_ of object _O_ whose [[Value]], [[Writable]], [[Enumerable]], and [[Configurable]] attributes are set to the value of the corresponding field in _Desc_ if _Desc_ has that field, or to the attribute's &lt;emu-xref href=&#34;#table-object-property-attributes&#34;&gt;default value&lt;/emu-xref&gt; otherwise.             1. Return *true*.           1. Assert: _current_ is a fully populated Property Descriptor.           1. If _Desc_ does not have any fields, return *true*.           1. If _current_.[[Configurable]] is *false*, then             1. If _Desc_ has a [[Configurable]] field and _Desc_.[[Configurable]] is *true*, return *false*.             1. If _Desc_ has an [[Enumerable]] field and _Desc_.[[Enumerable]] is not _current_.[[Enumerable]], return *false*.             1. If IsGenericDescriptor(_Desc_) is *false* and IsAccessorDescriptor(_Desc_) is not IsAccessorDescriptor(_current_), return *false*.             1. If IsAccessorDescriptor(_current_) is *true*, then               1. If _Desc_ has a [[Get]] field and SameValue(_Desc_.[[Get]], _current_.[[Get]]) is *false*, return *false*.               1. If _Desc_ has a [[Set]] field and SameValue(_Desc_.[[Set]], _current_.[[Set]]) is *false*, return *false*.             1. Else if _current_.[[Writable]] is *false*, then               1. If _Desc_ has a [[Writable]] field and _Desc_.[[Writable]] is *true*, return *false*.               1. NOTE: SameValue returns *true* for *NaN* values which may be distinguishable by other means. Returning here ensures that any existing property of _O_ remains unmodified.               1. If _Desc_ has a [[Value]] field, return SameValue(_Desc_.[[Value]], _current_.[[Value]]).           1. If _O_ is not *undefined*, then             1. If IsDataDescriptor(_current_) is *true* and IsAccessorDescriptor(_Desc_) is *true*, then               1. If _Desc_ has a [[Configurable]] field, let _configurable_ be _Desc_.[[Configurable]]; else let _configurable_ be _current_.[[Configurable]].               1. If _Desc_ has a [[Enumerable]] field, let _enumerable_ be _Desc_.[[Enumerable]]; else let _enumerable_ be _current_.[[Enumerable]].               1. Replace the property named _P_ of object _O_ with an accessor property whose [[Configurable]] and [[Enumerable]] attributes are set to _configurable_ and _enumerable_, respectively, and whose [[Get]] and [[Set]] attributes are set to the value of the corresponding field in _Desc_ if _Desc_ has that field, or to the attribute's &lt;emu-xref href=&#34;#table-object-property-attributes&#34;&gt;default value&lt;/emu-xref&gt; otherwise.             1. Else if IsAccessorDescriptor(_current_) is *true* and IsDataDescriptor(_Desc_) is *true*, then               1. If _Desc_ has a [[Configurable]] field, let _configurable_ be _Desc_.[[Configurable]]; else let _configurable_ be _current_.[[Configurable]].               1. If _Desc_ has a [[Enumerable]] field, let _enumerable_ be _Desc_.[[Enumerable]]; else let _enumerable_ be _current_.[[Enumerable]].               1. Replace the property named _P_ of object _O_ with a data property whose [[Configurable]] and [[Enumerable]] attributes are set to _configurable_ and _enumerable_, respectively, and whose [[Value]] and [[Writable]] attributes are set to the value of the corresponding field in _Desc_ if _Desc_ has that field, or to the attribute's &lt;emu-xref href=&#34;#table-object-property-attributes&#34;&gt;default value&lt;/emu-xref&gt; otherwise.             1. Else,               1. For each field of _Desc_, set the corresponding attribute of the property named _P_ of object _O_ to the value of the field.           1. Return *true*.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ValidateAndApplyPropertyDescriptor" retTy="a Boolean" id="sec-validateandapplypropertydescriptor" virtualPackage="10 Ordinary and Exotic Objects Behaviours.1 Ordinary Object Internal Methods and Internal Slots.6 [[DefineOwnProperty]] ( P, Desc ).3 ValidateAndApplyPropertyDescriptor ( O, P, extensible, Desc, current )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="O" ty="an Object or *undefined*"/>
+         </params>
+         <params>
+            <NormalParam name="P" ty="a Symbol or a String"/>
+         </params>
+         <params>
+            <NormalParam name="extensible" ty="a Boolean"/>
+         </params>
+         <params>
+            <NormalParam name="Desc" ty="a Property Descriptor"/>
+         </params>
+         <params>
+            <NormalParam name="current" ty="a Property Descriptor or *undefined*"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="P"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a Symbol or a String"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="current"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="extensible"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <FalseLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <FalseLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="O"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <UndefinedLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <TrueLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="true">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <InvokeAbstractOperationExpression name="IsAccessorDescriptor">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="Desc"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </left>
+                                                         <right>
+                                                            <TrueLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Create an own accessor property named _P_ of object _O_ whose [[Get]], [[Set]], [[Enumerable]], and [[Configurable]] attributes are set to the value of the corresponding field in _Desc_ if _Desc_ has that field, or to the attribute's &lt;emu-xref href=&#34;#table-object-property-attributes&#34;&gt;default value&lt;/emu-xref&gt; otherwise." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Create an own data property named _P_ of object _O_ whose [[Value]], [[Writable]], [[Enumerable]], and [[Configurable]] attributes are set to the value of the corresponding field in _Desc_ if _Desc_ has that field, or to the attribute's &lt;emu-xref href=&#34;#table-object-property-attributes&#34;&gt;default value&lt;/emu-xref&gt; otherwise." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <TrueLiteral/>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <PredicateCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="current"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <FullyPopulated/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="If _Desc_ does not have any fields, return *true*." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="current"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="Configurable"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <CompoundCondition>
+                                                         <left>
+                                                            <HasFieldCondition negation="false">
+                                                               <ref>
+                                                                  <Variable name="Desc"/>
+                                                               </ref>
+                                                               <field>
+                                                                  <FieldLiteral name="Configurable"/>
+                                                               </field>
+                                                            </HasFieldCondition>
+                                                         </left>
+                                                         <op>
+                                                            <And/>
+                                                         </op>
+                                                         <right>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <Variable name="Desc"/>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="Configurable"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <TrueLiteral/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </right>
+                                                      </CompoundCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <FalseLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <CompoundCondition>
+                                                         <left>
+                                                            <HasFieldCondition negation="false">
+                                                               <ref>
+                                                                  <Variable name="Desc"/>
+                                                               </ref>
+                                                               <field>
+                                                                  <FieldLiteral name="Enumerable"/>
+                                                               </field>
+                                                            </HasFieldCondition>
+                                                         </left>
+                                                         <op>
+                                                            <And/>
+                                                         </op>
+                                                         <right>
+                                                            <IsAreCondition negation="true">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <Variable name="Desc"/>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="Enumerable"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <Variable name="current"/>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="Enumerable"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </right>
+                                                      </CompoundCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <FalseLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <CompoundCondition>
+                                                         <left>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <InvokeAbstractOperationExpression name="IsGenericDescriptor">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="Desc"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeAbstractOperationExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <FalseLiteral/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </left>
+                                                         <op>
+                                                            <And/>
+                                                         </op>
+                                                         <right>
+                                                            <IsAreCondition negation="true">
+                                                               <left>
+                                                                  <InvokeAbstractOperationExpression name="IsAccessorDescriptor">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="Desc"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeAbstractOperationExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <InvokeAbstractOperationExpression name="IsAccessorDescriptor">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="current"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeAbstractOperationExpression>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </right>
+                                                      </CompoundCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <FalseLiteral/>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="false">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <InvokeAbstractOperationExpression name="IsAccessorDescriptor">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="current"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </left>
+                                                         <right>
+                                                            <TrueLiteral/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep elseStep="null">
+                                                                           <cond>
+                                                                              <CompoundCondition>
+                                                                                 <left>
+                                                                                    <HasFieldCondition negation="false">
+                                                                                       <ref>
+                                                                                          <Variable name="Desc"/>
+                                                                                       </ref>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Get"/>
+                                                                                       </field>
+                                                                                    </HasFieldCondition>
+                                                                                 </left>
+                                                                                 <op>
+                                                                                    <And/>
+                                                                                 </op>
+                                                                                 <right>
+                                                                                    <IsAreCondition negation="false">
+                                                                                       <left>
+                                                                                          <InvokeAbstractOperationExpression name="SameValue">
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="Desc"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="Get"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="current"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="Get"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </left>
+                                                                                       <right>
+                                                                                          <FalseLiteral/>
+                                                                                       </right>
+                                                                                    </IsAreCondition>
+                                                                                 </right>
+                                                                              </CompoundCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <ReturnStep>
+                                                                                 <expr>
+                                                                                    <FalseLiteral/>
+                                                                                 </expr>
+                                                                              </ReturnStep>
+                                                                           </thenStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep elseStep="null">
+                                                                           <cond>
+                                                                              <CompoundCondition>
+                                                                                 <left>
+                                                                                    <HasFieldCondition negation="false">
+                                                                                       <ref>
+                                                                                          <Variable name="Desc"/>
+                                                                                       </ref>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Set"/>
+                                                                                       </field>
+                                                                                    </HasFieldCondition>
+                                                                                 </left>
+                                                                                 <op>
+                                                                                    <And/>
+                                                                                 </op>
+                                                                                 <right>
+                                                                                    <IsAreCondition negation="false">
+                                                                                       <left>
+                                                                                          <InvokeAbstractOperationExpression name="SameValue">
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="Desc"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="Set"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="current"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="Set"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </left>
+                                                                                       <right>
+                                                                                          <FalseLiteral/>
+                                                                                       </right>
+                                                                                    </IsAreCondition>
+                                                                                 </right>
+                                                                              </CompoundCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <ReturnStep>
+                                                                                 <expr>
+                                                                                    <FalseLiteral/>
+                                                                                 </expr>
+                                                                              </ReturnStep>
+                                                                           </thenStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <IfStep elseStep="null">
+                                                         <cond>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <PropertyReference>
+                                                                           <base>
+                                                                              <Variable name="current"/>
+                                                                           </base>
+                                                                           <prop>
+                                                                              <FieldProperty name="Writable"/>
+                                                                           </prop>
+                                                                        </PropertyReference>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <FalseLiteral/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <IfStep elseStep="null">
+                                                                                 <cond>
+                                                                                    <CompoundCondition>
+                                                                                       <left>
+                                                                                          <HasFieldCondition negation="false">
+                                                                                             <ref>
+                                                                                                <Variable name="Desc"/>
+                                                                                             </ref>
+                                                                                             <field>
+                                                                                                <FieldLiteral name="Writable"/>
+                                                                                             </field>
+                                                                                          </HasFieldCondition>
+                                                                                       </left>
+                                                                                       <op>
+                                                                                          <And/>
+                                                                                       </op>
+                                                                                       <right>
+                                                                                          <IsAreCondition negation="false">
+                                                                                             <left>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="Desc"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="Writable"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </left>
+                                                                                             <right>
+                                                                                                <TrueLiteral/>
+                                                                                             </right>
+                                                                                          </IsAreCondition>
+                                                                                       </right>
+                                                                                    </CompoundCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <ReturnStep>
+                                                                                       <expr>
+                                                                                          <FalseLiteral/>
+                                                                                       </expr>
+                                                                                    </ReturnStep>
+                                                                                 </thenStep>
+                                                                              </IfStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <NoteStep note="SameValue returns *true* for *NaN* values which may be distinguishable by other means. Returning here ensures that any existing property of _O_ remains unmodified."/>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <IfStep elseStep="null">
+                                                                                 <cond>
+                                                                                    <HasFieldCondition negation="false">
+                                                                                       <ref>
+                                                                                          <Variable name="Desc"/>
+                                                                                       </ref>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Value"/>
+                                                                                       </field>
+                                                                                    </HasFieldCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <ReturnStep>
+                                                                                       <expr>
+                                                                                          <InvokeAbstractOperationExpression name="SameValue">
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="Desc"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="Value"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <PropertyReference>
+                                                                                                         <base>
+                                                                                                            <Variable name="current"/>
+                                                                                                         </base>
+                                                                                                         <prop>
+                                                                                                            <FieldProperty name="Value"/>
+                                                                                                         </prop>
+                                                                                                      </PropertyReference>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </expr>
+                                                                                    </ReturnStep>
+                                                                                 </thenStep>
+                                                                              </IfStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </thenStep>
+                                                      </IfStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="true">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="O"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="false">
+                                                   <cond>
+                                                      <CompoundCondition>
+                                                         <left>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <InvokeAbstractOperationExpression name="IsDataDescriptor">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="current"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeAbstractOperationExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <TrueLiteral/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </left>
+                                                         <op>
+                                                            <And/>
+                                                         </op>
+                                                         <right>
+                                                            <IsAreCondition negation="false">
+                                                               <left>
+                                                                  <InvokeAbstractOperationExpression name="IsAccessorDescriptor">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="Desc"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeAbstractOperationExpression>
+                                                               </left>
+                                                               <right>
+                                                                  <TrueLiteral/>
+                                                               </right>
+                                                            </IsAreCondition>
+                                                         </right>
+                                                      </CompoundCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep newLine="false" keyword="else" comma="false">
+                                                                           <cond>
+                                                                              <HasFieldCondition negation="false">
+                                                                                 <ref>
+                                                                                    <Variable name="Desc"/>
+                                                                                 </ref>
+                                                                                 <field>
+                                                                                    <FieldLiteral name="Configurable"/>
+                                                                                 </field>
+                                                                              </HasFieldCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="configurable"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="Desc"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Configurable"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </thenStep>
+                                                                           <elseStep>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="configurable"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="current"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Configurable"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </elseStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep newLine="false" keyword="else" comma="false">
+                                                                           <cond>
+                                                                              <HasFieldCondition negation="false">
+                                                                                 <ref>
+                                                                                    <Variable name="Desc"/>
+                                                                                 </ref>
+                                                                                 <field>
+                                                                                    <FieldLiteral name="Enumerable"/>
+                                                                                 </field>
+                                                                              </HasFieldCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="enumerable"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="Desc"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Enumerable"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </thenStep>
+                                                                           <elseStep>
+                                                                              <LetStep>
+                                                                                 <variable>
+                                                                                    <Variable name="enumerable"/>
+                                                                                 </variable>
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <PropertyReference>
+                                                                                             <base>
+                                                                                                <Variable name="current"/>
+                                                                                             </base>
+                                                                                             <prop>
+                                                                                                <FieldProperty name="Enumerable"/>
+                                                                                             </prop>
+                                                                                          </PropertyReference>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                              </LetStep>
+                                                                           </elseStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <YetStep>
+                                                                           <expr>
+                                                                              <YetExpression str="Replace the property named _P_ of object _O_ with an accessor property whose [[Configurable]] and [[Enumerable]] attributes are set to _configurable_ and _enumerable_, respectively, and whose [[Get]] and [[Set]] attributes are set to the value of the corresponding field in _Desc_ if _Desc_ has that field, or to the attribute's &lt;emu-xref href=&#34;#table-object-property-attributes&#34;&gt;default value&lt;/emu-xref&gt; otherwise." block="null"/>
+                                                                           </expr>
+                                                                        </YetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <IfStep newLine="true" keyword="else" comma="true">
+                                                         <cond>
+                                                            <CompoundCondition>
+                                                               <left>
+                                                                  <IsAreCondition negation="false">
+                                                                     <left>
+                                                                        <InvokeAbstractOperationExpression name="IsAccessorDescriptor">
+                                                                           <args>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="current"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </args>
+                                                                        </InvokeAbstractOperationExpression>
+                                                                     </left>
+                                                                     <right>
+                                                                        <TrueLiteral/>
+                                                                     </right>
+                                                                  </IsAreCondition>
+                                                               </left>
+                                                               <op>
+                                                                  <And/>
+                                                               </op>
+                                                               <right>
+                                                                  <IsAreCondition negation="false">
+                                                                     <left>
+                                                                        <InvokeAbstractOperationExpression name="IsDataDescriptor">
+                                                                           <args>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="Desc"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </args>
+                                                                        </InvokeAbstractOperationExpression>
+                                                                     </left>
+                                                                     <right>
+                                                                        <TrueLiteral/>
+                                                                     </right>
+                                                                  </IsAreCondition>
+                                                               </right>
+                                                            </CompoundCondition>
+                                                         </cond>
+                                                         <thenStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <IfStep newLine="false" keyword="else" comma="false">
+                                                                                 <cond>
+                                                                                    <HasFieldCondition negation="false">
+                                                                                       <ref>
+                                                                                          <Variable name="Desc"/>
+                                                                                       </ref>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Configurable"/>
+                                                                                       </field>
+                                                                                    </HasFieldCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <LetStep>
+                                                                                       <variable>
+                                                                                          <Variable name="configurable"/>
+                                                                                       </variable>
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <PropertyReference>
+                                                                                                   <base>
+                                                                                                      <Variable name="Desc"/>
+                                                                                                   </base>
+                                                                                                   <prop>
+                                                                                                      <FieldProperty name="Configurable"/>
+                                                                                                   </prop>
+                                                                                                </PropertyReference>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                    </LetStep>
+                                                                                 </thenStep>
+                                                                                 <elseStep>
+                                                                                    <LetStep>
+                                                                                       <variable>
+                                                                                          <Variable name="configurable"/>
+                                                                                       </variable>
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <PropertyReference>
+                                                                                                   <base>
+                                                                                                      <Variable name="current"/>
+                                                                                                   </base>
+                                                                                                   <prop>
+                                                                                                      <FieldProperty name="Configurable"/>
+                                                                                                   </prop>
+                                                                                                </PropertyReference>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                    </LetStep>
+                                                                                 </elseStep>
+                                                                              </IfStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <IfStep newLine="false" keyword="else" comma="false">
+                                                                                 <cond>
+                                                                                    <HasFieldCondition negation="false">
+                                                                                       <ref>
+                                                                                          <Variable name="Desc"/>
+                                                                                       </ref>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="Enumerable"/>
+                                                                                       </field>
+                                                                                    </HasFieldCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <LetStep>
+                                                                                       <variable>
+                                                                                          <Variable name="enumerable"/>
+                                                                                       </variable>
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <PropertyReference>
+                                                                                                   <base>
+                                                                                                      <Variable name="Desc"/>
+                                                                                                   </base>
+                                                                                                   <prop>
+                                                                                                      <FieldProperty name="Enumerable"/>
+                                                                                                   </prop>
+                                                                                                </PropertyReference>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                    </LetStep>
+                                                                                 </thenStep>
+                                                                                 <elseStep>
+                                                                                    <LetStep>
+                                                                                       <variable>
+                                                                                          <Variable name="enumerable"/>
+                                                                                       </variable>
+                                                                                       <expr>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <PropertyReference>
+                                                                                                   <base>
+                                                                                                      <Variable name="current"/>
+                                                                                                   </base>
+                                                                                                   <prop>
+                                                                                                      <FieldProperty name="Enumerable"/>
+                                                                                                   </prop>
+                                                                                                </PropertyReference>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </expr>
+                                                                                    </LetStep>
+                                                                                 </elseStep>
+                                                                              </IfStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <YetStep>
+                                                                                 <expr>
+                                                                                    <YetExpression str="Replace the property named _P_ of object _O_ with a data property whose [[Configurable]] and [[Enumerable]] attributes are set to _configurable_ and _enumerable_, respectively, and whose [[Value]] and [[Writable]] attributes are set to the value of the corresponding field in _Desc_ if _Desc_ has that field, or to the attribute's &lt;emu-xref href=&#34;#table-object-property-attributes&#34;&gt;default value&lt;/emu-xref&gt; otherwise." block="null"/>
+                                                                                 </expr>
+                                                                              </YetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </thenStep>
+                                                         <elseStep>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <YetStep>
+                                                                                 <expr>
+                                                                                    <YetExpression str="For each field of _Desc_, set the corresponding attribute of the property named _P_ of object _O_ to the value of the field." block="null"/>
+                                                                                 </expr>
+                                                                              </YetStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </elseStep>
+                                                      </IfStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <TrueLiteral/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ordinary-and-exotic-objects-behaviours" title="Ordinary and Exotic Objects Behaviours" number="10" relativeNumber="10"/>
+   </sections>
+   <sections>
+      <Section id="sec-ordinary-object-internal-methods-and-internal-slots" title="Ordinary Object Internal Methods and Internal Slots" number="10.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-ordinary-object-internal-methods-and-internal-slots-defineownproperty-p-desc" title="[[DefineOwnProperty]] ( P, Desc )" number="10.1.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-validateandapplypropertydescriptor" title="ValidateAndApplyPropertyDescriptor ( O, P, extensible, Desc, current )" number="10.1.6.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

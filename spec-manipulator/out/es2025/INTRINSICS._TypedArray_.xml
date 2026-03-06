@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If NewTarget is *undefined*, throw a *TypeError* exception.           1. Let _constructorName_ be the String value of the Constructor Name value specified in &lt;emu-xref href=&#34;#table-the-typedarray-constructors&#34;&gt;&lt;/emu-xref&gt; for this &lt;var&gt;TypedArray&lt;/var&gt; constructor.           1. Let _proto_ be &lt;code&gt;&#34;%&lt;var&gt;TypedArray&lt;/var&gt;.prototype%&#34;&lt;/code&gt;.           1. Let _numberOfArgs_ be the number of elements in _args_.           1. If _numberOfArgs_ = 0, then             1. Return ? AllocateTypedArray(_constructorName_, NewTarget, _proto_, 0).           1. Else,             1. Let _firstArgument_ be _args_[0].             1. If _firstArgument_ is an Object, then               1. Let _O_ be ? AllocateTypedArray(_constructorName_, NewTarget, _proto_).               1. If _firstArgument_ has a [[TypedArrayName]] internal slot, then                 1. Perform ? InitializeTypedArrayFromTypedArray(_O_, _firstArgument_).               1. Else if _firstArgument_ has an [[ArrayBufferData]] internal slot, then                 1. If _numberOfArgs_ &gt; 1, let _byteOffset_ be _args_[1]; else let _byteOffset_ be *undefined*.                 1. If _numberOfArgs_ &gt; 2, let _length_ be _args_[2]; else let _length_ be *undefined*.                 1. Perform ? InitializeTypedArrayFromArrayBuffer(_O_, _firstArgument_, _byteOffset_, _length_).               1. Else,                 1. Assert: _firstArgument_ is an Object and _firstArgument_ does not have either a [[TypedArrayName]] or an [[ArrayBufferData]] internal slot.                 1. Let _usingIterator_ be ? GetMethod(_firstArgument_, %Symbol.iterator%).                 1. If _usingIterator_ is not *undefined*, then                   1. Let _values_ be ? IteratorToList(? GetIteratorFromMethod(_firstArgument_, _usingIterator_)).                   1. Perform ? InitializeTypedArrayFromList(_O_, _values_).                 1. Else,                   1. NOTE: _firstArgument_ is not an iterable object, so assume it is already an array-like object.                   1. Perform ? InitializeTypedArrayFromArrayLike(_O_, _firstArgument_).               1. Return _O_.             1. Else,               1. Assert: _firstArgument_ is not an Object.               1. Let _elementLength_ be ? ToIndex(_firstArgument_).               1. Return ? AllocateTypedArray(_constructorName_, NewTarget, _proto_, _elementLength_).         ">
+   <head>
+      <BuiltinHead name="_TypedArray_" retTy="unknown" id="sec-typedarray" virtualPackage="23 Indexed Collections.2 TypedArray Objects.5 The TypedArray Constructors.1 TypedArray ( args )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <VariadicParam name="args" ty="unknown"/>
+         </params>
+      </BuiltinHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <NewTargetLiteral/>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _constructorName_ be the String value of the Constructor Name value specified in &lt;emu-xref href=&#34;#table-the-typedarray-constructors&#34;&gt;&lt;/emu-xref&gt; for this &lt;var&gt;TypedArray&lt;/var&gt; constructor." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _proto_ be &lt;code&gt;&#34;%&lt;var&gt;TypedArray&lt;/var&gt;.prototype%&#34;&lt;/code&gt;." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="numberOfArgs"/>
+                           </variable>
+                           <expr>
+                              <NumberOfExpression>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="args"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </NumberOfExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="numberOfArgs"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Eq/>
+                                 </op>
+                                 <right>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="AllocateTypedArray">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="constructorName"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <NewTargetLiteral/>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="proto"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <DecimalMathValueLiteral n="0"/>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="firstArgument"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="args"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <IndexProperty>
+                                                                     <index>
+                                                                        <DecimalMathValueLiteral n="0"/>
+                                                                     </index>
+                                                                  </IndexProperty>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep newLine="true" keyword="else" comma="true">
+                                                   <cond>
+                                                      <TypeCheckCondition negation="false">
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="firstArgument"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                         <ty>
+                                                            <Type value="an Object"/>
+                                                         </ty>
+                                                      </TypeCheckCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="O"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <ReturnIfAbruptExpression check="true">
+                                                                                 <expr>
+                                                                                    <InvokeAbstractOperationExpression name="AllocateTypedArray">
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="constructorName"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                       <args>
+                                                                                          <NewTargetLiteral/>
+                                                                                       </args>
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="proto"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </expr>
+                                                                              </ReturnIfAbruptExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <IfStep newLine="true" keyword="else" comma="false">
+                                                                           <cond>
+                                                                              <HasFieldCondition negation="false">
+                                                                                 <ref>
+                                                                                    <Variable name="firstArgument"/>
+                                                                                 </ref>
+                                                                                 <field>
+                                                                                    <FieldLiteral name="TypedArrayName"/>
+                                                                                 </field>
+                                                                              </HasFieldCondition>
+                                                                           </cond>
+                                                                           <thenStep>
+                                                                              <BlockStep>
+                                                                                 <block>
+                                                                                    <StepBlock>
+                                                                                       <steps>
+                                                                                          <SubStep directive="null">
+                                                                                             <step>
+                                                                                                <PerformStep>
+                                                                                                   <expr>
+                                                                                                      <ReturnIfAbruptExpression check="true">
+                                                                                                         <expr>
+                                                                                                            <InvokeAbstractOperationExpression name="InitializeTypedArrayFromTypedArray">
+                                                                                                               <args>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="O"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </args>
+                                                                                                               <args>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="firstArgument"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </args>
+                                                                                                            </InvokeAbstractOperationExpression>
+                                                                                                         </expr>
+                                                                                                      </ReturnIfAbruptExpression>
+                                                                                                   </expr>
+                                                                                                </PerformStep>
+                                                                                             </step>
+                                                                                          </SubStep>
+                                                                                       </steps>
+                                                                                    </StepBlock>
+                                                                                 </block>
+                                                                              </BlockStep>
+                                                                           </thenStep>
+                                                                           <elseStep>
+                                                                              <IfStep newLine="true" keyword="else" comma="true">
+                                                                                 <cond>
+                                                                                    <HasFieldCondition negation="false">
+                                                                                       <ref>
+                                                                                          <Variable name="firstArgument"/>
+                                                                                       </ref>
+                                                                                       <field>
+                                                                                          <FieldLiteral name="ArrayBufferData"/>
+                                                                                       </field>
+                                                                                    </HasFieldCondition>
+                                                                                 </cond>
+                                                                                 <thenStep>
+                                                                                    <BlockStep>
+                                                                                       <block>
+                                                                                          <StepBlock>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <IfStep newLine="false" keyword="else" comma="false">
+                                                                                                         <cond>
+                                                                                                            <BinaryCondition>
+                                                                                                               <left>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="numberOfArgs"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </left>
+                                                                                                               <op>
+                                                                                                                  <GreaterThan/>
+                                                                                                               </op>
+                                                                                                               <right>
+                                                                                                                  <DecimalMathValueLiteral n="1"/>
+                                                                                                               </right>
+                                                                                                            </BinaryCondition>
+                                                                                                         </cond>
+                                                                                                         <thenStep>
+                                                                                                            <LetStep>
+                                                                                                               <variable>
+                                                                                                                  <Variable name="byteOffset"/>
+                                                                                                               </variable>
+                                                                                                               <expr>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <PropertyReference>
+                                                                                                                           <base>
+                                                                                                                              <Variable name="args"/>
+                                                                                                                           </base>
+                                                                                                                           <prop>
+                                                                                                                              <IndexProperty>
+                                                                                                                                 <index>
+                                                                                                                                    <DecimalMathValueLiteral n="1"/>
+                                                                                                                                 </index>
+                                                                                                                              </IndexProperty>
+                                                                                                                           </prop>
+                                                                                                                        </PropertyReference>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </expr>
+                                                                                                            </LetStep>
+                                                                                                         </thenStep>
+                                                                                                         <elseStep>
+                                                                                                            <LetStep>
+                                                                                                               <variable>
+                                                                                                                  <Variable name="byteOffset"/>
+                                                                                                               </variable>
+                                                                                                               <expr>
+                                                                                                                  <UndefinedLiteral/>
+                                                                                                               </expr>
+                                                                                                            </LetStep>
+                                                                                                         </elseStep>
+                                                                                                      </IfStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <IfStep newLine="false" keyword="else" comma="false">
+                                                                                                         <cond>
+                                                                                                            <BinaryCondition>
+                                                                                                               <left>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="numberOfArgs"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </left>
+                                                                                                               <op>
+                                                                                                                  <GreaterThan/>
+                                                                                                               </op>
+                                                                                                               <right>
+                                                                                                                  <DecimalMathValueLiteral n="2"/>
+                                                                                                               </right>
+                                                                                                            </BinaryCondition>
+                                                                                                         </cond>
+                                                                                                         <thenStep>
+                                                                                                            <LetStep>
+                                                                                                               <variable>
+                                                                                                                  <Variable name="length"/>
+                                                                                                               </variable>
+                                                                                                               <expr>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <PropertyReference>
+                                                                                                                           <base>
+                                                                                                                              <Variable name="args"/>
+                                                                                                                           </base>
+                                                                                                                           <prop>
+                                                                                                                              <IndexProperty>
+                                                                                                                                 <index>
+                                                                                                                                    <DecimalMathValueLiteral n="2"/>
+                                                                                                                                 </index>
+                                                                                                                              </IndexProperty>
+                                                                                                                           </prop>
+                                                                                                                        </PropertyReference>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </expr>
+                                                                                                            </LetStep>
+                                                                                                         </thenStep>
+                                                                                                         <elseStep>
+                                                                                                            <LetStep>
+                                                                                                               <variable>
+                                                                                                                  <Variable name="length"/>
+                                                                                                               </variable>
+                                                                                                               <expr>
+                                                                                                                  <UndefinedLiteral/>
+                                                                                                               </expr>
+                                                                                                            </LetStep>
+                                                                                                         </elseStep>
+                                                                                                      </IfStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <PerformStep>
+                                                                                                         <expr>
+                                                                                                            <ReturnIfAbruptExpression check="true">
+                                                                                                               <expr>
+                                                                                                                  <InvokeAbstractOperationExpression name="InitializeTypedArrayFromArrayBuffer">
+                                                                                                                     <args>
+                                                                                                                        <ReferenceExpression>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="O"/>
+                                                                                                                           </ref>
+                                                                                                                        </ReferenceExpression>
+                                                                                                                     </args>
+                                                                                                                     <args>
+                                                                                                                        <ReferenceExpression>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="firstArgument"/>
+                                                                                                                           </ref>
+                                                                                                                        </ReferenceExpression>
+                                                                                                                     </args>
+                                                                                                                     <args>
+                                                                                                                        <ReferenceExpression>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="byteOffset"/>
+                                                                                                                           </ref>
+                                                                                                                        </ReferenceExpression>
+                                                                                                                     </args>
+                                                                                                                     <args>
+                                                                                                                        <ReferenceExpression>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="length"/>
+                                                                                                                           </ref>
+                                                                                                                        </ReferenceExpression>
+                                                                                                                     </args>
+                                                                                                                  </InvokeAbstractOperationExpression>
+                                                                                                               </expr>
+                                                                                                            </ReturnIfAbruptExpression>
+                                                                                                         </expr>
+                                                                                                      </PerformStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                          </StepBlock>
+                                                                                       </block>
+                                                                                    </BlockStep>
+                                                                                 </thenStep>
+                                                                                 <elseStep>
+                                                                                    <BlockStep>
+                                                                                       <block>
+                                                                                          <StepBlock>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <AssertStep>
+                                                                                                         <cond>
+                                                                                                            <ExpressionCondition>
+                                                                                                               <expr>
+                                                                                                                  <YetExpression str="_firstArgument_ is an Object and _firstArgument_ does not have either a [[TypedArrayName]] or an [[ArrayBufferData]] internal slot" block="null"/>
+                                                                                                               </expr>
+                                                                                                            </ExpressionCondition>
+                                                                                                         </cond>
+                                                                                                      </AssertStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <LetStep>
+                                                                                                         <variable>
+                                                                                                            <Variable name="usingIterator"/>
+                                                                                                         </variable>
+                                                                                                         <expr>
+                                                                                                            <ReturnIfAbruptExpression check="true">
+                                                                                                               <expr>
+                                                                                                                  <InvokeAbstractOperationExpression name="GetMethod">
+                                                                                                                     <args>
+                                                                                                                        <ReferenceExpression>
+                                                                                                                           <ref>
+                                                                                                                              <Variable name="firstArgument"/>
+                                                                                                                           </ref>
+                                                                                                                        </ReferenceExpression>
+                                                                                                                     </args>
+                                                                                                                     <args>
+                                                                                                                        <SymbolLiteral sym="iterator"/>
+                                                                                                                     </args>
+                                                                                                                  </InvokeAbstractOperationExpression>
+                                                                                                               </expr>
+                                                                                                            </ReturnIfAbruptExpression>
+                                                                                                         </expr>
+                                                                                                      </LetStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                             <steps>
+                                                                                                <SubStep directive="null">
+                                                                                                   <step>
+                                                                                                      <IfStep newLine="true" keyword="else" comma="true">
+                                                                                                         <cond>
+                                                                                                            <IsAreCondition negation="true">
+                                                                                                               <left>
+                                                                                                                  <ReferenceExpression>
+                                                                                                                     <ref>
+                                                                                                                        <Variable name="usingIterator"/>
+                                                                                                                     </ref>
+                                                                                                                  </ReferenceExpression>
+                                                                                                               </left>
+                                                                                                               <right>
+                                                                                                                  <UndefinedLiteral/>
+                                                                                                               </right>
+                                                                                                            </IsAreCondition>
+                                                                                                         </cond>
+                                                                                                         <thenStep>
+                                                                                                            <BlockStep>
+                                                                                                               <block>
+                                                                                                                  <StepBlock>
+                                                                                                                     <steps>
+                                                                                                                        <SubStep directive="null">
+                                                                                                                           <step>
+                                                                                                                              <LetStep>
+                                                                                                                                 <variable>
+                                                                                                                                    <Variable name="values"/>
+                                                                                                                                 </variable>
+                                                                                                                                 <expr>
+                                                                                                                                    <ReturnIfAbruptExpression check="true">
+                                                                                                                                       <expr>
+                                                                                                                                          <InvokeAbstractOperationExpression name="IteratorToList">
+                                                                                                                                             <args>
+                                                                                                                                                <ReturnIfAbruptExpression check="true">
+                                                                                                                                                   <expr>
+                                                                                                                                                      <InvokeAbstractOperationExpression name="GetIteratorFromMethod">
+                                                                                                                                                         <args>
+                                                                                                                                                            <ReferenceExpression>
+                                                                                                                                                               <ref>
+                                                                                                                                                                  <Variable name="firstArgument"/>
+                                                                                                                                                               </ref>
+                                                                                                                                                            </ReferenceExpression>
+                                                                                                                                                         </args>
+                                                                                                                                                         <args>
+                                                                                                                                                            <ReferenceExpression>
+                                                                                                                                                               <ref>
+                                                                                                                                                                  <Variable name="usingIterator"/>
+                                                                                                                                                               </ref>
+                                                                                                                                                            </ReferenceExpression>
+                                                                                                                                                         </args>
+                                                                                                                                                      </InvokeAbstractOperationExpression>
+                                                                                                                                                   </expr>
+                                                                                                                                                </ReturnIfAbruptExpression>
+                                                                                                                                             </args>
+                                                                                                                                          </InvokeAbstractOperationExpression>
+                                                                                                                                       </expr>
+                                                                                                                                    </ReturnIfAbruptExpression>
+                                                                                                                                 </expr>
+                                                                                                                              </LetStep>
+                                                                                                                           </step>
+                                                                                                                        </SubStep>
+                                                                                                                     </steps>
+                                                                                                                     <steps>
+                                                                                                                        <SubStep directive="null">
+                                                                                                                           <step>
+                                                                                                                              <PerformStep>
+                                                                                                                                 <expr>
+                                                                                                                                    <ReturnIfAbruptExpression check="true">
+                                                                                                                                       <expr>
+                                                                                                                                          <InvokeAbstractOperationExpression name="InitializeTypedArrayFromList">
+                                                                                                                                             <args>
+                                                                                                                                                <ReferenceExpression>
+                                                                                                                                                   <ref>
+                                                                                                                                                      <Variable name="O"/>
+                                                                                                                                                   </ref>
+                                                                                                                                                </ReferenceExpression>
+                                                                                                                                             </args>
+                                                                                                                                             <args>
+                                                                                                                                                <ReferenceExpression>
+                                                                                                                                                   <ref>
+                                                                                                                                                      <Variable name="values"/>
+                                                                                                                                                   </ref>
+                                                                                                                                                </ReferenceExpression>
+                                                                                                                                             </args>
+                                                                                                                                          </InvokeAbstractOperationExpression>
+                                                                                                                                       </expr>
+                                                                                                                                    </ReturnIfAbruptExpression>
+                                                                                                                                 </expr>
+                                                                                                                              </PerformStep>
+                                                                                                                           </step>
+                                                                                                                        </SubStep>
+                                                                                                                     </steps>
+                                                                                                                  </StepBlock>
+                                                                                                               </block>
+                                                                                                            </BlockStep>
+                                                                                                         </thenStep>
+                                                                                                         <elseStep>
+                                                                                                            <BlockStep>
+                                                                                                               <block>
+                                                                                                                  <StepBlock>
+                                                                                                                     <steps>
+                                                                                                                        <SubStep directive="null">
+                                                                                                                           <step>
+                                                                                                                              <NoteStep note="_firstArgument_ is not an iterable object, so assume it is already an array-like object."/>
+                                                                                                                           </step>
+                                                                                                                        </SubStep>
+                                                                                                                     </steps>
+                                                                                                                     <steps>
+                                                                                                                        <SubStep directive="null">
+                                                                                                                           <step>
+                                                                                                                              <PerformStep>
+                                                                                                                                 <expr>
+                                                                                                                                    <ReturnIfAbruptExpression check="true">
+                                                                                                                                       <expr>
+                                                                                                                                          <InvokeAbstractOperationExpression name="InitializeTypedArrayFromArrayLike">
+                                                                                                                                             <args>
+                                                                                                                                                <ReferenceExpression>
+                                                                                                                                                   <ref>
+                                                                                                                                                      <Variable name="O"/>
+                                                                                                                                                   </ref>
+                                                                                                                                                </ReferenceExpression>
+                                                                                                                                             </args>
+                                                                                                                                             <args>
+                                                                                                                                                <ReferenceExpression>
+                                                                                                                                                   <ref>
+                                                                                                                                                      <Variable name="firstArgument"/>
+                                                                                                                                                   </ref>
+                                                                                                                                                </ReferenceExpression>
+                                                                                                                                             </args>
+                                                                                                                                          </InvokeAbstractOperationExpression>
+                                                                                                                                       </expr>
+                                                                                                                                    </ReturnIfAbruptExpression>
+                                                                                                                                 </expr>
+                                                                                                                              </PerformStep>
+                                                                                                                           </step>
+                                                                                                                        </SubStep>
+                                                                                                                     </steps>
+                                                                                                                  </StepBlock>
+                                                                                                               </block>
+                                                                                                            </BlockStep>
+                                                                                                         </elseStep>
+                                                                                                      </IfStep>
+                                                                                                   </step>
+                                                                                                </SubStep>
+                                                                                             </steps>
+                                                                                          </StepBlock>
+                                                                                       </block>
+                                                                                    </BlockStep>
+                                                                                 </elseStep>
+                                                                              </IfStep>
+                                                                           </elseStep>
+                                                                        </IfStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <ReturnStep>
+                                                                           <expr>
+                                                                              <ReferenceExpression>
+                                                                                 <ref>
+                                                                                    <Variable name="O"/>
+                                                                                 </ref>
+                                                                              </ReferenceExpression>
+                                                                           </expr>
+                                                                        </ReturnStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                   <elseStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <AssertStep>
+                                                                           <cond>
+                                                                              <TypeCheckCondition negation="true">
+                                                                                 <expr>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="firstArgument"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </expr>
+                                                                                 <ty>
+                                                                                    <Type value="an Object"/>
+                                                                                 </ty>
+                                                                              </TypeCheckCondition>
+                                                                           </cond>
+                                                                        </AssertStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="elementLength"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <ReturnIfAbruptExpression check="true">
+                                                                                 <expr>
+                                                                                    <InvokeAbstractOperationExpression name="ToIndex">
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="firstArgument"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </expr>
+                                                                              </ReturnIfAbruptExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <ReturnStep>
+                                                                           <expr>
+                                                                              <ReturnIfAbruptExpression check="true">
+                                                                                 <expr>
+                                                                                    <InvokeAbstractOperationExpression name="AllocateTypedArray">
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="constructorName"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                       <args>
+                                                                                          <NewTargetLiteral/>
+                                                                                       </args>
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="proto"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="elementLength"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </expr>
+                                                                              </ReturnIfAbruptExpression>
+                                                                           </expr>
+                                                                        </ReturnStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </elseStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-indexed-collections" title="Indexed Collections" number="23" relativeNumber="23"/>
+   </sections>
+   <sections>
+      <Section id="sec-typedarray-objects" title="TypedArray Objects" number="23.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-typedarray-constructors" title="The TypedArray Constructors" number="23.2.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="sec-typedarray" title="TypedArray ( ...args )" number="23.2.5.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

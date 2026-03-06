@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Assert: _generator_.[[AsyncGeneratorState]] is either ~suspended-start~ or ~suspended-yield~.           1. Let _genContext_ be _generator_.[[AsyncGeneratorContext]].           1. Let _callerContext_ be the running execution context.           1. Suspend _callerContext_.           1. Set _generator_.[[AsyncGeneratorState]] to ~executing~.           1. Push _genContext_ onto the execution context stack; _genContext_ is now the running execution context.           1. &lt;emu-meta effects=&#34;user-code&#34;&gt;Resume the suspended evaluation of _genContext_&lt;/emu-meta&gt; using _completion_ as the result of the operation that suspended it. Let _result_ be the Completion Record returned by the resumed computation.           1. Assert: _result_ is never an abrupt completion.           1. Assert: When we return here, _genContext_ has already been removed from the execution context stack and _callerContext_ is the currently running execution context.           1. Return ~unused~.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="AsyncGeneratorResume" retTy="~unused~" id="sec-asyncgeneratorresume" virtualPackage="27 Control Abstraction Objects.6 AsyncGenerator Objects.3 AsyncGenerator Abstract Operations.6 AsyncGeneratorResume ( generator, completion )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="generator" ty="an Async Generator"/>
+         </params>
+         <params>
+            <NormalParam name="completion" ty="completion record"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="generator"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="AsyncGeneratorState"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <EnumLiteral name="suspended-start"/>
+                                 </right>
+                                 <right>
+                                    <EnumLiteral name="suspended-yield"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="genContext"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="generator"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="AsyncGeneratorContext"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="callerContext"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <RunningExecutionContext/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SuspendStep remove="false">
+                           <variable>
+                              <Variable name="callerContext"/>
+                           </variable>
+                        </SuspendStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="generator"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="AsyncGeneratorState"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <EnumLiteral name="executing"/>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PushContextStep>
+                           <ref>
+                              <Variable name="genContext"/>
+                           </ref>
+                        </PushContextStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ResumeEvaluationStep>
+                           <context>
+                              <Variable name="genContext"/>
+                           </context>
+                           <argument>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="completion"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </argument>
+                           <param>
+                              <Variable name="result"/>
+                           </param>
+                           <param>Completion Record</param>
+                           <steps>
+                              <SubStep directive="null">
+                                 <step>
+                                    <AssertStep>
+                                       <cond>
+                                          <PredicateCondition negation="false">
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="result"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                             <op>
+                                                <NeverAbrupt/>
+                                             </op>
+                                          </PredicateCondition>
+                                       </cond>
+                                    </AssertStep>
+                                 </step>
+                              </SubStep>
+                           </steps>
+                           <steps>
+                              <SubStep directive="null">
+                                 <step>
+                                    <AssertStep>
+                                       <cond>
+                                          <ExpressionCondition>
+                                             <expr>
+                                                <YetExpression str="When we return here, _genContext_ has already been removed from the execution context stack and _callerContext_ is the currently running execution context" block="null"/>
+                                             </expr>
+                                          </ExpressionCondition>
+                                       </cond>
+                                    </AssertStep>
+                                 </step>
+                              </SubStep>
+                           </steps>
+                           <steps>
+                              <SubStep directive="null">
+                                 <step>
+                                    <ReturnStep>
+                                       <expr>
+                                          <EnumLiteral name="unused"/>
+                                       </expr>
+                                    </ReturnStep>
+                                 </step>
+                              </SubStep>
+                           </steps>
+                        </ResumeEvaluationStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-control-abstraction-objects" title="Control Abstraction Objects" number="27" relativeNumber="27"/>
+   </sections>
+   <sections>
+      <Section id="sec-asyncgenerator-objects" title="AsyncGenerator Objects" number="27.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-asyncgenerator-abstract-operations" title="AsyncGenerator Abstract Operations" number="27.6.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-asyncgeneratorresume" title="AsyncGeneratorResume ( generator, completion )" number="27.6.3.6" relativeNumber="6"/>
+   </sections>
+</Algorithm>

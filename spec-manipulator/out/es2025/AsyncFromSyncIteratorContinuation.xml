@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. NOTE: Because _promiseCapability_ is derived from the intrinsic %Promise%, the calls to _promiseCapability_.[[Reject]] entailed by the use IfAbruptRejectPromise below are guaranteed not to throw.           1. Let _done_ be Completion(IteratorComplete(_result_)).           1. IfAbruptRejectPromise(_done_, _promiseCapability_).           1. Let _value_ be Completion(IteratorValue(_result_)).           1. IfAbruptRejectPromise(_value_, _promiseCapability_).           1. Let _valueWrapper_ be Completion(PromiseResolve(%Promise%, _value_)).           1. If _valueWrapper_ is an abrupt completion, _done_ is *false*, and _closeOnRejection_ is *true*, then             1. Set _valueWrapper_ to Completion(IteratorClose(_syncIteratorRecord_, _valueWrapper_)).           1. IfAbruptRejectPromise(_valueWrapper_, _promiseCapability_).           1. Let _unwrap_ be a new Abstract Closure with parameters (_v_) that captures _done_ and performs the following steps when called:             1. Return CreateIteratorResultObject(_v_, _done_).           1. Let _onFulfilled_ be CreateBuiltinFunction(_unwrap_, 1, *&#34;&#34;*, « »).           1. NOTE: _onFulfilled_ is used when processing the *&#34;value&#34;* property of an IteratorResult object in order to wait for its value if it is a promise and re-package the result in a new &#34;unwrapped&#34; IteratorResult object.           1. If _done_ is *true*, or if _closeOnRejection_ is *false*, then             1. Let _onRejected_ be *undefined*.           1. Else,             1. Let _closeIterator_ be a new Abstract Closure with parameters (_error_) that captures _syncIteratorRecord_ and performs the following steps when called:               1. Return ? IteratorClose(_syncIteratorRecord_, ThrowCompletion(_error_)).             1. Let _onRejected_ be CreateBuiltinFunction(_closeIterator_, 1, *&#34;&#34;*, « »).             1. NOTE: _onRejected_ is used to close the Iterator when the *&#34;value&#34;* property of an IteratorResult object it yields is a rejected promise.           1. Perform PerformPromiseThen(_valueWrapper_, _onFulfilled_, _onRejected_, _promiseCapability_).           1. Return _promiseCapability_.[[Promise]].         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="AsyncFromSyncIteratorContinuation" retTy="a Promise" id="sec-asyncfromsynciteratorcontinuation" virtualPackage="27 Control Abstraction Objects.1 Iteration.6 Async-from-Sync Iterator Objects.4 AsyncFromSyncIteratorContinuation ( result, promiseCapability, syncIteratorRecord, closeOnRejection )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="result" ty="an Object"/>
+         </params>
+         <params>
+            <NormalParam name="promiseCapability" ty="a PromiseCapability Record for an intrinsic %Promise%"/>
+         </params>
+         <params>
+            <NormalParam name="syncIteratorRecord" ty="an Iterator Record"/>
+         </params>
+         <params>
+            <NormalParam name="closeOnRejection" ty="a Boolean"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="Because _promiseCapability_ is derived from the intrinsic %Promise%, the calls to _promiseCapability_.[[Reject]] entailed by the use IfAbruptRejectPromise below are guaranteed not to throw."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="done"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="Completion">
+                                 <args>
+                                    <InvokeAbstractOperationExpression name="IteratorComplete">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="result"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <InvokeShorthandStep name="IfAbruptRejectPromise">
+                           <args>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="done"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </args>
+                           <args>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="promiseCapability"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </args>
+                        </InvokeShorthandStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="value"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="Completion">
+                                 <args>
+                                    <InvokeAbstractOperationExpression name="IteratorValue">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="result"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <InvokeShorthandStep name="IfAbruptRejectPromise">
+                           <args>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="value"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </args>
+                           <args>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="promiseCapability"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </args>
+                        </InvokeShorthandStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="valueWrapper"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="Completion">
+                                 <args>
+                                    <InvokeAbstractOperationExpression name="PromiseResolve">
+                                       <args>
+                                          <IntrinsicExpression>
+                                             <intr>
+                                                <Intrinsic base="Promise">
+                                                   <props/>
+                                                </Intrinsic>
+                                             </intr>
+                                          </IntrinsicExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="value"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <PredicateCondition negation="false">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="valueWrapper"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                       <op>
+                                          <Abrupt/>
+                                       </op>
+                                    </PredicateCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <CompoundCondition>
+                                       <left>
+                                          <IsAreCondition negation="false">
+                                             <left>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="done"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </left>
+                                             <right>
+                                                <FalseLiteral/>
+                                             </right>
+                                          </IsAreCondition>
+                                       </left>
+                                       <op>
+                                          <And/>
+                                       </op>
+                                       <right>
+                                          <IsAreCondition negation="false">
+                                             <left>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="closeOnRejection"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </left>
+                                             <right>
+                                                <TrueLiteral/>
+                                             </right>
+                                          </IsAreCondition>
+                                       </right>
+                                    </CompoundCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="valueWrapper"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="Completion">
+                                                         <args>
+                                                            <InvokeAbstractOperationExpression name="IteratorClose">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="syncIteratorRecord"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="valueWrapper"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <InvokeShorthandStep name="IfAbruptRejectPromise">
+                           <args>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="valueWrapper"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </args>
+                           <args>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="promiseCapability"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </args>
+                        </InvokeShorthandStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="unwrap"/>
+                           </variable>
+                           <expr>
+                              <AbstractClosureExpression>
+                                 <params>
+                                    <Variable name="v"/>
+                                 </params>
+                                 <captured>
+                                    <Variable name="done"/>
+                                 </captured>
+                                 <body>
+                                    <BlockStep>
+                                       <block>
+                                          <StepBlock>
+                                             <steps>
+                                                <SubStep directive="null">
+                                                   <step>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="CreateIteratorResultObject">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="v"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="done"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </step>
+                                                </SubStep>
+                                             </steps>
+                                          </StepBlock>
+                                       </block>
+                                    </BlockStep>
+                                 </body>
+                              </AbstractClosureExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="onFulfilled"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="CreateBuiltinFunction">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="unwrap"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <DecimalMathValueLiteral n="1"/>
+                                 </args>
+                                 <args>
+                                    <StringLiteral s=""/>
+                                 </args>
+                                 <args>
+                                    <ListExpression>
+                                       <entries/>
+                                    </ListExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="_onFulfilled_ is used when processing the *&#34;value&#34;* property of an IteratorResult object in order to wait for its value if it is a promise and re-package the result in a new &#34;unwrapped&#34; IteratorResult object."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="done"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <TrueLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="closeOnRejection"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <right>
+                                          <FalseLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="onRejected"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <UndefinedLiteral/>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="closeIterator"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <AbstractClosureExpression>
+                                                         <params>
+                                                            <Variable name="error"/>
+                                                         </params>
+                                                         <captured>
+                                                            <Variable name="syncIteratorRecord"/>
+                                                         </captured>
+                                                         <body>
+                                                            <BlockStep>
+                                                               <block>
+                                                                  <StepBlock>
+                                                                     <steps>
+                                                                        <SubStep directive="null">
+                                                                           <step>
+                                                                              <ReturnStep>
+                                                                                 <expr>
+                                                                                    <ReturnIfAbruptExpression check="true">
+                                                                                       <expr>
+                                                                                          <InvokeAbstractOperationExpression name="IteratorClose">
+                                                                                             <args>
+                                                                                                <ReferenceExpression>
+                                                                                                   <ref>
+                                                                                                      <Variable name="syncIteratorRecord"/>
+                                                                                                   </ref>
+                                                                                                </ReferenceExpression>
+                                                                                             </args>
+                                                                                             <args>
+                                                                                                <InvokeAbstractOperationExpression name="ThrowCompletion">
+                                                                                                   <args>
+                                                                                                      <ReferenceExpression>
+                                                                                                         <ref>
+                                                                                                            <Variable name="error"/>
+                                                                                                         </ref>
+                                                                                                      </ReferenceExpression>
+                                                                                                   </args>
+                                                                                                </InvokeAbstractOperationExpression>
+                                                                                             </args>
+                                                                                          </InvokeAbstractOperationExpression>
+                                                                                       </expr>
+                                                                                    </ReturnIfAbruptExpression>
+                                                                                 </expr>
+                                                                              </ReturnStep>
+                                                                           </step>
+                                                                        </SubStep>
+                                                                     </steps>
+                                                                  </StepBlock>
+                                                               </block>
+                                                            </BlockStep>
+                                                         </body>
+                                                      </AbstractClosureExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="onRejected"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="CreateBuiltinFunction">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="closeIterator"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <DecimalMathValueLiteral n="1"/>
+                                                         </args>
+                                                         <args>
+                                                            <StringLiteral s=""/>
+                                                         </args>
+                                                         <args>
+                                                            <ListExpression>
+                                                               <entries/>
+                                                            </ListExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <NoteStep note="_onRejected_ is used to close the Iterator when the *&#34;value&#34;* property of an IteratorResult object it yields is a rejected promise."/>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="PerformPromiseThen">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="valueWrapper"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="onFulfilled"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="onRejected"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="promiseCapability"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="promiseCapability"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="Promise"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-control-abstraction-objects" title="Control Abstraction Objects" number="27" relativeNumber="27"/>
+   </sections>
+   <sections>
+      <Section id="sec-iteration" title="Iteration" number="27.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-async-from-sync-iterator-objects" title="Async-from-Sync Iterator Objects" number="27.1.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-asyncfromsynciteratorcontinuation" title="AsyncFromSyncIteratorContinuation ( result, promiseCapability, syncIteratorRecord, closeOnRejection )" number="27.1.6.4" relativeNumber="4"/>
+   </sections>
+</Algorithm>

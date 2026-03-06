@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _proto_ be ? &lt;emu-meta effects=&#34;user-code&#34;&gt;_targetFunction_.[[GetPrototypeOf]]&lt;/emu-meta&gt;().           1. Let _internalSlotsList_ be the list-concatenation of « [[Prototype]], [[Extensible]] » and the internal slots listed in &lt;emu-xref href=&#34;#table-internal-slots-of-bound-function-exotic-objects&#34;&gt;&lt;/emu-xref&gt;.           1. Let _obj_ be MakeBasicObject(_internalSlotsList_).           1. Set _obj_.[[Prototype]] to _proto_.           1. Set _obj_.[[Call]] as described in &lt;emu-xref href=&#34;#sec-bound-function-exotic-objects-call-thisargument-argumentslist&#34;&gt;&lt;/emu-xref&gt;.           1. If IsConstructor(_targetFunction_) is *true*, then             1. Set _obj_.[[Construct]] as described in &lt;emu-xref href=&#34;#sec-bound-function-exotic-objects-construct-argumentslist-newtarget&#34;&gt;&lt;/emu-xref&gt;.           1. Set _obj_.[[BoundTargetFunction]] to _targetFunction_.           1. Set _obj_.[[BoundThis]] to _boundThis_.           1. Set _obj_.[[BoundArguments]] to _boundArgs_.           1. Return _obj_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="BoundFunctionCreate" retTy="either a normal completion containing a function object or a throw completion" id="sec-boundfunctioncreate" virtualPackage="10 Ordinary and Exotic Objects Behaviours.4 Built-in Exotic Object Internal Methods and Slots.1 Bound Function Exotic Objects.3 BoundFunctionCreate ( targetFunction, boundThis, boundArgs )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="targetFunction" ty="a function object"/>
+         </params>
+         <params>
+            <NormalParam name="boundThis" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="boundArgs" ty="a List of ECMAScript language values"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="proto"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeMethodExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="targetFunction"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="GetPrototypeOf"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                       <args/>
+                                    </InvokeMethodExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="internalSlotsList"/>
+                           </variable>
+                           <expr>
+                              <ListConcatExpression>
+                                 <exprs>
+                                    <ListExpression>
+                                       <entries>
+                                          <FieldLiteral name="Prototype"/>
+                                       </entries>
+                                       <entries>
+                                          <FieldLiteral name="Extensible"/>
+                                       </entries>
+                                    </ListExpression>
+                                 </exprs>
+                                 <exprs>
+                                    <XRefExpression id="table-internal-slots-of-bound-function-exotic-objects">
+                                       <kind>
+                                          <InternalSlots/>
+                                       </kind>
+                                    </XRefExpression>
+                                 </exprs>
+                              </ListConcatExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="obj"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="MakeBasicObject">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="internalSlotsList"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Prototype"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="proto"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetAsStep verb="described" id="sec-bound-function-exotic-objects-call-thisargument-argumentslist">
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="Call"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                        </SetAsStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsConstructor">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="targetFunction"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetAsStep verb="described" id="sec-bound-function-exotic-objects-construct-argumentslist-newtarget">
+                                                   <ref>
+                                                      <PropertyReference>
+                                                         <base>
+                                                            <Variable name="obj"/>
+                                                         </base>
+                                                         <prop>
+                                                            <FieldProperty name="Construct"/>
+                                                         </prop>
+                                                      </PropertyReference>
+                                                   </ref>
+                                                </SetAsStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="BoundTargetFunction"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="targetFunction"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="BoundThis"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="boundThis"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="BoundArguments"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="boundArgs"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="obj"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ordinary-and-exotic-objects-behaviours" title="Ordinary and Exotic Objects Behaviours" number="10" relativeNumber="10"/>
+   </sections>
+   <sections>
+      <Section id="sec-built-in-exotic-object-internal-methods-and-slots" title="Built-in Exotic Object Internal Methods and Slots" number="10.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-bound-function-exotic-objects" title="Bound Function Exotic Objects" number="10.4.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-boundfunctioncreate" title="BoundFunctionCreate ( targetFunction, boundThis, boundArgs )" number="10.4.1.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If _hour_ is not finite, _min_ is not finite, _sec_ is not finite, or _ms_ is not finite, return *NaN*.           1. Let _h_ be 𝔽(! ToIntegerOrInfinity(_hour_)).           1. Let _m_ be 𝔽(! ToIntegerOrInfinity(_min_)).           1. Let _s_ be 𝔽(! ToIntegerOrInfinity(_sec_)).           1. Let _milli_ be 𝔽(! ToIntegerOrInfinity(_ms_)).           1. Return ((_h_ × msPerHour + _m_ × msPerMinute) + _s_ × msPerSecond) + _milli_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="MakeTime" retTy="a Number" id="sec-maketime" virtualPackage="21 Numbers and Dates.4 Date Objects.1 Overview of Date Objects and Definitions of Abstract Operations.27 MakeTime ( hour, min, sec, ms )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="hour" ty="a Number"/>
+         </params>
+         <params>
+            <NormalParam name="min" ty="a Number"/>
+         </params>
+         <params>
+            <NormalParam name="sec" ty="a Number"/>
+         </params>
+         <params>
+            <NormalParam name="ms" ty="a Number"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <PredicateCondition negation="true">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="hour"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                       <op>
+                                          <Finite/>
+                                       </op>
+                                    </PredicateCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <CompoundCondition>
+                                       <left>
+                                          <PredicateCondition negation="true">
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="min"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                             <op>
+                                                <Finite/>
+                                             </op>
+                                          </PredicateCondition>
+                                       </left>
+                                       <op>
+                                          <Or/>
+                                       </op>
+                                       <right>
+                                          <CompoundCondition>
+                                             <left>
+                                                <PredicateCondition negation="true">
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="sec"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                   <op>
+                                                      <Finite/>
+                                                   </op>
+                                                </PredicateCondition>
+                                             </left>
+                                             <op>
+                                                <Or/>
+                                             </op>
+                                             <right>
+                                                <PredicateCondition negation="true">
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="ms"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                   <op>
+                                                      <Finite/>
+                                                   </op>
+                                                </PredicateCondition>
+                                             </right>
+                                          </CompoundCondition>
+                                       </right>
+                                    </CompoundCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="h"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToNumber/>
+                                 </op>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="false">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToIntegerOrInfinity">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="hour"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="m"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToNumber/>
+                                 </op>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="false">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToIntegerOrInfinity">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="min"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="s"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToNumber/>
+                                 </op>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="false">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToIntegerOrInfinity">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="sec"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="milli"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToNumber/>
+                                 </op>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="false">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToIntegerOrInfinity">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="ms"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Return ((_h_ × msPerHour + _m_ × msPerMinute) + _s_ × msPerSecond) + _milli_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-numbers-and-dates" title="Numbers and Dates" number="21" relativeNumber="21"/>
+   </sections>
+   <sections>
+      <Section id="sec-date-objects" title="Date Objects" number="21.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-overview-of-date-objects-and-definitions-of-abstract-operations" title="Overview of Date Objects and Definitions of Abstract Operations" number="21.4.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-maketime" title="MakeTime ( hour, min, sec, ms )" number="21.4.1.27" relativeNumber="27"/>
+   </sections>
+</Algorithm>

@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="             1. Let _proto_ be ? GetPrototypeFromConstructor(_newTarget_, _defaultProto_).             1. Let _obj_ be TypedArrayCreate(_proto_).             1. Assert: _obj_.[[ViewedArrayBuffer]] is *undefined*.             1. Set _obj_.[[TypedArrayName]] to _constructorName_.             1. If _constructorName_ is either *&#34;BigInt64Array&#34;* or *&#34;BigUint64Array&#34;*, set _obj_.[[ContentType]] to ~bigint~.             1. Otherwise, set _obj_.[[ContentType]] to ~number~.             1. If _length_ is not present, then               1. Set _obj_.[[ByteLength]] to 0.               1. Set _obj_.[[ByteOffset]] to 0.               1. Set _obj_.[[ArrayLength]] to 0.             1. Else,               1. Perform ? AllocateTypedArrayBuffer(_obj_, _length_).             1. Return _obj_.           ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="AllocateTypedArray" retTy="either a normal completion containing a Typed Array or a throw completion" id="sec-allocatetypedarray" virtualPackage="23 Indexed Collections.2 TypedArray Objects.5 The TypedArray Constructors.1 TypedArray ( args ).1 AllocateTypedArray ( constructorName, newTarget, defaultProto [ , length ] )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="constructorName" ty="a String"/>
+         </params>
+         <params>
+            <NormalParam name="newTarget" ty="a constructor"/>
+         </params>
+         <params>
+            <NormalParam name="defaultProto" ty="a String"/>
+         </params>
+         <params>
+            <OptionalParam name="length" ty="a math value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="proto"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="GetPrototypeFromConstructor">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="newTarget"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="defaultProto"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="obj"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="TypedArrayCreate">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="proto"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="obj"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="ViewedArrayBuffer"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <UndefinedLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <PropertyReference>
+                                 <base>
+                                    <Variable name="obj"/>
+                                 </base>
+                                 <prop>
+                                    <FieldProperty name="TypedArrayName"/>
+                                 </prop>
+                              </PropertyReference>
+                           </ref>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="constructorName"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="otherwise" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="constructorName"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <StringLiteral s="BigInt64Array"/>
+                                 </right>
+                                 <right>
+                                    <StringLiteral s="BigUint64Array"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <SetStep>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="obj"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ContentType"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                                 <expr>
+                                    <EnumLiteral name="bigint"/>
+                                 </expr>
+                              </SetStep>
+                           </thenStep>
+                           <elseStep>
+                              <SetStep>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="obj"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ContentType"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                                 <expr>
+                                    <EnumLiteral name="number"/>
+                                 </expr>
+                              </SetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <PredicateCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="length"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Present/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <PropertyReference>
+                                                         <base>
+                                                            <Variable name="obj"/>
+                                                         </base>
+                                                         <prop>
+                                                            <FieldProperty name="ByteLength"/>
+                                                         </prop>
+                                                      </PropertyReference>
+                                                   </ref>
+                                                   <expr>
+                                                      <DecimalMathValueLiteral n="0"/>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <PropertyReference>
+                                                         <base>
+                                                            <Variable name="obj"/>
+                                                         </base>
+                                                         <prop>
+                                                            <FieldProperty name="ByteOffset"/>
+                                                         </prop>
+                                                      </PropertyReference>
+                                                   </ref>
+                                                   <expr>
+                                                      <DecimalMathValueLiteral n="0"/>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <PropertyReference>
+                                                         <base>
+                                                            <Variable name="obj"/>
+                                                         </base>
+                                                         <prop>
+                                                            <FieldProperty name="ArrayLength"/>
+                                                         </prop>
+                                                      </PropertyReference>
+                                                   </ref>
+                                                   <expr>
+                                                      <DecimalMathValueLiteral n="0"/>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <PerformStep>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="AllocateTypedArrayBuffer">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="obj"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="length"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </PerformStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="obj"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-indexed-collections" title="Indexed Collections" number="23" relativeNumber="23"/>
+   </sections>
+   <sections>
+      <Section id="sec-typedarray-objects" title="TypedArray Objects" number="23.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-typedarray-constructors" title="The TypedArray Constructors" number="23.2.5" relativeNumber="5"/>
+   </sections>
+   <sections>
+      <Section id="sec-typedarray" title="TypedArray ( ...args )" number="23.2.5.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-allocatetypedarray" title="AllocateTypedArray ( constructorName, newTarget, defaultProto [ , length ] )" number="23.2.5.1.1" relativeNumber="1"/>
+   </sections>
+</Algorithm>

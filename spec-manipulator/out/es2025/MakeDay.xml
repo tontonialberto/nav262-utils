@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If _year_ is not finite, _month_ is not finite, or _date_ is not finite, return *NaN*.           1. Let _y_ be 𝔽(! ToIntegerOrInfinity(_year_)).           1. Let _m_ be 𝔽(! ToIntegerOrInfinity(_month_)).           1. Let _dt_ be 𝔽(! ToIntegerOrInfinity(_date_)).           1. Let _ym_ be _y_ + 𝔽(floor(ℝ(_m_) / 12)).           1. If _ym_ is not finite, return *NaN*.           1. Let _mn_ be 𝔽(ℝ(_m_) modulo 12).           1. Find a finite time value _t_ such that YearFromTime(_t_) is _ym_, MonthFromTime(_t_) is _mn_, and DateFromTime(_t_) is *1*&lt;sub&gt;𝔽&lt;/sub&gt;; but if this is not possible (because some argument is out of range), return *NaN*.           1. Return Day(_t_) + _dt_ - *1*&lt;sub&gt;𝔽&lt;/sub&gt;.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="MakeDay" retTy="a Number" id="sec-makeday" virtualPackage="21 Numbers and Dates.4 Date Objects.1 Overview of Date Objects and Definitions of Abstract Operations.28 MakeDay ( year, month, date )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="year" ty="a Number"/>
+         </params>
+         <params>
+            <NormalParam name="month" ty="a Number"/>
+         </params>
+         <params>
+            <NormalParam name="date" ty="a Number"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <PredicateCondition negation="true">
+                                       <expr>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="year"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </expr>
+                                       <op>
+                                          <Finite/>
+                                       </op>
+                                    </PredicateCondition>
+                                 </left>
+                                 <op>
+                                    <Or/>
+                                 </op>
+                                 <right>
+                                    <CompoundCondition>
+                                       <left>
+                                          <PredicateCondition negation="true">
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="month"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                             <op>
+                                                <Finite/>
+                                             </op>
+                                          </PredicateCondition>
+                                       </left>
+                                       <op>
+                                          <Or/>
+                                       </op>
+                                       <right>
+                                          <PredicateCondition negation="true">
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="date"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                             <op>
+                                                <Finite/>
+                                             </op>
+                                          </PredicateCondition>
+                                       </right>
+                                    </CompoundCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="y"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToNumber/>
+                                 </op>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="false">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToIntegerOrInfinity">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="year"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="m"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToNumber/>
+                                 </op>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="false">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToIntegerOrInfinity">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="month"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="dt"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToNumber/>
+                                 </op>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="false">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToIntegerOrInfinity">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="date"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="ym"/>
+                           </variable>
+                           <expr>
+                              <BinaryExpression>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="y"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Add/>
+                                 </op>
+                                 <right>
+                                    <ConversionExpression>
+                                       <op>
+                                          <ToNumber/>
+                                       </op>
+                                       <expr>
+                                          <MathFuncExpression>
+                                             <op>
+                                                <Floor/>
+                                             </op>
+                                             <args>
+                                                <BinaryExpression>
+                                                   <left>
+                                                      <ConversionExpression>
+                                                         <op>
+                                                            <ToMath/>
+                                                         </op>
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="m"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                      </ConversionExpression>
+                                                   </left>
+                                                   <op>
+                                                      <Div/>
+                                                   </op>
+                                                   <right>
+                                                      <DecimalMathValueLiteral n="12"/>
+                                                   </right>
+                                                </BinaryExpression>
+                                             </args>
+                                          </MathFuncExpression>
+                                       </expr>
+                                    </ConversionExpression>
+                                 </right>
+                              </BinaryExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <PredicateCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="ym"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <op>
+                                    <Finite/>
+                                 </op>
+                              </PredicateCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <NumberLiteral value="null" isNegative="false"/>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="mn"/>
+                           </variable>
+                           <expr>
+                              <ConversionExpression>
+                                 <op>
+                                    <ToNumber/>
+                                 </op>
+                                 <expr>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ConversionExpression>
+                                             <op>
+                                                <ToMath/>
+                                             </op>
+                                             <expr>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="m"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </expr>
+                                          </ConversionExpression>
+                                       </left>
+                                       <op>
+                                          <Mod/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="12"/>
+                                       </right>
+                                    </BinaryExpression>
+                                 </expr>
+                              </ConversionExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Find a finite time value _t_ such that YearFromTime(_t_) is _ym_, MonthFromTime(_t_) is _mn_, and DateFromTime(_t_) is *1*&lt;sub&gt;𝔽&lt;/sub&gt;; but if this is not possible (because some argument is out of range), return *NaN*." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Return Day(_t_) + _dt_ - *1*&lt;sub&gt;𝔽&lt;/sub&gt;." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-numbers-and-dates" title="Numbers and Dates" number="21" relativeNumber="21"/>
+   </sections>
+   <sections>
+      <Section id="sec-date-objects" title="Date Objects" number="21.4" relativeNumber="4"/>
+   </sections>
+   <sections>
+      <Section id="sec-overview-of-date-objects-and-definitions-of-abstract-operations" title="Overview of Date Objects and Definitions of Abstract Operations" number="21.4.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-makeday" title="MakeDay ( year, month, date )" number="21.4.1.28" relativeNumber="28"/>
+   </sections>
+</Algorithm>

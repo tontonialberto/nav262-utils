@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="         1. If _opText_ is `+`, then           1. [id=&#34;step-binary-op-toprimitive-lval&#34;] Let _lPrim_ be ? ToPrimitive(_lVal_).           1. [id=&#34;step-binary-op-toprimitive-rval&#34;] Let _rPrim_ be ? ToPrimitive(_rVal_).           1. [id=&#34;step-binary-op-string-check&#34;] If _lPrim_ is a String or _rPrim_ is a String, then             1. Let _lStr_ be ? ToString(_lPrim_).             1. Let _rStr_ be ? ToString(_rPrim_).             1. Return the string-concatenation of _lStr_ and _rStr_.           1. Set _lVal_ to _lPrim_.           1. Set _rVal_ to _rPrim_.         1. NOTE: At this point, it must be a numeric operation.         1. Let _lNum_ be ? ToNumeric(_lVal_).         1. Let _rNum_ be ? ToNumeric(_rVal_).         1. If SameType(_lNum_, _rNum_) is *false*, throw a *TypeError* exception.         1. If _lNum_ is a BigInt, then           1. If _opText_ is `**`, return ? BigInt::exponentiate(_lNum_, _rNum_).           1. If _opText_ is `/`, return ? BigInt::divide(_lNum_, _rNum_).           1. If _opText_ is `%`, return ? BigInt::remainder(_lNum_, _rNum_).           1. If _opText_ is `&gt;&gt;&gt;`, return ? BigInt::unsignedRightShift(_lNum_, _rNum_).           1. Let _operation_ be the abstract operation associated with _opText_ in the following table:             &lt;figure&gt;               &lt;!-- emu-format ignore --&gt;               &lt;table class=&#34;lightweight-table&#34;&gt;                 &lt;thead&gt;                   &lt;tr&gt;&lt;th&gt; _opText_   &lt;/th&gt;&lt;th&gt; _operation_              &lt;/th&gt;&lt;/tr&gt;                 &lt;/thead&gt;                 &lt;tbody&gt;                   &lt;tr&gt;&lt;td&gt; `*`        &lt;/td&gt;&lt;td&gt; BigInt::multiply         &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `+`        &lt;/td&gt;&lt;td&gt; BigInt::add              &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `-`        &lt;/td&gt;&lt;td&gt; BigInt::subtract         &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `&lt;&lt;` &lt;/td&gt;&lt;td&gt; BigInt::leftShift        &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `&gt;&gt;` &lt;/td&gt;&lt;td&gt; BigInt::signedRightShift &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `&amp;`    &lt;/td&gt;&lt;td&gt; BigInt::bitwiseAND       &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `^`        &lt;/td&gt;&lt;td&gt; BigInt::bitwiseXOR       &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `|`        &lt;/td&gt;&lt;td&gt; BigInt::bitwiseOR        &lt;/td&gt;&lt;/tr&gt;                 &lt;/tbody&gt;               &lt;/table&gt;             &lt;/figure&gt;         1. Else,           1. Assert: _lNum_ is a Number.           1. Let _operation_ be the abstract operation associated with _opText_ in the following table:             &lt;figure&gt;               &lt;!-- emu-format ignore --&gt;               &lt;table class=&#34;lightweight-table&#34;&gt;                 &lt;thead&gt;                   &lt;tr&gt;&lt;th&gt; _opText_       &lt;/th&gt;&lt;th&gt; _operation_                &lt;/th&gt;&lt;/tr&gt;                 &lt;/thead&gt;                 &lt;tbody&gt;                   &lt;tr&gt;&lt;td&gt; `**`           &lt;/td&gt;&lt;td&gt; Number::exponentiate       &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `*`            &lt;/td&gt;&lt;td&gt; Number::multiply           &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `/`            &lt;/td&gt;&lt;td&gt; Number::divide             &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `%`            &lt;/td&gt;&lt;td&gt; Number::remainder          &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `+`            &lt;/td&gt;&lt;td&gt; Number::add                &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `-`            &lt;/td&gt;&lt;td&gt; Number::subtract           &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `&lt;&lt;`     &lt;/td&gt;&lt;td&gt; Number::leftShift          &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `&gt;&gt;`     &lt;/td&gt;&lt;td&gt; Number::signedRightShift   &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `&gt;&gt;&gt;` &lt;/td&gt;&lt;td&gt; Number::unsignedRightShift &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `&amp;`        &lt;/td&gt;&lt;td&gt; Number::bitwiseAND         &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `^`            &lt;/td&gt;&lt;td&gt; Number::bitwiseXOR         &lt;/td&gt;&lt;/tr&gt;                   &lt;tr&gt;&lt;td&gt; `|`            &lt;/td&gt;&lt;td&gt; Number::bitwiseOR          &lt;/td&gt;&lt;/tr&gt;                 &lt;/tbody&gt;               &lt;/table&gt;             &lt;/figure&gt;         1. Return _operation_(_lNum_, _rNum_).       ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ApplyStringOrNumericBinaryOperator" retTy="either a normal completion containing either a Number, a BigInt, or a String, or a throw completion" id="sec-applystringornumericbinaryoperator" virtualPackage="13 ECMAScript Language: Expressions.15 Assignment Operators.3 ApplyStringOrNumericBinaryOperator ( lVal, opText, rVal )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="lVal" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="opText" ty="`**`, `*`, `/`, `%`, `+`, `-`, `&lt;&lt;`, `&gt;&gt;`, `&gt;&gt;&gt;`, `&amp;`, `^`, or `|`"/>
+         </params>
+         <params>
+            <NormalParam name="rVal" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="opText"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <right>
+                                    <CodeLiteral code="+"/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep>
+                                             <directive>
+                                                <Directive name="id">
+                                                   <values>step-binary-op-toprimitive-lval</values>
+                                                </Directive>
+                                             </directive>
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="lPrim"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="ToPrimitive">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="lVal"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep>
+                                             <directive>
+                                                <Directive name="id">
+                                                   <values>step-binary-op-toprimitive-rval</values>
+                                                </Directive>
+                                             </directive>
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="rPrim"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReturnIfAbruptExpression check="true">
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="ToPrimitive">
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="rVal"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ReturnIfAbruptExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep>
+                                             <directive>
+                                                <Directive name="id">
+                                                   <values>step-binary-op-string-check</values>
+                                                </Directive>
+                                             </directive>
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <CompoundCondition>
+                                                         <left>
+                                                            <TypeCheckCondition negation="false">
+                                                               <expr>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="lPrim"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </expr>
+                                                               <ty>
+                                                                  <Type value="a String"/>
+                                                               </ty>
+                                                            </TypeCheckCondition>
+                                                         </left>
+                                                         <op>
+                                                            <Or/>
+                                                         </op>
+                                                         <right>
+                                                            <TypeCheckCondition negation="false">
+                                                               <expr>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="rPrim"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </expr>
+                                                               <ty>
+                                                                  <Type value="a String"/>
+                                                               </ty>
+                                                            </TypeCheckCondition>
+                                                         </right>
+                                                      </CompoundCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <BlockStep>
+                                                         <block>
+                                                            <StepBlock>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="lStr"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <ReturnIfAbruptExpression check="true">
+                                                                                 <expr>
+                                                                                    <InvokeAbstractOperationExpression name="ToString">
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="lPrim"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </expr>
+                                                                              </ReturnIfAbruptExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <LetStep>
+                                                                           <variable>
+                                                                              <Variable name="rStr"/>
+                                                                           </variable>
+                                                                           <expr>
+                                                                              <ReturnIfAbruptExpression check="true">
+                                                                                 <expr>
+                                                                                    <InvokeAbstractOperationExpression name="ToString">
+                                                                                       <args>
+                                                                                          <ReferenceExpression>
+                                                                                             <ref>
+                                                                                                <Variable name="rPrim"/>
+                                                                                             </ref>
+                                                                                          </ReferenceExpression>
+                                                                                       </args>
+                                                                                    </InvokeAbstractOperationExpression>
+                                                                                 </expr>
+                                                                              </ReturnIfAbruptExpression>
+                                                                           </expr>
+                                                                        </LetStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                               <steps>
+                                                                  <SubStep directive="null">
+                                                                     <step>
+                                                                        <ReturnStep>
+                                                                           <expr>
+                                                                              <StringConcatExpression>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="lStr"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                                 <exprs>
+                                                                                    <ReferenceExpression>
+                                                                                       <ref>
+                                                                                          <Variable name="rStr"/>
+                                                                                       </ref>
+                                                                                    </ReferenceExpression>
+                                                                                 </exprs>
+                                                                              </StringConcatExpression>
+                                                                           </expr>
+                                                                        </ReturnStep>
+                                                                     </step>
+                                                                  </SubStep>
+                                                               </steps>
+                                                            </StepBlock>
+                                                         </block>
+                                                      </BlockStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="lVal"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="lPrim"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <SetStep>
+                                                   <ref>
+                                                      <Variable name="rVal"/>
+                                                   </ref>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <Variable name="rPrim"/>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </SetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="At this point, it must be a numeric operation."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="lNum"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToNumeric">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="lVal"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="rNum"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToNumeric">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="rVal"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="SameType">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="lNum"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="rNum"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="else" comma="true">
+                           <cond>
+                              <TypeCheckCondition negation="false">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="lNum"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a BigInt"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="opText"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <CodeLiteral code="**"/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <ReturnIfAbruptExpression check="true">
+                                                               <expr>
+                                                                  <InvokeNumericMethodExpression name="BigInt::exponentiate">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="lNum"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="rNum"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeNumericMethodExpression>
+                                                               </expr>
+                                                            </ReturnIfAbruptExpression>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="opText"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <CodeLiteral code="/"/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <ReturnIfAbruptExpression check="true">
+                                                               <expr>
+                                                                  <InvokeNumericMethodExpression name="BigInt::divide">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="lNum"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="rNum"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeNumericMethodExpression>
+                                                               </expr>
+                                                            </ReturnIfAbruptExpression>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="opText"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <CodeLiteral code="%"/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <ReturnIfAbruptExpression check="true">
+                                                               <expr>
+                                                                  <InvokeNumericMethodExpression name="BigInt::remainder">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="lNum"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="rNum"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeNumericMethodExpression>
+                                                               </expr>
+                                                            </ReturnIfAbruptExpression>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <IfStep elseStep="null">
+                                                   <cond>
+                                                      <IsAreCondition negation="false">
+                                                         <left>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="opText"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </left>
+                                                         <right>
+                                                            <CodeLiteral code="&gt;&gt;&gt;"/>
+                                                         </right>
+                                                      </IsAreCondition>
+                                                   </cond>
+                                                   <thenStep>
+                                                      <ReturnStep>
+                                                         <expr>
+                                                            <ReturnIfAbruptExpression check="true">
+                                                               <expr>
+                                                                  <InvokeNumericMethodExpression name="BigInt::unsignedRightShift">
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="lNum"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                     <args>
+                                                                        <ReferenceExpression>
+                                                                           <ref>
+                                                                              <Variable name="rNum"/>
+                                                                           </ref>
+                                                                        </ReferenceExpression>
+                                                                     </args>
+                                                                  </InvokeNumericMethodExpression>
+                                                               </expr>
+                                                            </ReturnIfAbruptExpression>
+                                                         </expr>
+                                                      </ReturnStep>
+                                                   </thenStep>
+                                                </IfStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Let _operation_ be the abstract operation associated with _opText_ in the following table:">
+                                                         <block>
+                                                            <Figure>
+                                                               <lines>&lt;!-- emu-format ignore --&gt;</lines>
+                                                               <lines>&lt;table class="lightweight-table"&gt;</lines>
+                                                               <lines>&lt;thead&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;th&gt; _opText_   &lt;/th&gt;&lt;th&gt; _operation_              &lt;/th&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;/thead&gt;</lines>
+                                                               <lines>&lt;tbody&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `*`        &lt;/td&gt;&lt;td&gt; BigInt::multiply         &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `+`        &lt;/td&gt;&lt;td&gt; BigInt::add              &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `-`        &lt;/td&gt;&lt;td&gt; BigInt::subtract         &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `&lt;&lt;` &lt;/td&gt;&lt;td&gt; BigInt::leftShift        &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `&gt;&gt;` &lt;/td&gt;&lt;td&gt; BigInt::signedRightShift &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `&amp;`    &lt;/td&gt;&lt;td&gt; BigInt::bitwiseAND       &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `^`        &lt;/td&gt;&lt;td&gt; BigInt::bitwiseXOR       &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `|`        &lt;/td&gt;&lt;td&gt; BigInt::bitwiseOR        &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;/tbody&gt;</lines>
+                                                               <lines>&lt;/table&gt;</lines>
+                                                            </Figure>
+                                                         </block>
+                                                      </YetExpression>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                           <elseStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <AssertStep>
+                                                   <cond>
+                                                      <TypeCheckCondition negation="false">
+                                                         <expr>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="lNum"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </expr>
+                                                         <ty>
+                                                            <Type value="a Number"/>
+                                                         </ty>
+                                                      </TypeCheckCondition>
+                                                   </cond>
+                                                </AssertStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Let _operation_ be the abstract operation associated with _opText_ in the following table:">
+                                                         <block>
+                                                            <Figure>
+                                                               <lines>&lt;!-- emu-format ignore --&gt;</lines>
+                                                               <lines>&lt;table class="lightweight-table"&gt;</lines>
+                                                               <lines>&lt;thead&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;th&gt; _opText_       &lt;/th&gt;&lt;th&gt; _operation_                &lt;/th&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;/thead&gt;</lines>
+                                                               <lines>&lt;tbody&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `**`           &lt;/td&gt;&lt;td&gt; Number::exponentiate       &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `*`            &lt;/td&gt;&lt;td&gt; Number::multiply           &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `/`            &lt;/td&gt;&lt;td&gt; Number::divide             &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `%`            &lt;/td&gt;&lt;td&gt; Number::remainder          &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `+`            &lt;/td&gt;&lt;td&gt; Number::add                &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `-`            &lt;/td&gt;&lt;td&gt; Number::subtract           &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `&lt;&lt;`     &lt;/td&gt;&lt;td&gt; Number::leftShift          &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `&gt;&gt;`     &lt;/td&gt;&lt;td&gt; Number::signedRightShift   &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `&gt;&gt;&gt;` &lt;/td&gt;&lt;td&gt; Number::unsignedRightShift &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `&amp;`        &lt;/td&gt;&lt;td&gt; Number::bitwiseAND         &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `^`            &lt;/td&gt;&lt;td&gt; Number::bitwiseXOR         &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;tr&gt;&lt;td&gt; `|`            &lt;/td&gt;&lt;td&gt; Number::bitwiseOR          &lt;/td&gt;&lt;/tr&gt;</lines>
+                                                               <lines>&lt;/tbody&gt;</lines>
+                                                               <lines>&lt;/table&gt;</lines>
+                                                            </Figure>
+                                                         </block>
+                                                      </YetExpression>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <InvokeAbstractClosureExpression>
+                                 <ref>
+                                    <Variable name="operation"/>
+                                 </ref>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="lNum"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="rNum"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractClosureExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-ecmascript-language-expressions" title="ECMAScript Language: Expressions" number="13" relativeNumber="13"/>
+   </sections>
+   <sections>
+      <Section id="sec-assignment-operators" title="Assignment Operators" number="13.15" relativeNumber="15"/>
+   </sections>
+   <sections>
+      <Section id="sec-applystringornumericbinaryoperator" title="ApplyStringOrNumericBinaryOperator ( lVal, opText, rVal )" number="13.15.3" relativeNumber="3"/>
+   </sections>
+</Algorithm>

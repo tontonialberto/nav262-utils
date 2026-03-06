@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. If IsSharedArrayBuffer(_arrayBuffer_) is *true* and _arrayBuffer_ has an [[ArrayBufferByteLengthData]] internal slot, then             1. Let _bufferByteLengthBlock_ be _arrayBuffer_.[[ArrayBufferByteLengthData]].             1. Let _rawLength_ be GetRawBytesFromSharedBlock(_bufferByteLengthBlock_, 0, ~biguint64~, *true*, _order_).             1. Let _isLittleEndian_ be the value of the [[LittleEndian]] field of the surrounding agent's Agent Record.             1. Return ℝ(RawBytesToNumeric(~biguint64~, _rawLength_, _isLittleEndian_)).           1. Assert: IsDetachedBuffer(_arrayBuffer_) is *false*.           1. Return _arrayBuffer_.[[ArrayBufferByteLength]].         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ArrayBufferByteLength" retTy="a math value" id="sec-arraybufferbytelength" virtualPackage="25 Structured Data.1 ArrayBuffer Objects.3 Abstract Operations For ArrayBuffer Objects.2 ArrayBufferByteLength ( arrayBuffer, order )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="arrayBuffer" ty="a Shared Array Buffer or an Array Buffer"/>
+         </params>
+         <params>
+            <NormalParam name="order" ty="~seq-cst~ or ~unordered~"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <CompoundCondition>
+                                 <left>
+                                    <IsAreCondition negation="false">
+                                       <left>
+                                          <InvokeAbstractOperationExpression name="IsSharedArrayBuffer">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="arrayBuffer"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </left>
+                                       <right>
+                                          <TrueLiteral/>
+                                       </right>
+                                    </IsAreCondition>
+                                 </left>
+                                 <op>
+                                    <And/>
+                                 </op>
+                                 <right>
+                                    <HasFieldCondition negation="false">
+                                       <ref>
+                                          <Variable name="arrayBuffer"/>
+                                       </ref>
+                                       <field>
+                                          <FieldLiteral name="ArrayBufferByteLengthData"/>
+                                       </field>
+                                    </HasFieldCondition>
+                                 </right>
+                              </CompoundCondition>
+                           </cond>
+                           <thenStep>
+                              <BlockStep>
+                                 <block>
+                                    <StepBlock>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="bufferByteLengthBlock"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <ReferenceExpression>
+                                                         <ref>
+                                                            <PropertyReference>
+                                                               <base>
+                                                                  <Variable name="arrayBuffer"/>
+                                                               </base>
+                                                               <prop>
+                                                                  <FieldProperty name="ArrayBufferByteLengthData"/>
+                                                               </prop>
+                                                            </PropertyReference>
+                                                         </ref>
+                                                      </ReferenceExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <LetStep>
+                                                   <variable>
+                                                      <Variable name="rawLength"/>
+                                                   </variable>
+                                                   <expr>
+                                                      <InvokeAbstractOperationExpression name="GetRawBytesFromSharedBlock">
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="bufferByteLengthBlock"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                         <args>
+                                                            <DecimalMathValueLiteral n="0"/>
+                                                         </args>
+                                                         <args>
+                                                            <EnumLiteral name="biguint64"/>
+                                                         </args>
+                                                         <args>
+                                                            <TrueLiteral/>
+                                                         </args>
+                                                         <args>
+                                                            <ReferenceExpression>
+                                                               <ref>
+                                                                  <Variable name="order"/>
+                                                               </ref>
+                                                            </ReferenceExpression>
+                                                         </args>
+                                                      </InvokeAbstractOperationExpression>
+                                                   </expr>
+                                                </LetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <YetStep>
+                                                   <expr>
+                                                      <YetExpression str="Let _isLittleEndian_ be the value of the [[LittleEndian]] field of the surrounding agent's Agent Record." block="null"/>
+                                                   </expr>
+                                                </YetStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                       <steps>
+                                          <SubStep directive="null">
+                                             <step>
+                                                <ReturnStep>
+                                                   <expr>
+                                                      <ConversionExpression>
+                                                         <op>
+                                                            <ToMath/>
+                                                         </op>
+                                                         <expr>
+                                                            <InvokeAbstractOperationExpression name="RawBytesToNumeric">
+                                                               <args>
+                                                                  <EnumLiteral name="biguint64"/>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="rawLength"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                               <args>
+                                                                  <ReferenceExpression>
+                                                                     <ref>
+                                                                        <Variable name="isLittleEndian"/>
+                                                                     </ref>
+                                                                  </ReferenceExpression>
+                                                               </args>
+                                                            </InvokeAbstractOperationExpression>
+                                                         </expr>
+                                                      </ConversionExpression>
+                                                   </expr>
+                                                </ReturnStep>
+                                             </step>
+                                          </SubStep>
+                                       </steps>
+                                    </StepBlock>
+                                 </block>
+                              </BlockStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsDetachedBuffer">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="arrayBuffer"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <FalseLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="arrayBuffer"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ArrayBufferByteLength"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-structured-data" title="Structured Data" number="25" relativeNumber="25"/>
+   </sections>
+   <sections>
+      <Section id="sec-arraybuffer-objects" title="ArrayBuffer Objects" number="25.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-abstract-operations-for-arraybuffer-objects" title="Abstract Operations For ArrayBuffer Objects" number="25.1.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-arraybufferbytelength" title="ArrayBufferByteLength ( arrayBuffer, order )" number="25.1.3.2" relativeNumber="2"/>
+   </sections>
+</Algorithm>

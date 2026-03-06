@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Perform ? RequireInternalSlot(_view_, [[DataView]]).           1. Assert: _view_ has a [[ViewedArrayBuffer]] internal slot.           1. Let _getIndex_ be ? ToIndex(_requestIndex_).           1. If IsBigIntElementType(_type_) is *true*, let _numberValue_ be ? ToBigInt(_value_).           1. Otherwise, let _numberValue_ be ? ToNumber(_value_).           1. Set _isLittleEndian_ to ToBoolean(_isLittleEndian_).           1. Let _viewOffset_ be _view_.[[ByteOffset]].           1. Let _viewRecord_ be MakeDataViewWithBufferWitnessRecord(_view_, ~unordered~).           1. NOTE: Bounds checking is not a synchronizing operation when _view_'s backing buffer is a growable SharedArrayBuffer.           1. If IsViewOutOfBounds(_viewRecord_) is *true*, throw a *TypeError* exception.           1. Let _viewSize_ be GetViewByteLength(_viewRecord_).           1. Let _elementSize_ be the Element Size value specified in &lt;emu-xref href=&#34;#table-the-typedarray-constructors&#34;&gt;&lt;/emu-xref&gt; for Element Type _type_.           1. If _getIndex_ + _elementSize_ &gt; _viewSize_, throw a *RangeError* exception.           1. Let _bufferIndex_ be _getIndex_ + _viewOffset_.           1. Perform SetValueInBuffer(_view_.[[ViewedArrayBuffer]], _bufferIndex_, _type_, _numberValue_, *false*, ~unordered~, _isLittleEndian_).           1. Return *undefined*.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="SetViewValue" retTy="either a normal completion containing *undefined* or a throw completion" id="sec-setviewvalue" virtualPackage="25 Structured Data.3 DataView Objects.1 Abstract Operations For DataView Objects.6 SetViewValue ( view, requestIndex, isLittleEndian, type, value )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="view" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="requestIndex" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="isLittleEndian" ty="an ECMAScript language value"/>
+         </params>
+         <params>
+            <NormalParam name="type" ty="a TypedArray element type"/>
+         </params>
+         <params>
+            <NormalParam name="value" ty="an ECMAScript language value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="RequireInternalSlot">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="view"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                       <args>
+                                          <FieldLiteral name="DataView"/>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <HasFieldCondition negation="false">
+                                 <ref>
+                                    <Variable name="view"/>
+                                 </ref>
+                                 <field>
+                                    <FieldLiteral name="ViewedArrayBuffer"/>
+                                 </field>
+                              </HasFieldCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="getIndex"/>
+                           </variable>
+                           <expr>
+                              <ReturnIfAbruptExpression check="true">
+                                 <expr>
+                                    <InvokeAbstractOperationExpression name="ToIndex">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="requestIndex"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </expr>
+                              </ReturnIfAbruptExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep newLine="true" keyword="otherwise" comma="true">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsBigIntElementType">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="type"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="numberValue"/>
+                                 </variable>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToBigInt">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="value"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </LetStep>
+                           </thenStep>
+                           <elseStep>
+                              <LetStep>
+                                 <variable>
+                                    <Variable name="numberValue"/>
+                                 </variable>
+                                 <expr>
+                                    <ReturnIfAbruptExpression check="true">
+                                       <expr>
+                                          <InvokeAbstractOperationExpression name="ToNumber">
+                                             <args>
+                                                <ReferenceExpression>
+                                                   <ref>
+                                                      <Variable name="value"/>
+                                                   </ref>
+                                                </ReferenceExpression>
+                                             </args>
+                                          </InvokeAbstractOperationExpression>
+                                       </expr>
+                                    </ReturnIfAbruptExpression>
+                                 </expr>
+                              </LetStep>
+                           </elseStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <SetStep>
+                           <ref>
+                              <Variable name="isLittleEndian"/>
+                           </ref>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="ToBoolean">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="isLittleEndian"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </SetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="viewOffset"/>
+                           </variable>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <PropertyReference>
+                                       <base>
+                                          <Variable name="view"/>
+                                       </base>
+                                       <prop>
+                                          <FieldProperty name="ByteOffset"/>
+                                       </prop>
+                                    </PropertyReference>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="viewRecord"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="MakeDataViewWithBufferWitnessRecord">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="view"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <EnumLiteral name="unordered"/>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <NoteStep note="Bounds checking is not a synchronizing operation when _view_'s backing buffer is a growable SharedArrayBuffer."/>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <IsAreCondition negation="false">
+                                 <left>
+                                    <InvokeAbstractOperationExpression name="IsViewOutOfBounds">
+                                       <args>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="viewRecord"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </args>
+                                    </InvokeAbstractOperationExpression>
+                                 </left>
+                                 <right>
+                                    <TrueLiteral/>
+                                 </right>
+                              </IsAreCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="TypeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="viewSize"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="GetViewByteLength">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="viewRecord"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <YetStep>
+                           <expr>
+                              <YetExpression str="Let _elementSize_ be the Element Size value specified in &lt;emu-xref href=&#34;#table-the-typedarray-constructors&#34;&gt;&lt;/emu-xref&gt; for Element Type _type_." block="null"/>
+                           </expr>
+                        </YetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="getIndex"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Add/>
+                                       </op>
+                                       <right>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="elementSize"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </right>
+                                    </BinaryExpression>
+                                 </left>
+                                 <op>
+                                    <GreaterThan/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="viewSize"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                           <thenStep>
+                              <ThrowStep name="RangeError"/>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="bufferIndex"/>
+                           </variable>
+                           <expr>
+                              <BinaryExpression>
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="getIndex"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <op>
+                                    <Add/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="viewOffset"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <PerformStep>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="SetValueInBuffer">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <PropertyReference>
+                                             <base>
+                                                <Variable name="view"/>
+                                             </base>
+                                             <prop>
+                                                <FieldProperty name="ViewedArrayBuffer"/>
+                                             </prop>
+                                          </PropertyReference>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="bufferIndex"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="type"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="numberValue"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <FalseLiteral/>
+                                 </args>
+                                 <args>
+                                    <EnumLiteral name="unordered"/>
+                                 </args>
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="isLittleEndian"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </PerformStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <UndefinedLiteral/>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-structured-data" title="Structured Data" number="25" relativeNumber="25"/>
+   </sections>
+   <sections>
+      <Section id="sec-dataview-objects" title="DataView Objects" number="25.3" relativeNumber="3"/>
+   </sections>
+   <sections>
+      <Section id="sec-abstract-operations-for-dataview-objects" title="Abstract Operations For DataView Objects" number="25.3.1" relativeNumber="1"/>
+   </sections>
+   <sections>
+      <Section id="sec-setviewvalue" title="SetViewValue ( view, requestIndex, isLittleEndian, type, value )" number="25.3.1.6" relativeNumber="6"/>
+   </sections>
+</Algorithm>

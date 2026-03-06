@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Algorithm code="           1. Let _len_ be the length of _string_.           1. Assert: _position_ + 2 ≤ _len_.           1. Let _hexDigits_ be the substring of _string_ from _position_ to _position_ + 2.           1. Let _parseResult_ be ParseText(_hexDigits_, |HexDigits[~Sep]|).           1. If _parseResult_ is not a Parse Node, return _parseResult_.           1. Let _n_ be the MV of _parseResult_.           1. Assert: _n_ is in the inclusive interval from 0 to 255.           1. Return _n_.         ">
+   <head>
+      <AbstractOperationHead isHostDefined="false" name="ParseHexOctet" retTy="either a non-negative integer or a non-empty List of *SyntaxError* objects" id="sec-parsehexoctet" virtualPackage="19 The Global Object.2 Function Properties of the Global Object.6 URI Handling Functions.7 ParseHexOctet ( string, position )" location="https://tc39.es/ecma262/2025/">
+         <params>
+            <NormalParam name="string" ty="a String"/>
+         </params>
+         <params>
+            <NormalParam name="position" ty="a math value"/>
+         </params>
+      </AbstractOperationHead>
+   </head>
+   <body>
+      <BlockStep>
+         <block>
+            <StepBlock>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="len"/>
+                           </variable>
+                           <expr>
+                              <LengthExpression>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="string"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </LengthExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <BinaryCondition>
+                                 <left>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="position"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Add/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="2"/>
+                                       </right>
+                                    </BinaryExpression>
+                                 </left>
+                                 <op>
+                                    <LessThanEqual/>
+                                 </op>
+                                 <right>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="len"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </right>
+                              </BinaryCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="hexDigits"/>
+                           </variable>
+                           <expr>
+                              <SubstringExpression>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="string"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <from>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="position"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </from>
+                                 <to>
+                                    <BinaryExpression>
+                                       <left>
+                                          <ReferenceExpression>
+                                             <ref>
+                                                <Variable name="position"/>
+                                             </ref>
+                                          </ReferenceExpression>
+                                       </left>
+                                       <op>
+                                          <Add/>
+                                       </op>
+                                       <right>
+                                          <DecimalMathValueLiteral n="2"/>
+                                       </right>
+                                    </BinaryExpression>
+                                 </to>
+                              </SubstringExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="parseResult"/>
+                           </variable>
+                           <expr>
+                              <InvokeAbstractOperationExpression name="ParseText">
+                                 <args>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="hexDigits"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </args>
+                                 <args>
+                                    <NonterminalLiteral ordinal="null" name="HexDigits">
+                                       <flags>~Sep</flags>
+                                    </NonterminalLiteral>
+                                 </args>
+                              </InvokeAbstractOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <IfStep elseStep="null">
+                           <cond>
+                              <TypeCheckCondition negation="true">
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="parseResult"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                                 <ty>
+                                    <Type value="a Parse Node"/>
+                                 </ty>
+                              </TypeCheckCondition>
+                           </cond>
+                           <thenStep>
+                              <ReturnStep>
+                                 <expr>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="parseResult"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </expr>
+                              </ReturnStep>
+                           </thenStep>
+                        </IfStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <LetStep>
+                           <variable>
+                              <Variable name="n"/>
+                           </variable>
+                           <expr>
+                              <InvokeSyntaxDirectedOperationExpression name="MV">
+                                 <base>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="parseResult"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </base>
+                                 <args/>
+                              </InvokeSyntaxDirectedOperationExpression>
+                           </expr>
+                        </LetStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <AssertStep>
+                           <cond>
+                              <InclusiveIntervalCondition negation="false">
+                                 <left>
+                                    <ReferenceExpression>
+                                       <ref>
+                                          <Variable name="n"/>
+                                       </ref>
+                                    </ReferenceExpression>
+                                 </left>
+                                 <from>
+                                    <DecimalMathValueLiteral n="0"/>
+                                 </from>
+                                 <to>
+                                    <DecimalMathValueLiteral n="255"/>
+                                 </to>
+                              </InclusiveIntervalCondition>
+                           </cond>
+                        </AssertStep>
+                     </step>
+                  </SubStep>
+               </steps>
+               <steps>
+                  <SubStep directive="null">
+                     <step>
+                        <ReturnStep>
+                           <expr>
+                              <ReferenceExpression>
+                                 <ref>
+                                    <Variable name="n"/>
+                                 </ref>
+                              </ReferenceExpression>
+                           </expr>
+                        </ReturnStep>
+                     </step>
+                  </SubStep>
+               </steps>
+            </StepBlock>
+         </block>
+      </BlockStep>
+   </body>
+   <sections>
+      <Section id="sec-global-object" title="The Global Object" number="19" relativeNumber="19"/>
+   </sections>
+   <sections>
+      <Section id="sec-function-properties-of-the-global-object" title="Function Properties of the Global Object" number="19.2" relativeNumber="2"/>
+   </sections>
+   <sections>
+      <Section id="sec-uri-handling-functions" title="URI Handling Functions" number="19.2.6" relativeNumber="6"/>
+   </sections>
+   <sections>
+      <Section id="sec-parsehexoctet" title="ParseHexOctet ( string, position )" number="19.2.6.7" relativeNumber="7"/>
+   </sections>
+</Algorithm>
