@@ -12,4 +12,5 @@ npm run start -- \
     -x src/sef/transform-record-expression.sef.json \
     -x src/sef/specialize-repeat-step.sef.json \
     -x src/sef/qualify-numeric-method-name.sef.json \
-    -x src/sef/qualify-method-name.sef.json
+    -x src/sef/qualify-method-name.sef.json \
+    -x src/sef/transform-type-check-condition.sef.json

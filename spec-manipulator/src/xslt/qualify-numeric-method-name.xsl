@@ -23,4 +23,18 @@
     </xsl:attribute>
   </xsl:template>
   
+  <!-- Template for InvokeNumericMethodExpression -->
+  <xsl:template match="InvokeNumericMethodExpression">
+    <xsl:copy>
+      <!-- Create merged name attribute -->
+      <xsl:attribute name="name">
+        <xsl:value-of select="concat(@base, '::', @name)"/>
+      </xsl:attribute>
+      <!-- Copy all other attributes except base and name -->
+      <xsl:apply-templates select="@*[name() != 'base' and name() != 'name']"/>
+      <!-- Copy child nodes -->
+      <xsl:apply-templates select="node()"/>
+    </xsl:copy>
+  </xsl:template>
+  
 </xsl:stylesheet>

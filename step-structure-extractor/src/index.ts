@@ -16,6 +16,11 @@ interface ParentAndRoleOccurrence {
   appearsIn: string[];
 }
 
+interface ConceptOccurrence {
+  concept: string;
+  occurrences: number;
+}
+
 function transformPrimitiveValues(obj: any): any {
   if (obj === null) {
     return 'null';
@@ -170,6 +175,58 @@ async function analyzeParentAndRole(algorithmsFolder: string, stepType: string, 
   return occurrences;
 }
 
+function isUpperCase(str: string): boolean {
+  return str.length > 0 && str.charAt(0) === str.charAt(0).toUpperCase() && /^[A-Z]/.test(str);
+}
+
+function collectConcepts(obj: any, concepts: Map<string, number>): void {
+  if (obj === null || typeof obj !== 'object') {
+    return;
+  }
+
+  if (Array.isArray(obj)) {
+    for (const item of obj) {
+      collectConcepts(item, concepts);
+    }
+    return;
+  }
+
+  // Process object keys
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      if (isUpperCase(key)) {
+        concepts.set(key, (concepts.get(key) || 0) + 1);
+      }
+      collectConcepts(obj[key], concepts);
+    }
+  }
+}
+
+async function analyzeConcepts(algorithmsFolder: string, algorithmExcludeFilter: AlgorithmType[]): Promise<ConceptOccurrence[]> {
+  const conceptsMap = new Map<string, number>();
+  let files = await glob(`${algorithmsFolder}/**/*.json`);
+
+  files = await filterAlgorithmFiles(files, algorithmExcludeFilter);
+
+  for (const file of files) {
+    try {
+      const content = await fs.readFile(file, 'utf-8');
+      const json = JSON.parse(content);
+
+      collectConcepts(json, conceptsMap);
+    } catch (error) {
+      console.error(`Error processing file ${file}:`, error);
+    }
+  }
+
+  // Convert map to sorted array (by occurrences descending, then by name ascending)
+  const concepts: ConceptOccurrence[] = Array.from(conceptsMap.entries())
+    .map(([concept, occurrences]) => ({ concept, occurrences }))
+    .sort((a, b) => b.occurrences - a.occurrences || a.concept.localeCompare(b.concept));
+
+  return concepts;
+}
+
 async function main() {
   const argv = await yargs(hideBin(process.argv))
     .option('algorithmsFolder', {
@@ -182,7 +239,13 @@ async function main() {
       alias: 's',
       description: 'The type name of a step in the ESMeta language',
       type: 'string',
-      demandOption: true,
+      demandOption: false,
+    })
+    .option('analyzeConcepts', {
+      alias: 'c',
+      description: 'Analyze and count all uppercase concept names in the specification',
+      type: 'boolean',
+      default: false,
     })
     .option('algorithmExcludeFilter', {
         alias: 'e',
@@ -195,26 +258,44 @@ async function main() {
     .alias('help', 'h')
     .argv;
 
-  const { algorithmsFolder, step, algorithmExcludeFilter } = argv;
+  const { algorithmsFolder, step, analyzeConcepts: shouldAnalyzeConcepts, algorithmExcludeFilter } = argv;
 
   try {
-    // Ensure output directories exist
-    const stepsDir = path.join('resources', 'steps');
-    const parentsDir = path.join('resources', 'parents');
-    await fs.mkdir(stepsDir, { recursive: true });
-    await fs.mkdir(parentsDir, { recursive: true });
+    if (shouldAnalyzeConcepts) {
+      // Analyze concepts
+      const statsDir = path.join('stats');
+      await fs.mkdir(statsDir, { recursive: true });
 
-    // Analyze step structures
-    const occurrences = await analyze(algorithmsFolder, step, algorithmExcludeFilter as AlgorithmType[]);
-    const stepsOutputPath = path.join(stepsDir, `${step}.json`);
-    await fs.writeFile(stepsOutputPath, JSON.stringify(occurrences, null, 2));
-    console.log(`Step analysis complete. Results saved to ${stepsOutputPath}`);
+      const concepts = await analyzeConcepts(algorithmsFolder, algorithmExcludeFilter as AlgorithmType[]);
+      const conceptsOutputPath = path.join(statsDir, 'concepts.json');
+      await fs.writeFile(conceptsOutputPath, JSON.stringify(concepts, null, 2));
+      console.log(`Concepts analysis complete. Results saved to ${conceptsOutputPath}`);
+      console.log(`Found ${concepts.length} unique concepts.`);
+    } else {
+      // Original step analysis
+      if (!step) {
+        console.error('Error: --step is required when not using --analyzeConcepts');
+        process.exit(1);
+      }
 
-    // Analyze parent and role structures
-    const parentAndRoleOccurrences = await analyzeParentAndRole(algorithmsFolder, step, algorithmExcludeFilter as AlgorithmType[]);
-    const parentsOutputPath = path.join(parentsDir, `${step}.json`);
-    await fs.writeFile(parentsOutputPath, JSON.stringify(parentAndRoleOccurrences, null, 2));
-    console.log(`Parent and role analysis complete. Results saved to ${parentsOutputPath}`);
+      // Ensure output directories exist
+      const stepsDir = path.join('resources', 'steps');
+      const parentsDir = path.join('resources', 'parents');
+      await fs.mkdir(stepsDir, { recursive: true });
+      await fs.mkdir(parentsDir, { recursive: true });
+
+      // Analyze step structures
+      const occurrences = await analyze(algorithmsFolder, step, algorithmExcludeFilter as AlgorithmType[]);
+      const stepsOutputPath = path.join(stepsDir, `${step}.json`);
+      await fs.writeFile(stepsOutputPath, JSON.stringify(occurrences, null, 2));
+      console.log(`Step analysis complete. Results saved to ${stepsOutputPath}`);
+
+      // Analyze parent and role structures
+      const parentAndRoleOccurrences = await analyzeParentAndRole(algorithmsFolder, step, algorithmExcludeFilter as AlgorithmType[]);
+      const parentsOutputPath = path.join(parentsDir, `${step}.json`);
+      await fs.writeFile(parentsOutputPath, JSON.stringify(parentAndRoleOccurrences, null, 2));
+      console.log(`Parent and role analysis complete. Results saved to ${parentsOutputPath}`);
+    }
   } catch (error) {
     console.error('An error occurred during analysis:', error);
   }

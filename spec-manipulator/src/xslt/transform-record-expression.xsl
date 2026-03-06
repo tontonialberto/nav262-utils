@@ -12,7 +12,7 @@
   </xsl:template>
   
   <!-- Template for RecordExpression -->
-  <xsl:template match="RecordExpression">
+  <xsl:template match="RecordExpression[fields[node()]]">
     <xsl:copy>
       <xsl:apply-templates select="@*"/>
       <!-- Process fields in pairs -->

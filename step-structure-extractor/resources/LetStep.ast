@@ -30,7 +30,6 @@ concept ThrowStep base Step {
 743 BinaryExpression
 793 FalseLiteral
 921 TrueLiteral
-1088 RecordExpression
 1170 StringConcatExpression
 1383 ReferenceExpression
 1467 MathFuncExpression
@@ -38,26 +37,309 @@ concept ThrowStep base Step {
 1685 NumberLiteral
 1749 ConversionExpression
 1840 StringLiteral
-1871 InvokeNumericMethodExpression
-2073 PositiveInfinityMathValueLiteral
-2085 NegativeInfinityMathValueLiteral
-2475 RecordExpression
 2646 UnaryExpression
-2937 InvokeAbstractClosureExpression
 3098 NullLiteral
 3392 InvokeMethodExpression
 3445 ListExpression
 3750 ListConcatExpression
 5362 PositiveInfinityNumberLiteral
-5379 ConversionExpression !! ToApproxNumber
 5434 NegativeInfinityNumberLiteral
 6812 ThisLiteral
 7250 SubstringExpression (FromTo)
+2073 PositiveInfinityMathValueLiteral
+2085 NegativeInfinityMathValueLiteral
+
 11036 BigIntLiteral
+1871 InvokeNumericMethodExpression
 11267 MathOpExpression
+2937 InvokeAbstractClosureExpression
+1088 RecordExpression
 **/
 concept ReturnStep base Step {
     expr: Expression;
+}
+
+// perform {{ expr }}.
+/**
+2 InvokeAbstractOperationExpression
+45 ReturnIfAbruptExpression
+1644 InvokeMethodExpression
+**/
+concept PerformStep base Step {
+    expr: Expression;
+}
+
+// set {{ ref }} to {{ expr }}.
+/* 
+possible references:
+2 Variable
+35 PropertyReference
+
+possible expressions:
+2 FalseLiteral
+73 ReferenceExpression
+178 StringLiteral
+207 BinaryExpression
+258 ReturnIfAbruptExpression
+435 InvokeAbstractOperationExpression
+661 StringConcatExpression
+1105 NullLiteral
+1288 ListExpression
+1357 UndefinedLiteral
+1389 EnumLiteral
+1494 DecimalMathValueLiteral
+1571 TrueLiteral
+2069 InvokeMethodExpression
+2205 ListConcatExpression
+2652 MathFuncExpression
+3481 NumberOfExpression
+3511 NumberLiteral
+3594 ClampExpression
+3696 ConversionExpression
+3729 UnaryExpression
+3976 PositiveInfinityMathValueLiteral
+NegativeInfinityMathValueLiteral
+4092 IntrinsicExpression
+4194 SubstringExpressionFrom
+SubstringExpressionFromTo
+
+35 XRefExpression
+2145 RecordExpression
+*/
+concept SetStep base Step {
+    ref: Reference;
+    expr: Expression;
+}
+
+concept SubStep {
+    // directive: ...;
+    step: Step;
+}
+
+concept BlockStep base Step {
+    steps: SubStep[];
+}
+
+// (when thenStep is a nested block) if {{ cond }}, then\n{{ thenStep }}
+// (when thenStep is a simple step) if {{ cond }}, {{ thenStep }}.
+//  -> note: the dot is present only if there is no else step, or if the else step goes on a new line.
+/**
+possible conditions:
+2 IsAreCondition
+707 PredicateCondition
+768 BinaryCondition
+1305 HasFieldCondition
+4770 ContainsCondition
+42004 HasBindingCondition
+10420 InclusiveIntervalCondition
+
+625 CompoundCondition
+
+4989 ExpressionCondition
+6399 TypeCheckCondition
+
+possible steps:
+2 ReturnStep
+139 BlockStep
+237 ThrowStep
+727 SetStep
+3322 LetStep
+*/
+// the steps below have been found using the regex /"(thenStep|elseStep)".*\n\s+"NAME_OF_THE_STEP/ against IfStep.json:
+/*PerformStep
+AppendStep
+IfStep (only happens with role "elseStep")
+YetStep
+*/
+concept IfStep base Step {
+    cond: Condition;
+    thenStep: Step;
+}
+
+// else,\n{{ elseStep }}
+// ; else {{ elseStep }}.
+// ; else, {{ elseStep }},
+// ; otherwise {{ elseStep }}.
+// \notherwise, {{ elseStep }}.
+// 
+concept IfElseStep base IfStep {
+    elseStep: Step;
+    newLine: boolean;
+    keyword: string;
+    comma: boolean;
+}
+
+// Assert: {{ cond }}
+/** possible conditions:
+133 HasFieldCondition
+173 IsAreCondition
+216 BinaryCondition
+358 PredicateCondition
+1387 HasBindingCondition
+1747 InclusiveIntervalCondition
+3386 ContainsCondition
+
+383 CompoundCondition
+2 ExpressionCondition
+248 TypeCheckCondition
+*/
+concept AssertStep base Step {
+    cond: Condition;
+}
+
+// NOTE: {{ str }}
+concept NoteStep base Step {
+    note: string;
+}
+
+// {{ ref }}({{ expr }}*)
+/**
+possible args:
+2 ReferenceExpression
+*/
+concept InvokeShorthandStep base Step {
+    ref: Reference;
+    args: Expression[];
+}
+
+/**
+possible conds:
+8 BinaryCondition
+2214 IsAreCondition
+28390 PredicateCondition
+35233 CompoundCondition
+
+possible bodies:
+35 BlockStep
+*/
+// repeat, while {{ cond }},{ body }}
+// repeat,{{ body }}
+abstract concept RepeatStep base Step {
+    body: Step;
+}
+
+concept RepeatNoCondStep base RepeatStep {}
+
+concept RepeatWhileStep base RepeatStep {
+    cond: Condition;
+}
+
+// does not appear in es2024
+concept RepeatUntilStep base RepeatStep {
+    cond: Condition;
+}
+
+// for each (element|{{ type }}) {{ var }} of {{ expr }}(, in reverse List order)?, do\n{{ body }}
+/**
+possible bodies:
+2 BlockStep
+
+possible expressions:
+2 ReferenceExpression
+*/
+concept ForEachStep base Step {
+    // type: Type?;
+    variable: Variable;
+    expr: Expression;
+    forward: boolean;
+    body: Step;
+}
+
+// - [     4] for each integer {{ var }} such that {{ expr }} ≤ {{ var }} < {{ expr }}, in ascending order, do\n{{ step }}
+// - [     2] for each integer {{ var }} such that {{ expr }} ≤ {{ var }} ≤ {{ expr }}, in ascending order, do\n{{ step }}
+// - [     1] for each integer {{ var }} such that {{ expr }} ≤ {{ var }} ≤ {{ expr }}, in descending order, do\n{{ step }}
+/**
+possible bodies:
+2 BlockStep
+
+possible low, high:
+2 ReferenceExpression
+2 BinaryExpression
+180 DecimalMathValueLiteral
+1573 MathFuncExpression
+*/
+concept ForEachIntegerStep base Step {
+    variable: Variable;
+    low: Expression;
+    lowInclusive: boolean;
+    high: Expression;
+    highInclusive: boolean;
+    ascending: boolean;
+    body: Step;
+}
+
+// - [     5] for each own property key {{ var }} of {{ var }} such that {{ cond }}, in ascending chronological order of property creation, do\n{{ step }}
+// - [     2] for each own property key {{ var }} of {{ var }} such that {{ cond }}, in ascending numeric index order, do\n{{ step }}
+// - [     1] for each own property key {{ var }} of {{ var }} such that {{ cond }}, in descending numeric index order, do\n{{ step }}
+/**
+possible bodies:
+2 BlockStep
+
+possible conditions:
+90 CompoundCondition
+306 PredicateCondition
+
+2 TypeCheckCondition
+*/
+concept ForEachOwnPropertyKeyStep base Step {
+    key: Variable;
+    obj: Reference;
+    cond: Condition;
+    ascending: boolean;
+    order: ForEachOwnPropertyKeyStepOrder;
+    body: Step;
+}
+
+limited ForEachOwnPropertyKeyStepOrder {
+    NumericIndexOrder; ChronologicalOrder;
+}
+
+// append {{ expr }} to {{ ref }}
+// append {{ expr }} to the end of {{ ref }}
+/**
+possible elements:
+2 ReferenceExpression
+105 RecordExpression
+286 StringLiteral
+305 UndefinedLiteral
+327 ReturnIfAbruptExpression
+604 InvokeAbstractOperationExpression
+637 HexLiteral
+939 FieldLiteral
+
+possible references:
+2 VariableReference
+209 PropertyReference
+*/
+concept AppendStep base Step {
+    elem: Expression;
+    ref: Reference;
+}
+
+abstract concept Block {}
+
+concept StepBlock base Block {
+    block: SubStep[];
+}
+
+/** possible expressions:
+2 YetExpression
+36 HexLiteral
+105 ReferenceExpression
+*/
+concept ExprBlock base Block {
+    exprs: Expression[];
+}
+
+// {{ str }}
+// {{ str }}\n{{ block }}
+concept YetExpression base Expression {
+    str: string;
+    block: Block?;
+}
+
+concept YetStep base Step {
+    expr: YetExpression;
 }
 
 abstract concept Reference {}
@@ -103,6 +385,11 @@ concept IntrinsicProperty base Property {
     intrinsic: Intrinsic;
 }
 
+// possible expression: ReferenceExpression
+concept BindingProperty base Property {
+    binding: Expression;
+}
+
 concept Intrinsic {
     base: identifier;
     props: identifier[];
@@ -129,6 +416,7 @@ concept CurrentRealmRecord base Reference {}
 // (ComponentProperty) let {{var}} be {{base}}.{{prop}}
 // (ComponentProperty) let {{var}} be the running execution context's {{prop}}
 // (IntrinsicProperty) let {{var}} be {{base}}.[[%{{prop.ident}}%]]
+// (BindingProperty) the binding for {{expr}} in {{var}}
 concept PropertyReference base Reference {
     base: Reference;
     prop: Property;
@@ -164,6 +452,7 @@ concept ConversionExpression base CalcExpression {
 // (ToMath) ℝ({{ expr }})
 // (ToNumber) 𝔽({{ expr }})
 // (ToBigInt) ℤ({{ expr }})
+// (ToApproxNumber) an implementation-approximated Number value representing {{ expr }}
 limited ConversionExpressionOperator {
     ToApproxNumber; ToNumber; ToBigInt; ToMath;
 }
@@ -237,15 +526,32 @@ concept ClampExpression base Expression {
 
 // 1696
 
-// {{ ty }} { [ {{ field }}: {{ expr }} ]* }
-// a { new | newly created } {{ tname }} {containing no bindings | with no fields | that initially has no fields}?
+// (the )?{{ tname }} { {{ field }}: {{ expr }}(, [[{{ field }}]]: {{ expr }})* }
+// a (new|newly created) {{ tname }} (containing no bindings|with no fields|that initially has no fields)
+// a new {{ str }} whose {{ str }} is {{ expr }}
 concept RecordExpression base Expression {
     tname: string; // NOTE: can contain whitespaces
     fields: RecordField[];
 }
 
+/**
+possible expressions:
+2 ReferenceExpression
+232 EnumLiteral
+303 FalseLiteral
+303 TrueLiteral
+345 ConversionExpression
+912 UndefinedLiteral
+1135 DecimalMathValueLiteral
+1135 ListExpression
+1317 InvokeAbstractOperationExpression
+1477 NullLiteral
+3003 NumberLiteral
+3168 IntrinsicExpression
+3851 StringLiteral
+*/
 concept RecordField {
-    name: identifier;
+    field: FieldLiteral;
     value: Expression;
 }
 
@@ -352,11 +658,10 @@ concept StringConcatExpression base Expression {
 
 concept MultilineExpression base Expression {}
 
-// a new Abstract Closure with no parameters that captures {{ var }}* and performs the following steps when called: {{ step }}
-// a new Abstract Closure with parameters ({{ var }}*) that captures {{ var }}* and performs the following steps when called: {{ step }}
+// a new( Job)? Abstract Closure with (no parameters|parameters ({{ var }}, ({{ var }})*)) that captures (nothing|{{ var }} and {{ var }}| {{ var }}, ..., and {{ var }}) and perfors the following steps when called:
 concept AbstractClosureExpression base MultilineExpression {
     params: Variable[];
-    captured: Variable[];
+    captured: Reference[];
     body: Step;
 }
 
@@ -365,6 +670,10 @@ concept AbstractClosureExpression base MultilineExpression {
 // 4656
 
 // {{ var }}({{ expr }}*)
+/**
+possible args:
+27 ReferenceExpression
+*/
 concept InvokeAbstractClosureExpression base InvokeExpression {
     ref: Variable;
     args: Expression[];
@@ -376,6 +685,9 @@ concept InvokeAbstractClosureExpression base InvokeExpression {
 
 // +∞
 concept PositiveInfinityMathValueLiteral base MathValueLiteral {}
+
+// -∞
+concept NegativeInfinityMathValueLiteral base MathValueLiteral {}
 
 // ------------------------------
 
@@ -549,14 +861,23 @@ limited MathOpExpressionOperator {
     Asinh; Atanh; Asin; Atan2; Atan; Log1p; Log; Sin; Sqrt; Tan;
 }
 
+
+
 // ------------------------------
 
 // 18880
 
 // {{ str }}::{{ str }}({{ expr }}*)
+/**
+possible expressions:
+2 ReferenceExpression
+2 DecimalMathValueLiteral
+79 UnaryExpression
+128 InvokeNumericMethodExpression
+180 ConversionExpression
+*/
 concept InvokeNumericMethodExpression base InvokeExpression {
-    base: string;
-    name: string;
+    ref: NumericMethodReference;
     args: Expression[];
 }
 
@@ -580,6 +901,14 @@ concept IntListExpression base Expression {
 
 // the code unit at index {{ expr }} within {{ expr }}
 // the code unit at index {{ expr }} within the String {{ expr }}
+/**
+possible bases:
+2 ReferenceExpression
+
+possible indexes:
+2 ReferenceExpression
+45 BinaryExpression
+*/
 concept CodeUnitAtExpression base Expression {
     base: Expression;
     index: Expression;
@@ -622,7 +951,7 @@ concept UndefinedLiteral base Literal {}
 
 // ------------------------------
 
-abstract concept ESTypeLiteral {}
+abstract concept ESTypeLiteral base Literal {}
 
 // 6233 
 
@@ -631,3 +960,336 @@ concept StringTypeLiteral base ESTypeLiteral {}
 
 // Symbol
 concept SymbolTypeLiteral base ESTypeLiteral {}
+
+// Undefined
+concept UndefinedTypeLiteral base ESTypeLiteral {}
+
+// Null
+concept NullTypeLiteral base ESTypeLiteral {}
+
+// Boolean
+concept BooleanTypeLiteral base ESTypeLiteral {}
+
+// Number
+concept NumberTypeLiteral base ESTypeLiteral {}
+
+// BigInt
+concept BigIntTypeLiteral base ESTypeLiteral {}
+
+// Object
+concept ObjectTypeLiteral base ESTypeLiteral {}
+
+concept MathConstantLiteral
+
+// *{{ int }}*<sub>ℤ</sub>
+concept BigIntLiteral base NumericLiteral {
+    value: string;
+}
+
+// `{{ str }}`
+concept CodeLiteral base Literal {
+    code: string;
+}
+
+// 
+
+// Conditions 
+concept Condition {}
+
+// {{ expr }} is {{ expr }}
+// {{ expr }} is not {{ expr }}
+// {{ expr }} is either {{ expr }}(, {{ expr }})* or {{ expr }}
+// {{ expr }} is either {{ expr }}(, {{ expr }})*, or {{ expr }}
+// {{ expr }} is not either {{ expr }}(, {{ expr }})*, or {{ expr }}
+// {{ expr }} is neither {{ expr }}( nor {{ expr }})+
+// {{ expr }} is not one of {{ expr }}(, {{ expr }})+, or {{ expr }}
+// {{ expr }} and {{ expr }} are both {{ expr }}
+// {{ expr }} and {{ expr }} are both {{ expr }} or both {{ expr }}
+// {{ expr }} and {{ expr }} are both {{ expr }} or {{ expr }}
+// {{ expr }} and {{ expr }} are not the same Realm Record
+// {{ expr }} and {{ expr }} are( not)? the same Module Record
+/*
+possible expressions:
+2 ReferenceExpression
+2 EnumLiteral
+137 InvokeAbstractOperationExpression
+137 TrueLiteral
+FalseLiteral
+277 NullLiteral
+438 StringLiteral
+604 UndefinedLiteral
+1437 NumberOfExpression
+1451 DecimalMathValueLiteral
+1480 NumberLiteral
+1772 PositiveInfinityNumberLiteral
+1809 NegativeInfinityNumberLiteral
+2581 ReturnIfAbruptExpression
+3106 InvokeMethodExpression
+3730 LengthExpression
+3760 ThisLiteral
+3802 NewTargetLiteral
+4327 HexLiteral
+
+1872 BigIntLiteral
+4346 CodeUnitAtExpression
+2945 XRefExpression
+2976 CodeLiteral
+*/
+concept IsAreCondition base Condition {
+    left: Expression[];
+    right: Expression[];
+    negation: boolean;
+}
+
+// {{ expr }}
+/*
+possible expressions:
+3 YetExpression
+*/
+concept ExpressionCondition base Condition {
+    expr: Expression;
+}
+
+// (Equal) {{ expr }} = {{ expr }}
+// (NotEqual) {{ expr }} ≠ {{ expr }}
+// (LessThan) {{ expr }} < {{ expr }}
+// (LessThanEqual) {{ expr }} ≤ {{ expr }}
+// (GreaterThan) {{ expr }} > {{ expr }}
+// (GreaterThanEqual) {{ expr }} ≥ {{ expr }}
+// (SameCodeUnits) {{ expr }} is the same sequence of code units as {{ expr }}
+/*
+possible expressions:
+2 ReferenceExpression
+2 DecimalMathValueLiteral
+92 HexLiteral
+122 ConversionExpression
+246 BinaryExpression
+357 ExponentiationExpression
+399 NumberLiteral
+428 MathFuncExpression
+784 PositiveInfinityMathValueLiteral
+1890 NegativeInfinityMathValueLiteral
+1063 ReturnIfAbruptExpression
+2020 LengthExpression
+2110 InvokeAbstractOperationExpression
+2371 UnaryExpression
+
+3306 BigIntLiteral
+*/
+concept BinaryCondition base Condition {
+    left: Expression;
+    right: Expression;
+    op: BinaryConditionOperator;
+}
+
+limited BinaryConditionOperator {
+    Equal; NotEqual; LessThan; LessThanEqual; GreaterThan; GreaterThanEqual;
+    SameCodeUnits;
+}
+
+// {{ expr }} ...
+// (Present) is( not)? present
+// (FullyPopulated) is a fully populated Property Descriptor
+// (Finite) is( not)? finite
+// (Empty) is( not)? empty
+// (Abrupt) is( not)? an abrupt completion
+// (NeverAbrupt) is never an abrupt completion
+// (Break) is a break completion
+// (Continue) is not a continue completion
+// (Normal) is a normal completion
+// (Return) is( not)? a return completion
+// (Throw) is a throw completion
+// (ArrayIndex) is( not)? an array index
+// (Duplicated) has any duplicate entries
+// (Duplicated) contains any duplicate entries
+// (Duplicated) has no duplicate entries
+// (Duplicated) contains no duplicate entries
+// (DataProperty) is a data property
+// (AccessorProperty) is an accessor property
+// (StrictMode) is strict mode code
+// is the token `false`
+// is the token `true`
+/* possible expressions:
+2 ReferenceExpression
+
+464 SourceTextExpression
+*/
+concept PredicateCondition base Condition {
+    expr: Expression;
+    negation: boolean;
+    op: PredicateConditionOperator;
+}
+
+limited PredicateConditionOperator {
+    Present; FullyPopulated; Finite; Empty; Normal; Abrupt; ArrayIndex; Duplicated;
+    Throw; Return; DataProperty; AccessorProperty; Continue; StrictMode; NeverAbrupt;
+    Break;
+}
+
+// (only in GeneratorValidate) {{ ref }} also has a {{ field }} internal slot
+// {{ ref }} (has|does not have) a(n)? {{ field }} field
+// {{ ref }} (has|does not have) a(n)? {{ field }} internal method
+// {{ ref }} (has|does not have) a(n)? {{ field }} internal slot
+/**
+possible references:
+2 Variable
+
+possible expressions:
+2 FieldLiteral
+75 ReferenceExpression
+*/
+concept HasFieldCondition base Condition {
+    ref: Reference;
+    negation: boolean;
+    field: Expression;
+}
+
+// (Expr) {{ list }} (contains|does not contain) {{ expr }}
+// (WhoseField) {{ list }} (contains|does not contain) (an element|{{ type }}) whose [[{{ fieldName }}]] is {{ expr }}
+// (SuchThat) {{ list }} (contains|does not contain) (an element|{{ type }}) {{ var }} such that {{ cond }}
+// (SuchThat) there does not exist an element {{ var }} of {{ list }} such that {{ cond }}
+/**
+possible list expressions:
+2 ReferenceExpression
+411 InvokeAbstractOperationExpression
+553 ReturnIfAbruptExpression
+*/
+abstract concept ContainsCondition base Condition {
+    list: Expression;
+    negation: boolean;
+}
+
+/** possible expressions:
+2 StringLiteral
+60 ReferenceExpression
+393 FieldLiteral
+461 CodeLiteral
+*/
+concept ContainsExprCondition base ContainsCondition {
+    expr: Expression;
+}
+
+concept ContainsWhoseFieldCondition base ContainsCondition {
+    type: Type?;
+    fieldName: string;
+    expr: Expression;
+}
+
+/**
+possible conditions:
+168 IsAreCondition
+274 CompoundCondition
+*/
+concept ContainsSuchThatCondition base ContainsCondition {
+    type: Type?;
+    var: Variable;
+    cond: Condition;
+}
+
+// {{ cond }}(, {{ cond}})+, and {{ cond }} 
+// {{ left }} and {{ right }}
+// {{ left }} or {{ right }}
+// if {{ left }}, then {{ right }}
+/**
+cases of nested compound conditions:
+1041 c1 and (c2 and c3) 
+c1, c2, and c3
+// IsSharedArrayBuffer(_srcBuffer_) is *true*, IsSharedArrayBuffer(_targetBuffer_) is *true*, and _srcBuffer_.[[ArrayBufferData]] is _targetBuffer_.[[ArrayBufferData]]
+// _resolution_.[[BindingName]] is a String, _starResolution_.[[BindingName]] is a String, and SameValue(_resolution_.[[BindingName]], _starResolution_.[[BindingName]]) is *false*
+
+4458 c1 or (c2 or (c3 or c4))
+c1, c2, c3, or c4
+// _hour_ is not finite, _min_ is not finite, _sec_ is not finite, or _ms_ is not finite
+
+4532 c1 or (c2 or c3)
+c1, c2, or c3
+// _year_ is not finite, _month_ is not finite, or _date_ is not finite
+
+5078 (c1 and c2) or (c3 and c4)
+c1 and c2, or c3 and c4
+c1 and c2, or if c3 and c4
+// _x_ is a BigInt and _y_ is a Number, or if _x_ is a Number and _y_ is a BigInt
+// _nx_ is a BigInt and _ny_ is a Number, or _nx_ is a Number and _ny_ is a BigInt
+// _x_ is a Number and _y_ is a Number, or _x_ is a BigInt and _y_ is a BigInt
+
+strategy for editor:
+(And / Or) (both left and right are simple conditions and parent is not compound) c1 <op> c2
+(And / Or) (both left and right are simple conditions and parent is compound and (operator is the same as parent)) c1, <op> c2
+(left is simple, right is compound) c1, c2
+(And / Or) (both left and right are simple condition and parent is compound and (operator is different than parent operator)) c1 <op> c2
+(both left and right are compound and operator is "or") c1, or c2
+*/
+
+/*
+possible conditions:
+2 IsAreCondition
+2 HasFieldCondition
+566 PredicateCondition
+767 BinaryCondition
+1073 CompoundCondition
+2053 ContainsCondition
+3797 InclusiveIntervalCondition
+
+3611 ExpressionCondition
+434 TypeCheckCondition
+
+possible conditions when op is "Imply":
+TypeCheckCondition
+IsAreCondition
+PredicateCondition
+*/
+concept CompoundCondition base Condition {
+    left: Condition;
+    op: CompoundConditionOperator;
+    right: Condition;
+}
+
+limited CompoundConditionOperator {
+    And; Or; Imply;
+}
+
+// {{ ref }} (has|does not have) a binding for {{ binding }}
+/**
+possible references:
+2 Variable
+
+possible bindings:
+2 ReferenceExpression
+*/
+concept HasBindingCondition base Condition {
+    ref: Reference;
+    negation: boolean;
+    binding: Expression;
+}
+
+// {{ expr }} is in the inclusive interval from {{ expr }} to {{ expr }}
+// {{ expr }} is not in the inclusive interval from {{ expr }} to {{ expr }}
+/*
+possible left expressions:
+2 ReferenceExpression
+
+possible from/to expressions:
+2 DecimalMathValueLiteral
+2 BinaryExpression
+100 UnaryExpression
+*/
+concept InclusiveIntervalCondition base Condition {
+    left: Expression;
+    negation: boolean;
+    from: Expression;
+    to: Expression;
+}
+
+// {{ expr }} is( not)? {{ type }}
+// {{ expr }} is either {{ type }} or {{ type }}
+// {{ expr }} is either {{ type }}(, {{ type }})+, or {{ type }}
+// {{ expr }} is neither {{ type }}( nor {{ type }})*
+/**
+possible expressions:
+2 ReferenceExpression
+*/
+concept TypeCheckCondition base Condition {
+    expr: Expression;
+    negation: boolean;
+    types: Type[];
+}
