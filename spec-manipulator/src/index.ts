@@ -46,7 +46,6 @@ async function applyMultipleXsltTransformations(xmlContent: string, xsltPaths: s
   for (const xsltPath of xsltPaths) {
     try {
       transformedXml = await applyXsltTransformation(transformedXml, xsltPath);
-      console.log(`  Applied XSLT: ${path.basename(xsltPath)}`);
     } catch (error) {
       throw new Error(`Failed to apply XSLT ${path.basename(xsltPath)}: ${error instanceof Error ? error.message : String(error)}`);
     }
@@ -291,14 +290,11 @@ async function convertJsonFolderToXml(inputDir: string, outputDir: string, algor
       // Apply XSLT transformations if any are specified
       try {
         xml = await applyMultipleXsltTransformations(xml, xsltPaths);
-        console.log(`Applied ${xsltPaths.length} XSLT transformation(s) to: ${path.basename(file)}`);
       } catch (xsltError) {
         console.error(`XSLT transformation failed for ${path.basename(file)}:`, xsltError instanceof Error ? xsltError.message : String(xsltError));
-        console.log(`Continuing with original XML for: ${path.basename(file)}`);
       }
 
       await fs.writeFile(outputPath, xml, 'utf-8');
-      console.log(`Converted: ${path.basename(file)} -> ${path.basename(outputPath)}`);
     } catch (err) {
       console.error(`Failed to convert ${path.basename(file)}:`, err);
     }
