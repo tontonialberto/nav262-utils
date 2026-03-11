@@ -1,0 +1,15 @@
+services:
+  ecma262-ast:
+    build:
+      context: .
+      secrets:
+        - github_token
+    image: tontonialberto/ecma262-ast
+    command: ["$ECMA262_VERSION"]
+    volumes:
+      - ./out/${ECMA262_VERSION}/esmeta-logs:/esmeta/logs/extract
+      - ./out/${ECMA262_VERSION}/normalized-asts:/ecma262-projectional-editor-scripts/spec-manipulator/out
+      - ./out/${ECMA262_VERSION}/spec:/esmeta/ecma262
+secrets:
+  github_token:
+    file: ./github_token
