@@ -12,10 +12,12 @@
         </xsl:copy>
     </xsl:template>
     
-    <!-- Transform Intrinsic/props elements: keep props, create IntrinsicField as child -->
+    <!-- Transform Intrinsic/props elements: keep props, create IntrinsicField as child only if text is not empty -->
     <xsl:template match="Intrinsic/props">
         <props>
-            <IntrinsicField name="{text()}"/>
+            <xsl:if test="string-length(text()) > 0">
+                <IntrinsicField name="{text()}"/>
+            </xsl:if>
         </props>
     </xsl:template>
     
