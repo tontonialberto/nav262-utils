@@ -22,4 +22,14 @@
     </flags>
   </xsl:template>
   
+  <!-- Same for NonterminalLiteral -->
+  <xsl:template match="NonterminalLiteral/flags[not(*) and normalize-space(.) != '']">
+    <flags>
+      <Flag>
+        <xsl:attribute name="value">
+          <xsl:value-of select="normalize-space(.)"/>
+        </xsl:attribute>
+      </Flag>
+    </flags>
+  </xsl:template>
 </xsl:stylesheet>
