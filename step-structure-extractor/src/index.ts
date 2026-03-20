@@ -64,7 +64,8 @@ const ALGORITHM_TYPE_TO_HEAD_KEY: Record<AlgorithmType, string> = {
 };
 
 async function filterAlgorithmFiles(files: string[], algorithmExcludeFilter: AlgorithmType[]): Promise<string[]> {
-    if (!algorithmExcludeFilter || algorithmExcludeFilter.length === 0) {
+  files = files.filter(file => !file.endsWith('RunJobs.json'));  
+  if (!algorithmExcludeFilter || algorithmExcludeFilter.length === 0) {
         return files;
     }
 
