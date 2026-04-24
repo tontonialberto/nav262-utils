@@ -20,8 +20,7 @@ RUN git submodule update --init && sbt assembly
 
 # AST normalization scripts
 WORKDIR /
-RUN --mount=type=secret,id=github_token \
-    git clone https://$(cat /run/secrets/github_token)@github.com/tontonialberto/ecma262-projectional-editor-scripts.git
+RUN git clone https://github.com/tontonialberto/ecma262-projectional-editor-scripts.git
 WORKDIR /ecma262-projectional-editor-scripts/spec-manipulator
 RUN npm install
 
