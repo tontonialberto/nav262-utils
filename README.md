@@ -1,7 +1,7 @@
 ## Overview
 
 This project contains:
-- Scripts for extraction of ECMA-262 Abstract Syntax Trees (ASTs), decoration, and normalization for import into the ECMA-262 MPS IDE
+- Scripts for extraction of ECMA-262 Abstract Syntax Trees (ASTs), decoration, and normalization for import into the Nav262 IDE
 - Docker image to run the scripts in an environment-independent way
 
 This project builds on ESMeta, an existing ECMAScript metalanguage parser.
