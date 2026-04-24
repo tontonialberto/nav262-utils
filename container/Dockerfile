@@ -20,8 +20,8 @@ RUN git submodule update --init && sbt assembly
 
 # AST normalization scripts
 WORKDIR /
-RUN git clone https://github.com/tontonialberto/ecma262-projectional-editor-scripts.git
-WORKDIR /ecma262-projectional-editor-scripts/spec-manipulator
+RUN git clone https://github.com/tontonialberto/nav262-utils.git
+WORKDIR /nav262-utils/spec-manipulator
 RUN npm install
 
 WORKDIR /
