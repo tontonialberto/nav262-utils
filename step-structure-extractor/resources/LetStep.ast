@@ -48,12 +48,12 @@ concept ThrowStep base Step {
 7250 SubstringExpression (FromTo)
 2073 PositiveInfinityMathValueLiteral
 2085 NegativeInfinityMathValueLiteral
-
 11036 BigIntLiteral
 1871 InvokeNumericMethodExpression
 11267 MathOpExpression
 2937 InvokeAbstractClosureExpression
 1088 RecordExpression
+IntrinsicExpression
 **/
 concept ReturnStep base Step {
     expr: Expression;
@@ -109,6 +109,17 @@ SubstringExpressionFromTo
 concept SetStep base Step {
     ref: Reference;
     expr: Expression;
+}
+
+// set {{ ref }} as {{ verb }} in {{ id }}.
+/**
+possible references:
+PropertyReference
+*/
+concept SetAsStep base Step {
+    ref: Reference;
+    verb: string;
+    id: identifier;
 }
 
 concept SubStep {
@@ -278,7 +289,6 @@ possible bodies:
 possible conditions:
 90 CompoundCondition
 306 PredicateCondition
-
 2 TypeCheckCondition
 */
 concept ForEachOwnPropertyKeyStep base Step {
@@ -314,6 +324,179 @@ possible references:
 concept AppendStep base Step {
     elem: Expression;
     ref: Reference;
+}
+
+// prepend {{ elem }} to {{ ref }}
+/*
+possible elements:
+ReferenceExpression
+
+possible references:
+Variable
+*/
+concept PrependStep base Step {
+    elem: Expression;
+    ref: Reference;
+}
+
+/**
+possible list expressions:
+ReferenceExpression
+*/
+abstract concept RemoveStep base Step {
+    list: Expression;
+    preposition: string;
+}
+
+// remove {{ expr }} from {{ ref }}.
+/* possible elements:
+ReferenceExpression
+*/
+concept RemoveElementStep base RemoveStep {
+    element: Expression;
+}
+
+// (count is null) remove the first element from {{ ref }}.
+// (count is null) remove the last element of {{ ref }}.
+// remove the first {{ expr }} elements (of|from) {{ ref }}.
+// remove the last {{ expr }} elements (of|from) {{ ref }}.
+/* possible count expressions:
+ReferenceExpression
+*/
+concept RemoveCountStep base RemoveStep {
+    first: boolean;
+    count: Expression; // optional
+}
+
+// add {{ element }} to {{ ref }}.
+/*
+possible elements:
+ReferenceExpression
+
+possible references:
+Variable
+*/
+concept AddStep base Step {
+    element: Expression;
+    ref: Reference;
+}
+
+// push {{ ref }} onto the execution context stack; {{ ref }} is now the running execution context.
+/**
+possible references:
+Variable
+*/
+concept PushContextStep base Step {
+    ref: Reference;
+}
+
+// remove {{ context }} from the execution context stack.
+/**
+possible references:
+Variable
+*/
+concept PopContextStep base Step {
+    context: Reference;
+}
+
+// remove {{ ref }} from the execution context stack and restore {{ ref }} as the running execution context.
+/**
+possible references:
+Variable
+*/
+concept PopContextWithReferenceTargetStep base PopContextStep {
+    target: Reference;
+}
+
+// remove {{ ref }} from the execution context stack and restore the execution context that is at the top of the execution context stack as the running execution context.
+concept PopContextWithStackTopTargetStep base PopContextStep {}
+
+// suspend {{ var }}.
+// suspend {{ var }} and remove it from the execution context stack.
+// suspend the running execution context.
+// suspend the running execution context and remove it from the execution context stack.
+concept SuspendStep base Step {
+    ref: Variable;
+    remove: boolean;
+}
+
+// resume the suspended evaluation of {{ context }} using {{ argument }} as the result of the operation that suspended it. let {{ var }} be the Completion Record returned by the resumed computation. {{ steps }}
+// resume the suspended evaluation of {{ context }} using {{ argument }} as the result of the operation that suspended it. let {{ var }} be the value returned by the resumed computation. {{ steps }}
+// resume the suspended evaluation of {{ context }} using {{ argument }} as the result of the operation that suspended it. {{ steps }}
+// resume the suspended evaluation of {{ context }} . let {{ var }} be the value returned by the resumed computation. {{ steps }}
+/* 
+possible contexts:
+Variable
+
+possible arguments:
+ReferenceExpression
+InvokeAbstractOperationExpression
+*/
+concept ResumeEvaluationStep base Step {
+    context: Reference;
+    argument: Expression; // optional
+    var: Variable; // optional
+    varDescription: string; // optional
+    steps: SubStep[];
+}
+
+// resume the context that is now on the top of the execution context stack as the running execution context.
+concept ResumeTopContextStep base Step {}
+
+// resume {{ callerContext }} passing {{ argument }}. if {{ generatorContext }} is ever resumed again, let {{ param }} be the Completion Record with which it is resumed. {{ steps }}
+/* 
+possible caller contexts:
+Variable
+
+possible arguments:
+InvokeAbstractOperationExpression
+EnumLiteral
+UndefinedLiteral
+
+possible generator contexts:
+Variable
+
+possible params:
+Variable
+*/
+concept ResumeStep base Step {
+    callerContext: Reference;
+    argument: Expression;
+    generatorContext: Reference;
+    param: Variable;
+    steps: SubStep[];
+}
+
+// set the code evaluation state of {{ context }} such that when evaluation is resumed for that execution context, {{ var }} will be called with argument(s) {{ args }}.
+/* 
+possible contexts:
+Variable
+
+possible funcs:
+Variable
+
+possible args: none found in ES2025
+*/
+concept SetEvaluationStateStep base Step {
+    context: Reference;
+    func: Variable; // reference
+    args: Expression[];
+}
+
+// perform the following substeps in an implementation-defined order: {{ step }}
+// perform the following substeps in an implementation-defined order, {{ desc }}: {{ step }}
+concept PerformBlockStep base Step {
+    step: StepBlock;
+    desc: string;
+}
+
+// set fields of {{ ref }} with the values listed in <emu-xref href=\"#table-well-known-intrinsic-objects\"></emu-xref>. {{ desc }}
+/* possible references:
+PropertyReference
+*/
+concept SetFieldsWithIntrinsicsStep base Step {
+    ref: Reference;
+    desc: string;
 }
 
 abstract concept Block {}
@@ -358,6 +541,31 @@ concept InvokeAbstractOperationExpression base InvokeExpression {
     args: Expression[];
 }
 
+// the result of performing {{ name }} of {{ base }} (with no arguments|with argument {{ args }}|with arguments {{ args }} and {{ args }}|with arguments {{ arg1 }}, {{ arg2 }}, ..., and {{ argN }})?
+// the result of {{ name }} of {{ base }} (arguments)
+// the {{ name }} of {{ base }} (arguments)
+// (when it is a formal parameter, or called by a ReturnIfAbruptExpression){{ name }} of {{ base }} (arguments)
+// (name is Evaluation) the result of evaluating {{ base }}
+// (name is Contains, args always contains only one element ) {{ base }} {{ name }} {{ args }}
+/**
+possible bases:
+ReferenceExpression
+
+possible args:
+ReferenceExpression
+CodeLiteral
+TrueLiteral
+FalseLiteral
+UndefinedLiteral
+
+NonterminalLiteral
+*/
+concept InvokeSyntaxDirectedOperationExpression base InvokeExpression {
+    base: Expression;
+    name: identifier;
+    args: Expression[];
+}
+
 // ------------------------------
 
 // {{ ref }}
@@ -390,6 +598,10 @@ concept BindingProperty base Property {
     binding: Expression;
 }
 
+concept NonterminalProperty base Property {
+    name: identifier;
+}
+
 concept Intrinsic {
     base: identifier;
     props: identifier[];
@@ -411,12 +623,13 @@ concept AgentRecord base Reference {}
 concept CurrentRealmRecord base Reference {}
 
 // (FieldProperty) {{base}}.[[{{name}}]]
-// (IndexProperty) let {{var}} be {{base}}[{{index}}]
-// (IndexProperty) let {{var}} be the {{index}} element of {{base}}
-// (ComponentProperty) let {{var}} be {{base}}.{{prop}}
-// (ComponentProperty) let {{var}} be the running execution context's {{prop}}
-// (IntrinsicProperty) let {{var}} be {{base}}.[[%{{prop.ident}}%]]
+// (IndexProperty) {{base}}[{{index}}]
+// (IndexProperty) the {{index}} element of {{base}}
+// (ComponentProperty) {{base}}.{{prop}}
+// (ComponentProperty) the running execution context's {{prop}}
+// (IntrinsicProperty) {{base}}.[[%{{prop.ident}}%]]
 // (BindingProperty) the binding for {{expr}} in {{var}}
+// (NonterminalProperty) the {{name}} of {{base}}
 concept PropertyReference base Reference {
     base: Reference;
     prop: Property;
@@ -434,6 +647,13 @@ concept InvokeMethodExpression base InvokeExpression {
 
 // ? {{ expr }}
 // ! {{ expr }}
+/* possible expressions:
+InvokeAbstractOperationExpression
+ReferenceExpression
+InvokeMethodExpression
+InvokeNumericMethodExpression
+InvokeSyntaxDirectedOperationExpression
+*/
 concept ReturnIfAbruptExpression base CalcExpression {
     expr: Expression;
     check: boolean;
@@ -737,15 +957,17 @@ concept ListConcatExpression base Expression {
 
 // 7545
 
-// (Algo) the algorithm steps defined in <emu-xref href="#{{ str }}"></emu-xref>.
-// (InternalSlots) the internal slots listed in <emu-xref href="#{{ str }}"></emu-xref>.
-// (ParamLength) the number of non-optional parameters of the function definition in <emu-xref href="#{{ str }}"></emu-xref>.
+// (Algo) the definition specified in {{ sectionId }}
+// (Algo) the algorithm steps defined in {{ sectionId }}
+// (Algo) the ordinary object internal method defined in {{ sectionId }}
+// (InternalSlots) the internal slots listed in {{ sectionId }}
+// (ParamLength) the number of non-optional parameters of the function definition in {{ sectionId }}
 concept XRefExpression base Expression {
-    kind: XRefExpressionOperator;
-    id: string;
+    kind: XRefExpressionKind;
+    sectionId: string;
 }
 
-limited XRefExpressionOperator {
+limited XRefExpressionKind {
     Algo; InternalSlots; ParamLength;
 }
 
@@ -828,27 +1050,37 @@ concept NegativeInfinityNumberLiteral base NumberLiteral {}
 
 // 17251
 
-// the result of raising {{ base }} to the {{ exponent }} power
-// the base 10 logarithm of ...
-// the base 2 logarithm of ...
-// the cosine of ...
-// the inverse cosine of ...
-// the hyperbolic cosine of ...
-// the inverse hyperbolic cosine of ...
-// the sine of ...
-// the inverse sine of ...
-// the hyperbolic sine of ...
-// the inverse hyperbolic sine of ...
-// the tangent of ... 
-// the inverse tangent of ...
-// the hyperbolic tangent of ...
-// the inverse hyperbolic tangent of ...
-// the cube root of ...
-// the square root of ...
-// the exponential function of ...
-// the natural logarithm of ...
-// the natural logarithm of 1 + ...
-// subtracting 1 from the exponential function of ...
+// (Neg) the negation of {{ expr }}
+// (Add) the sum of {{ expr }} and {{ expr }}
+// (Mul) the product of {{ expr }} and {{ expr }}
+// (Sub) the difference {{ expr }} minus {{ expr }}
+// (Pow) {{ expr }} raised to the power {{ expr }}
+// (Pow) the result of raising {{ expr }} to the {{ expr }} power
+// (Expm1) the result of subtracting 1 from the exponential function of {{ expr }}
+// (Log10) the base 10 logarithm of {{ expr }}
+// (Log2) the base 2 logarithm of {{ expr }}
+// (Cos) the cosine of {{ expr }}
+// (Acos) the inverse cosine of {{ expr }}
+// (Cosh) the hyperbolic cosine of {{ expr }}
+// (Acosh) the inverse hyperbolic cosine of {{ expr }}
+// (Sin) the sine of {{ expr }}
+// (Asin) the inverse sine of {{ expr }}
+// (Sinh) the hyperbolic sine of {{ expr }}
+// (Asinh) the inverse hyperbolic sine of {{ expr }}
+// (Tan) the tangent of {{ expr }}
+// (Atan) the inverse tangent of {{ expr }}
+// (Tanh) the hyperbolic tangent of {{ expr }}
+// (Atanh) the inverse hyperbolic tangent of {{ expr }}
+// (Cbrt) the cube root of {{ expr }}
+// (Sqrt) the square root of {{ expr }}
+// (Exp) the exponential function of {{ expr }}
+// (Log) the natural logarithm of {{ expr }}
+// (Log1p) the natural logarithm of 1 + {{ expr }}
+/* possible expressions:
+ReferenceExpression
+ConversionExpression
+MathFuncExpression
+*/
 concept MathOpExpression base Expression {
     op: MathOpExpressionOperator;
     args: CalcExpression[];
@@ -928,6 +1160,18 @@ concept SymbolLiteral base Literal {
 // 1340
 
 // {{ expr }} <sup>{{ expr }}</sup>
+/*
+possible bases:
+DecimalMathValueLiteral
+BigIntLiteral
+ReferenceExpression
+
+possible exponents:
+DecimalMathValueLiteral
+ReferenceExpression
+BinaryExpression
+UnaryExpression
+*/
 concept ExponentiationExpression base CalcExpression {
     base: CalcExpression;
     exponent: CalcExpression;
@@ -979,7 +1223,11 @@ concept BigIntTypeLiteral base ESTypeLiteral {}
 // Object
 concept ObjectTypeLiteral base ESTypeLiteral {}
 
-concept MathConstantLiteral
+// {{ mulFactor }}{{ name }}
+concept MathConstantLiteral base MathValueLiteral {
+    mulFactor: string;
+    name: string;
+}
 
 // *{{ int }}*<sub>ℤ</sub>
 concept BigIntLiteral base NumericLiteral {
@@ -991,7 +1239,48 @@ concept CodeLiteral base Literal {
     code: string;
 }
 
-// 
+// the grammar symbol {{ name }}_[{{ flags }}]
+concept GrammarSymbolLiteral base Literal {
+    name: string;
+    flags: string[];
+}
+
+// the sole element of {{ list }}
+// the string that is the only element of {{ list }}
+/* possible list expressions:
+InvokeSyntaxDirectedOperationExpression
+ReferenceExpression
+*/
+concept SoleElementExpression base Expression {
+    list: Expression;
+}
+
+// the source text matched by {{ expr }}
+/* possible expressions:
+ReferenceExpression
+*/
+concept SourceTextExpression base Expression {
+    expr: Expression;
+}
+
+// the {{ rule }} that is covered by {{ code }}
+/* possible codes:
+ReferenceExpression
+
+possible rules:
+NonterminalLiteral
+*/
+concept CoveredByExpression base Expression {
+    code: Expression;
+    rule: Expression;
+}
+
+// (the)? {{ ordinal }}? |{{ name }}(?)?_[{{ flags }}]|
+concept NonterminalLiteral base Literal {
+    ordinal: string; // optional
+    name: string;
+    flags: string[];
+}
 
 // Conditions 
 concept Condition {}
@@ -1044,7 +1333,9 @@ concept IsAreCondition base Condition {
 // {{ expr }}
 /*
 possible expressions:
-3 YetExpression
+YetExpression
+InvokeSyntaxDirectedOperationExpression
+FalseLiteral // a "bug" in ESMeta, but it is present in ES2025
 */
 concept ExpressionCondition base Condition {
     expr: Expression;
@@ -1292,4 +1583,16 @@ concept TypeCheckCondition base Condition {
     expr: Expression;
     negation: boolean;
     types: Type[];
+}
+
+// {{ ntLiteral }} is an instance of {{ lhsName }} : {{ rhsName }}
+// {{ ntLiteral }} is {{ lhsName }} : {{ rhsName }}
+/*
+possible nonterminal literals:
+ReferenceExpression
+*/
+concept ProductionCondition base Condition {
+    ntLiteral: Expression;
+    lhsName: string;
+    rhsName: string;
 }
